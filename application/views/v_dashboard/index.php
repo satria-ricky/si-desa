@@ -1,122 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Batu Bulan - Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="<?= base_url('assets_login/'); ?>images/icons/favicon.ico"/>
-        <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/atlantis.min.css">
 
-    <link rel="stylesheet"  href="<?= base_url('assets_login/'); ?>css/util.css">
-    <link rel="stylesheet"  href="<?= base_url('assets_login/'); ?>css/main.css">
 
-   
+    <div class="container">
 
-</head>
-<body>
-    
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100 p-l-50 p-r-50 p-t-50 p-b-30">
-                <form class="login100-form validate-form" method="post" action="<?= base_url('auth/login'); ?>">
-                    <span class="login100-form-title p-b-55">
-                        Login Page !
-                    </span>
+      <!-- The justified navigation menu is meant for single line per list item.
+           Multiple lines will require custom code not provided by Bootstrap. -->
+      <div class="masthead">
+        <h3 class="text-muted">Project name</h3>
+        <nav>
+          <ul class="nav nav-justified">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Downloads</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
 
-                    <div class="wrap-input100 validate-input m-b-16" >
-                        <input class="input100" type="text" name="username" placeholder="Username" required="">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <span class="fas fa-home"></span>
-                        </span>
-                    </div>
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>Marketing stuff!</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+      </div>
 
-                    <div class="wrap-input100 validate-input m-b-16" >
-                        <input class="input100" type="password" id="input_password" name="password" placeholder="Password" required="">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <span class="lnr lnr-lock"></span>
-                        </span>
-                    </div>
-
-                    <div class="contact100-form-checkbox m-l-4">
-                        <input class="input-checkbox100" id="ckb1" type="checkbox">
-                        <label class="label-checkbox100" for="ckb1" onclick="show_password()">
-                            Show password
-                        </label>
-                    </div>
-                    
-                    <div class="container-login100-form-btn p-t-25">
-                        <button class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
-
-                </form>
-            </div>
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h2>Safari bug warning!</h2>
+          <p class="text-danger">As of v9.1.2, Safari exhibits a bug in which resizing your browser horizontally causes rendering errors in the justified nav that are cleared upon refreshing.</p>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
         </div>
-    </div>
-    
-    
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
 
-    <script src="<?= base_url('assets_login/'); ?>vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="<?= base_url('assets_login/'); ?>vendor/bootstrap/js/popper.js"></script>
-    <script src="<?= base_url('assets_login/'); ?>vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!-- <script src="<?= base_url('assets_login/'); ?>vendor/select2/select2.min.js"></script> -->
-    <script src="<?= base_url('assets_login/'); ?>js/main.js"></script>
+      <!-- Site footer -->
+      <footer class="footer">
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
 
-    <script src="<?= base_url('assets/'); ?>js/plugin/sweetalert/sweetalert.min.js"></script>
-
-
-<?php if($this->session->flashdata('nonaktif')){ ?>
-  <script>
-    swal("<?php echo $this->session->flashdata('nonaktif'); ?>", {
-        icon : "warning",
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-warning'
-            }
-        },
-    });
-  </script>
-<?php } ?>
-
-<?php if($this->session->flashdata('error')){ ?>
-  <script>
-    swal("<?php echo $this->session->flashdata('error'); ?>", {
-        icon : "error",
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-danger'
-            }
-        },
-    });
-  </script>
-<?php } ?>
-
-<?php if($this->session->flashdata('logout')){ ?>
-  <script>
-    swal("<?php echo $this->session->flashdata('logout'); ?>", {
-        icon : "success",
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-success'
-            }
-        },
-    });
-  </script>
-<?php } ?>
-
-<script type="text/javascript">
-    function show_password() {
-    var input = document.getElementById("input_password");
-    if (input.type === "password") {
-      input.type = "text";
-    } else {
-      input.type = "password";
-    }
-  } 
-</script>
-</body>
-</html>
+    </div> <!-- /container -->
