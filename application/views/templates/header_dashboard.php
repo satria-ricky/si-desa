@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="<?= base_url('assets/'); ?>img/icon.ico">
 
-    <title>1</title>
+    <title>SI Keuangan Desa Dordungga Kec.Donggo Kab.Bima</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?= base_url('assets/dashboard/docs/'); ?>dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,3 +33,20 @@
   </head>
 
   <body>
+
+
+    <div class="container">
+
+      <!-- The justified navigation menu is meant for single line per list item.
+           Multiple lines will require custom code not provided by Bootstrap. -->
+      <div class="masthead">
+        <h3 class="text-muted">SISTEM INFORMASI KEUANGAN DESA DORDUNGGA KEC.DONGGO KAB.BIMA</h3>
+        <nav>
+          <ul class="nav nav-justified">
+            <!-- <li class="active"><a href="#">Home</a></li> -->
+            <li class="<?= ($is_aktif === 'masuk') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/masuk">Pemasukan Desa</a></li>
+            <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/">Pengeluaran Desa</a></li>
+            <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/login">Login</a></li>
+          </ul>
+        </nav>        
+      </div>

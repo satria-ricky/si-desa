@@ -1,4 +1,13 @@
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  
+
+      <!-- Site footer -->
+      <footer class="footer">
+        <p>&copy; Kantor Desa Dordungga Kec. Donggo Kab. Bima</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<?= base_url('assets/dashboard/docs/'); ?>assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
