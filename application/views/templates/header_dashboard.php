@@ -21,6 +21,8 @@
     <!-- Custom styles for this template -->
     <link href="<?= base_url('assets/dashboard/docs/'); ?>examples/justified-nav/justified-nav.css" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+        <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="<?= base_url('assets/dashboard/docs/'); ?>assets/js/ie-emulation-modes-warning.js"></script>
