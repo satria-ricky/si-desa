@@ -1,0 +1,88 @@
+/* navbar */
+
+.navbar, .nav-brand{
+	
+	text-transform: uppercase;
+	/*background-color: #009B4C;*/
+	font-family: Roboto, sans-serif;
+
+
+}
+
+.nav-link{
+		text-transform: uppercase;
+		/*background-color: #009B4C;*/
+		margin-right: 30px; 
+		font-family: Roboto, sans-serif;
+		color: #ffff;
+	}
+
+	/*.nav-link:hover::after{
+		content: '';
+		display: block;
+		border-bottom: 3px solid white;
+		width: 50%;
+		margin: auto;
+		padding-bottom: 5px;
+		margin-bottom: -8px;
+	*/}
+
+
+/*jumbotron*/
+
+.jumbotron{
+	background-size: cover;
+	background-color: #009B4C;
+}
+
+
+
+
+/* DESKTOP VERSION*/
+@media (min-width: 992px) { 
+
+
+	.nav-brand, .nav-link{
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+		/*background-color: #009B4C;*/
+
+	}
+
+
+	.nav-link{
+		text-transform: uppercase;
+		margin-right: 30px;
+		/*background-color: #009B4C;*/
+		color: #ffff; 
+		font-family: Roboto, sans-serif;
+	}
+
+	.tanggal_css{
+		text-align: right; 
+		color: #ffff; 
+		font-size: 13px; 
+		font-family: Roboto, sans-serif; 
+		padding-right: 20px; 
+		padding-top: 5px; 
+		padding-bottom: 5px; 
+		margin-bottom: 19px;
+	}
+
+/*	.nav-link:hover{
+		border-bottom: 3px solid white;
+	}
+*/
+
+
+	.nav-link:hover::after{
+		content: '';
+		display: block;
+		border-bottom: 3px solid white;
+		width: 50%;
+		margin: auto;
+		padding-bottom: 5px;
+		margin-bottom: -8px;
+	}
+
+
+ }
