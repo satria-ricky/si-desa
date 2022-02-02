@@ -5,15 +5,19 @@ class Dashboard extends CI_Controller {
     
     public function __construct(){
         parent::__construct();
-        // if ($this->session->userdata('id_username')) {
-        //     echo"<script>
-        //         window.history.go(-1)
-        //     </script>
-        //     ";
-        // }
     }
 
     public function index(){
+
+        if ($this->session->userdata('id_username')) {
+            // echo"<script>
+            //     window.history.go(-1)
+            // </script>
+            // ";
+            
+        }
+
+
         $v_data['is_aktif'] = 'keluar';
 
         $list_data = $this->M_read->get_keluar();

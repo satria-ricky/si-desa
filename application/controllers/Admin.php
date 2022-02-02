@@ -5,10 +5,7 @@ class Admin extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-        // cek_login();
-        // if ($this->session->userdata('id_level') != 1) {
-        //     redirect('blocked');
-        // }
+        cek_login();
     }
 
 public function index(){
@@ -69,6 +66,63 @@ public function index(){
     }
 
 
+
+    public function masuk(){
+        $v_data['is_aktif'] = 'masuk';
+
+        $list_data = $this->M_read->get_masuk();
+
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Jenis Pemasukan</th>
+                        <th>Asal Pemasukan</th>
+                        <th>Tahun Pemasukan</th>
+                        <th>Jumlah</th>
+                        <th>Edit</th>
+                        <th>Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->jenis_masuk.'</td>
+                        <td>'.$row->asal_masuk.'</td>
+                        <td>'.$row->tahun_masuk.'</td>
+                        <td>'.$row->jumlah_masuk.'</td>
+                        <td><a onclick="editB('.$row->id_masuk.')"><i class="fa fa-pencil"></i> Edit</a></td>
+                        <td><a onclick="editB('.$row->id_masuk.')"><i class="fa fa-trash"></i> Hapus</a></td>
+                        
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }
+        }
+
+       $v_data['isi_konten']  .= ' 
+           </tbody>
+           </table>
+       ';
+
+
+        $this->load->view('templates/header_dashboard',$v_data);
+        $this->load->view('masuk',$v_data);
+        $this->load->view('templates/footer_dashboard');         
+    }
 
 
     public function profile (){
