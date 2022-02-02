@@ -3,21 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
     
+    
+private $link_header = 'dashboard';
     public function __construct(){
         parent::__construct();
+        // if ($this->session->userdata('id_username')) {
+        //     echo"<script>
+        //         window.history.go(-1)
+        //     </script>
+        //     ";
+        // }
     }
 
     public function index(){
 
-        if ($this->session->userdata('id_username')) {
-            // echo"<script>
-            //     window.history.go(-1)
-            // </script>
-            // ";
-            
-        }
-
-
+        $v_data['link'] = $this->$link_header;
         $v_data['is_aktif'] = 'keluar';
 
         $list_data = $this->M_read->get_keluar();
@@ -70,6 +70,9 @@ class Dashboard extends CI_Controller {
         $this->load->view('templates/footer_dashboard');    		 
 	}
 
+
+
+
     public function masuk(){
         $v_data['is_aktif'] = 'masuk';
         $v_data['isi_konten'] = '
@@ -119,6 +122,7 @@ class Dashboard extends CI_Controller {
         $this->load->view('masuk',$v_data);
         $this->load->view('templates/footer_dashboard');         
     }
+
 
     public function login(){
         $v_data['is_aktif'] = 'login';

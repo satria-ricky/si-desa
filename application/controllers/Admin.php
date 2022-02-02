@@ -16,19 +16,19 @@ public function index(){
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '
-                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Jenis Pengeluaran</th>
-                        <th>Tujuan Pengeluaran</th>
-                        <th>Tahun Pengeluaran</th>
-                        <th>Jumlah</th>
-                        <th>Edit</th>
-                        <th>Hapus</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Jenis Pengeluaran</th>
+                    <th>Tujuan Pengeluaran</th>
+                    <th>Tahun Pengeluaran</th>
+                    <th>Jumlah</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody>
         ';
     
         if($list_data->num_rows() > 0)
@@ -75,19 +75,19 @@ public function index(){
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '
-                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Jenis Pemasukan</th>
-                        <th>Asal Pemasukan</th>
-                        <th>Tahun Pemasukan</th>
-                        <th>Jumlah</th>
-                        <th>Edit</th>
-                        <th>Hapus</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Jenis Pemasukan</th>
+                    <th>Asal Pemasukan</th>
+                    <th>Tahun Pemasukan</th>
+                    <th>Jumlah</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody>
         ';
     
         if($list_data->num_rows() > 0)
@@ -123,128 +123,6 @@ public function index(){
         $this->load->view('masuk',$v_data);
         $this->load->view('templates/footer_dashboard');         
     }
-
-
-    public function profile (){
-        $v_data['title'] = 'Profile';
-
-        $v_id_username = $this->session->userdata('id_username'); 
-
-        $v_data['data_pengguna'] = $this->M_user->get_pengguna($v_id_username);
-
-       
-            $this->load->view('templates/header', $v_data);
-            $this->load->view('templates/topbar', $v_data);
-            $this->load->view('templates/sidebar_admin', $v_data);
-            $this->load->view('templates/load_template_footer');
-            $this->load->view('v_profile/profile',$v_data);
-            $this->load->view('templates/footer');
-    }
-
-
-     public function edit_profile (){
-        $v_data['title'] = 'Profile';
-
-        $v_id_username = $this->session->userdata('id_username'); 
-
-        $v_data['data_pengguna'] = $this->M_user->get_pengguna($v_id_username);
-
-
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
-            'required' => 'Silahkan masukkan Nama !',
-        ]);
-
-        $this->form_validation->set_rules('username', 'Username', 'required|trim', [
-            'required' => 'Silahkan masukkan Username !'
-        ]); 
-       
-
-        $this->form_validation->set_rules('password', 'Password', 'required|trim', [
-            'required' => 'Silahkan masukkan Password !',
-        ]);
-
-        $this->form_validation->set_rules('kontak', 'Kontak', 'required|trim', [
-            'required' => 'Silahkan masukkan Kontak !',
-        ]);
-
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
-            'required' => 'Silahkan masukkan Alamat !',
-        ]);
-
-        if($this->form_validation->run() == false){
-            $this->load->view('templates/header', $v_data);
-            $this->load->view('templates/topbar', $v_data);
-            $this->load->view('templates/sidebar_admin', $v_data);
-            $this->load->view('templates/load_template_footer');
-            $this->load->view('v_profile/edit_profile',$v_data);
-            $this->load->view('templates/footer');
-        }else{
-
-            $v_nama     = $this->input->post('nama');
-            $username_input = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $v_kontak = $this->input->post('kontak');
-            $v_alamat = $this->input->post('alamat');
-            $upload_foto = $_FILES['foto']['name'];
-
-            if($this->M_user->cek_username($username_input, $v_id_username)){
-                $this->session->set_flashdata('error', 'Gagal mengubah! Username telah terdaftar!');
-                redirect('admin/edit_profile');
-
-            }
-            else{
-
-                if($upload_foto){
-                
-                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                    $config['max_size']     = '5000';
-                    $config['upload_path'] = './assets/foto/user/';
-                        
-                    $this->load->library('upload', $config);
-    
-                    if ($this->upload->do_upload('foto')){
-                        $v_nama_foto = $this->upload->data('file_name');
-    
-                        $v_foto_lama = $v_data['data_pengguna']['user_foto'];
-                        
-                        if($v_foto_lama != 'default.jpg'){
-                            unlink(FCPATH . 'assets/foto/user/' . $v_foto_lama);
-                        }
-                        
-                        $v_data = [
-                            'user_nama' => $v_nama,
-                            'user_username' => $username_input,
-                            'user_password' => $v_password,
-                            'user_kontak' => $v_kontak,
-                            'user_alamat' => $v_alamat,
-                            'user_foto' => $v_nama_foto,
-                            'last_updated' => date('Y-m-d')
-                        ];
-                    }
-                    else
-                    {
-                        echo $this->upload->display_errors();
-                    }
-    
-                }else{
-                    $v_data = [
-                        'user_nama' => $v_nama,
-                        'user_username' => $username_input,
-                        'user_password' => $v_password,
-                        'user_kontak' => $v_kontak,
-                        'user_alamat' => $v_alamat,
-                        'last_updated' => date('Y-m-d')
-                    ];
-                }
-                $this->M_user->edit_profile($v_id_username, $v_data);
-                $this->session->set_flashdata('pesan', 'Profile berhasil diubah!');
-                redirect('admin/profile');
-
-            }            
-        }
-    }
-
-   
 
 
 // TAMBAH
