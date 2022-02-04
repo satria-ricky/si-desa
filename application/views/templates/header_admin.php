@@ -57,11 +57,20 @@
                   <ul class="dropdown-menu">
                     <li><a href="<?= base_url(); ?>admin/masuk">Data Pemasukan</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/tambah_masuk">Tambah Pemasukan</a></li>
+                    <li><a href="<?= base_url(); ?>admin/tambah_masuk">Tambah Data Pemasukan</a></li>
                   </ul>
 
             </li>
-            <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/">Pengeluaran Desa</a></li>
+            <li class=" dropdown <?= ($is_aktif === 'keluar') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengeluaran Desa <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>admin">Data Pengeluaran</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url(); ?>admin/tambah_keluar">Tambah Data Pengeluaran</a></li>
+                  </ul>
+
+            </li>
             <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a onclick="button_logout()" style="cursor: pointer;"> Logout</a></li>
           </ul>
         </nav>        

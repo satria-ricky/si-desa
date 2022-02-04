@@ -43,8 +43,8 @@ public function index(){
                         <td>'.$row->tujuan_keluar.'</td>
                         <td>'.$row->tahun_keluar.'</td>
                         <td>'.$row->jumlah_keluar.'</td>
-                        <td><a onclick="editB('.$row->id_keluar.')"><i class="fa fa-pencil"></i> Edit</a></td>
-                        <td><a onclick="editB('.$row->id_keluar.')"><i class="fa fa-trash"></i> Hapus</a></td>
+                        <td><button onclick="button_edit_keluar('.$row->id_keluar.')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus_keluar('.$row->id_keluar.')"><i class="fa fa-trash"></i></button ></td>
                         
                         </td>
                     </tr>
@@ -102,9 +102,8 @@ public function index(){
                         <td>'.$row->asal_masuk.'</td>
                         <td>'.$row->tahun_masuk.'</td>
                         <td>'.$row->jumlah_masuk.'</td>
-                        <td><a onclick="editB('.$row->id_masuk.')"><i class="fa fa-pencil"></i> Edit</a></td>
-                        <td><a onclick="editB('.$row->id_masuk.')"><i class="fa fa-trash"></i> Hapus</a></td>
-                        
+                        <td><button onclick="button_edit_keluar('.$row->id_masuk.')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus_keluar('.$row->id_masuk.')"><i class="fa fa-trash"></i></button ></td>
                         </td>
                     </tr>
 

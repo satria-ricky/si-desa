@@ -12,11 +12,3 @@
 	      </div>
       </div>
 
-     <div class="card">
-            <div class="card-body">
-             
-                
-<button class="btn btn-primary"><i class="fas fa-plus"></i> Tambah data</button>
-             
-            </div>
-        </div>

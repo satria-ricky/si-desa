@@ -8,11 +8,11 @@
             <div class="card-body">
               <div class="table-responsive">
                 
-        <form class="mh-100" style="width: 300px;" method="post" action="<?= base_url('auth/login'); ?>">
+        <form class="mh-100" style="width: 300px;" method="post" action="<?= base_url('admin/tambah_masuk'); ?>">
               
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label for="exampleFormControlInput1" class="form-label">Jenis Pemasukan</label>
+                <input type="text" class="form-control" name="jenis">
               </div>
               <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
