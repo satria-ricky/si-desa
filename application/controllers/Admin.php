@@ -60,9 +60,9 @@ public function index(){
        ';
 
 
-        $this->load->view('templates/header_dashboard',$v_data);
+        $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar',$v_data);
-        $this->load->view('templates/footer_dashboard');         
+        $this->load->view('templates/footer_admin');         
     }
 
 
@@ -119,9 +119,9 @@ public function index(){
        ';
 
 
-        $this->load->view('templates/header_dashboard',$v_data);
+        $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk',$v_data);
-        $this->load->view('templates/footer_dashboard');         
+        $this->load->view('templates/footer_admin');         
     }
 
 

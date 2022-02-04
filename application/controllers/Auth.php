@@ -35,9 +35,5 @@ class Auth extends CI_Controller {
         redirect('dashboard/login');
     }
 
-    public function blocked(){
-        $this->load->view('v_blocked/index.php');
-    }
-
 
 }

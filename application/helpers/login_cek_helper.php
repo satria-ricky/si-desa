@@ -7,7 +7,7 @@ function cek_login()
 	$v_username = $ci->session->userdata('id_username');
 
 	if (!$v_username) {
-		redirect('dashboard');
+		redirect('blocked');
 	} 
 	
 }
