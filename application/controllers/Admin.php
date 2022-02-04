@@ -127,12 +127,9 @@ public function index(){
 
 // TAMBAH
 
-    public function tambah_toko(){
-        $v_data['title'] = 'Tambah Toko';
-        $v_id_username = $this->session->userdata('id_username');
-        $v_data['data_pengguna'] = $this->M_user->get_pengguna($v_id_username);
+    public function tambah_masuk(){
+        $v_data['is_aktif'] = 'masuk';
 
-    
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
             'required' => 'Silahkan masukkan Nama toko!',
         ]);
@@ -150,12 +147,9 @@ public function index(){
 
 
         if($this->form_validation->run() == false){
-            $this->load->view('templates/header', $v_data);
-            $this->load->view('templates/topbar', $v_data);
-            $this->load->view('templates/sidebar_admin', $v_data);
-            $this->load->view('templates/load_template_footer');
-            $this->load->view('v_toko/tambah_toko', $v_data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('tambah_masuk',$v_data);
+            $this->load->view('templates/footer_admin');    
         }
         else{
             $v_status = $this->input->post('status');

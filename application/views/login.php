@@ -3,11 +3,7 @@
       <div class="jumbotron">
         <h1>Silahkan Login!</h1>
 
-        <div class="card" style="display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;">
+        <div class="card" style="display: flex;flex-direction: column; justify-content: center;align-items: center; text-align: center;">
             <div class="card-body">
               <div class="table-responsive">
 	              	<form class="mh-100" style="width: 300px;" method="post" action="<?= base_url('auth/login'); ?>">

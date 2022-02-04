@@ -11,6 +11,8 @@
     <link rel="icon" href="<?= base_url('assets/'); ?>img/icon.ico">
 
     <title>SI Keuangan Desa Dordungga Kec.Donggo Kab.Bima</title>
+<!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <!-- Bootstrap core CSS -->
     <link href="<?= base_url('assets/dashboard/docs/'); ?>dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +49,18 @@
         <nav>
           <ul class="nav nav-justified">
             <!-- <li class="active"><a href="#">Home</a></li> -->
-            <li class="<?= ($is_aktif === 'masuk') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/masuk">Pemasukan Desa</a></li>
+            
+
+            <li class="dropdown <?= ($is_aktif === 'masuk') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pemasukan Desa <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>admin/masuk">Data Pemasukan</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url(); ?>admin/tambah_masuk">Tambah Pemasukan</a></li>
+                  </ul>
+
+            </li>
             <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/">Pengeluaran Desa</a></li>
             <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a onclick="button_logout()" style="cursor: pointer;"> Logout</a></li>
           </ul>
