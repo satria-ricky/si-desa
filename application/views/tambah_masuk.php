@@ -12,23 +12,23 @@
               
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Jenis Pemasukan</label>
-                <input type="text" class="form-control" name="jenis" required="">
+                <input type="text" class="form-control" placeholder="jenis pemasukan" name="jenis" value="<?= set_value('jenis'); ?>" id="form1">
               </div>
-              <div class="mb-3">
+              <div class="mb-3"  style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Asal Pemasukan</label>
-                <input type="text" class="form-control" name="asal" required="">
+                <input type="text" class="form-control" placeholder="asal pemasukan" name="asal" value="<?= set_value('asal'); ?>" id="form2">
               </div>
-              <div class="mb-3">
+              <div class="mb-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Tahun Pemasukan</label>
-                <input type="number" class="form-control" name="tahun" required="">
+                <input type="number" class="form-control" name="tahun"  placeholder="tahun" value="<?= set_value('tahun'); ?>" id="form3">
               </div>
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Jumlah</label>
-                <input type="number" class="form-control" name="jumlah" required="">
+              <div class="mt-3" style="margin-top: 15px;">
+                <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>
+                <input type="number" class="form-control" name="jumlah" placeholder="Rp." value="<?= set_value('jumlah'); ?>" id="form4">
               </div>
               
             
-                <button id="button_tambah" style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah data</button>
+                <button type="button" id="button_tambah" style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah data</button>
             </form>
       
 
@@ -36,33 +36,4 @@
             </div>
         </div>
 
-      
-
-
-
-
- <?php if($this->session->flashdata('error')){ ?>
-  <script>
-    swal("<?php echo $this->session->flashdata('error'); ?>", {
-        icon : "error",
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-danger'
-            }
-        },
-    });
-  </script>
-<?php } ?>
-
-<?php if($this->session->flashdata('logout')){ ?>
-  <script>
-    swal("<?php echo $this->session->flashdata('logout'); ?>", {
-        icon : "success",
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-success'
-            }
-        },
-    });
-  </script>
-<?php } ?>
+    

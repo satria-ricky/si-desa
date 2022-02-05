@@ -65,27 +65,49 @@
 
 
   $('#button_tambah').click(function(e) {
-      swal({
-        title: 'Yakin ditambah?',
-        icon: 'warning',
-        buttons:{
-          confirm: {
-            text : 'Tambah',
-            className : 'btn btn-success'
-          },
-          cancel: {
-            text : 'Tidak',
-            visible: true,
-            className: 'btn btn-focus'
-          }
+
+        if ($('#form1').val() == '' || $('#form2').val() == '' || $('#form3').val() == '' || $('#form4').val() == '') 
+        {
+           swal({
+              title: 'Opppss!',
+              text: 'Harap isi semua form!',
+              icon: 'warning',
+              buttons: {                  
+                  confirm: {
+                      className : 'btn btn-focus'
+                  }
+              },
+          });
         }
-      }).then((Tambah) => {
-        if (Tambah) {
-          $('form').submit();
-        } else {
-          swal.close();
+        
+        else {
+
+          swal({
+            title: 'Yakin ditambah?',
+            icon: 'warning',
+            buttons:{
+              confirm: {
+                text : 'Tambah',
+                className : 'btn btn-success'
+              },
+              cancel: {
+                text : 'Tidak',
+                visible: true,
+                className: 'btn btn-focus'
+              }
+            }
+          }).then((Tambah) => {
+            if (Tambah) {
+              $('form').submit();
+            } else {
+              swal.close();
+            }
+          });
+
+
         }
-      });
+
+        
 
     });
   

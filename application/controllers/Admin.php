@@ -94,65 +94,8 @@ public function index(){
     }
 
 
+// PEMASUKAN
 
-    public function masuk(){
-        $v_data['is_aktif'] = 'masuk';
-
-        $list_data = $this->M_read->get_masuk();
-
-        $v_data['isi_konten'] = '';
-
-        $v_data['isi_konten'] .= '
-            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Jenis Pemasukan</th>
-                    <th>Asal Pemasukan</th>
-                    <th>Tahun Pemasukan</th>
-                    <th>Jumlah</th>
-                    <th>Edit</th>
-                    <th>Hapus</th>
-                </tr>
-            </thead>
-            <tbody>
-        ';
-    
-        if($list_data->num_rows() > 0)
-        {
-            $index=1;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->jenis_masuk.'</td>
-                        <td>'.$row->asal_masuk.'</td>
-                        <td>'.$row->tahun_masuk.'</td>
-                        <td>'.$row->jumlah_masuk.'</td>
-                        <td><button onclick="button_edit_keluar('.$row->id_masuk.')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus_keluar('.$row->id_masuk.')"><i class="fa fa-trash"></i></button ></td>
-                        </td>
-                    </tr>
-
-                '; 
-                $index++;
-            }
-        }
-
-       $v_data['isi_konten']  .= ' 
-           </tbody>
-           </table>
-       ';
-
-
-        $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('masuk',$v_data);
-        $this->load->view('templates/footer_admin');         
-    }
-
-
-// TAMBAH
 
     public function tambah_masuk(){
         $v_data['is_aktif'] = 'masuk';
@@ -200,7 +143,77 @@ public function index(){
 
 
 
-    public function edit_toko($hai){
+    public function masuk(){
+        $v_data['is_aktif'] = 'masuk';
+
+        $list_data = $this->M_read->get_masuk();
+        $tot_masuk = $this->M_read->get_tot_masuk();
+
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Jenis Pemasukan</th>
+                    <th>Asal Pemasukan</th>
+                    <th>Tahun Pemasukan</th>
+                    <th>Jumlah</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->jenis_masuk.'</td>
+                        <td>'.$row->asal_masuk.'</td>
+                        <td>'.$row->tahun_masuk.'</td>
+                        <td>'.$row->jumlah_masuk.'</td>
+                        <td><button onclick="button_edit_keluar('.encrypt_url($row->id_masuk).')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus_keluar('.encrypt_url($row->id_masuk).')"><i class="fa fa-trash"></i></button ></td>
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }
+            $v_data['isi_konten'] .= '
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th style="text-align: center;">'.$tot_masuk.'</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </tfoot>
+              ';
+
+        }
+
+       $v_data['isi_konten']  .= ' 
+           </table>
+       ';
+
+
+
+        $this->load->view('templates/header_admin',$v_data);
+        $this->load->view('masuk',$v_data);
+        $this->load->view('templates/footer_admin');         
+    }
+
+
+    public function edit_masuk($id){
         $v_id = decrypt_url($hai);
         $v_data['title'] = 'Edit toko';
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Feb 2022 pada 09.48
+-- Waktu pembuatan: 05 Feb 2022 pada 11.12
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -50,8 +50,8 @@ INSERT INTO `tb_admin` (`id_admin`, `username_admin`, `password`, `nama_admin`) 
 CREATE TABLE `tb_keluar` (
   `id_keluar` int(5) NOT NULL,
   `jenis_keluar` varchar(15) DEFAULT NULL,
-  `jumlah_keluar` varchar(20) DEFAULT NULL,
-  `tujuan_keluar` varchar(8) DEFAULT NULL,
+  `jumlah_keluar` int(11) DEFAULT NULL,
+  `tujuan_keluar` varchar(255) DEFAULT NULL,
   `tahun_keluar` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -60,8 +60,8 @@ CREATE TABLE `tb_keluar` (
 --
 
 INSERT INTO `tb_keluar` (`id_keluar`, `jenis_keluar`, `jumlah_keluar`, `tujuan_keluar`, `tahun_keluar`) VALUES
-(1, 'jenis keluar1', 'jumlah keluar1', 'tujuan k', 2003),
-(2, 'jenis keluar2', 'jumlah keluar2', 'tujuan k', 2004);
+(1, 'jenis keluar1', 1000, 'tujuan k', 2003),
+(2, 'jenis keluar2', 2000, 'tujuan k', 2004);
 
 -- --------------------------------------------------------
 
@@ -72,8 +72,8 @@ INSERT INTO `tb_keluar` (`id_keluar`, `jenis_keluar`, `jumlah_keluar`, `tujuan_k
 CREATE TABLE `tb_masuk` (
   `id_masuk` int(5) NOT NULL,
   `jenis_masuk` varchar(15) DEFAULT NULL,
-  `jumlah_masuk` varchar(20) DEFAULT NULL,
-  `asal_masuk` varchar(8) DEFAULT NULL,
+  `jumlah_masuk` int(11) DEFAULT NULL,
+  `asal_masuk` varchar(255) DEFAULT NULL,
   `tahun_masuk` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,8 +82,10 @@ CREATE TABLE `tb_masuk` (
 --
 
 INSERT INTO `tb_masuk` (`id_masuk`, `jenis_masuk`, `jumlah_masuk`, `asal_masuk`, `tahun_masuk`) VALUES
-(1, 'jenis masuk1', 'jumlah masuk1', 'asal mas', 2001),
-(2, 'jenis masuk2', 'jumlah masuk2', 'asal mas', 2002);
+(1, 'jenis masuk1', 5000, 'asal mas', 2001),
+(2, 'jenis masuk2', 4000, 'asal mas', 2002),
+(3, 'jenis baru', 3000, 'asal bar', 2003),
+(4, 'jenis baru 2', 500, 'asal 2', 2022);
 
 --
 -- Indexes for dumped tables
@@ -127,7 +129,7 @@ ALTER TABLE `tb_keluar`
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
 --
 ALTER TABLE `tb_masuk`
-  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
