@@ -19,6 +19,19 @@
 </html>
 
 
+ <?php if($this->session->flashdata('pesan')){ ?>
+  <script>
+    swal("<?php echo $this->session->flashdata('pesan'); ?>", {
+        icon : "success",
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-success'
+            }
+        },
+    });
+  </script>
+<?php } ?>
+
 
 <script type="text/javascript">
   
@@ -50,6 +63,32 @@
           });
   }
 
+
+  $('#button_tambah').click(function(e) {
+      swal({
+        title: 'Yakin ditambah?',
+        icon: 'warning',
+        buttons:{
+          confirm: {
+            text : 'Tambah',
+            className : 'btn btn-success'
+          },
+          cancel: {
+            text : 'Tidak',
+            visible: true,
+            className: 'btn btn-focus'
+          }
+        }
+      }).then((Tambah) => {
+        if (Tambah) {
+          $('form').submit();
+        } else {
+          swal.close();
+        }
+      });
+
+    });
+  
 
   function button_kembali() {
     window.history.go(-1)

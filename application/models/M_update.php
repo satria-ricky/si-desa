@@ -1,8 +1,9 @@
 <?php
 class M_update extends CI_model {
 
-	public function get_keluar(){
-      $sql='SELECT * FROM tb_keluar';
-      return $query=$this->db->query($sql);
-    }
+	public function update_masuk($id, $data)
+	{     
+	    $this->db->update('tb_masuk', $data, array('id_masuk' => $id));
+	}
+
 }

@@ -4,22 +4,31 @@
         <h1>Tambah Pemasukan Desa</h1>
       </div>
 
-      <div class="card">
+      <div class="card" style="margin-top: -50px;">
             <div class="card-body">
               <div class="table-responsive">
                 
-        <form class="mh-100" style="width: 300px;" method="post" action="<?= base_url('admin/tambah_masuk'); ?>">
+        <form style="width: 500px;" method="post" action="<?= base_url('admin/tambah_masuk'); ?>">
               
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Jenis Pemasukan</label>
-                <input type="text" class="form-control" name="jenis">
+                <input type="text" class="form-control" name="jenis" required="">
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label for="exampleFormControlInput1" class="form-label">Asal Pemasukan</label>
+                <input type="text" class="form-control" name="asal" required="">
               </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Tahun Pemasukan</label>
+                <input type="number" class="form-control" name="tahun" required="">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Jumlah</label>
+                <input type="number" class="form-control" name="jumlah" required="">
+              </div>
+              
             
-                <button style="margin-top: 25px;" class="btn btn-primary" type="submit"><i class="fas fa-plus"></i> Tambah data</button>
+                <button id="button_tambah" style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah data</button>
             </form>
       
 

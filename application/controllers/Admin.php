@@ -12,6 +12,7 @@ public function index(){
         $v_data['is_aktif'] = 'keluar';
 
         $list_data = $this->M_read->get_keluar();
+        $tot_masuk = $this->M_read->get_tot_masuk();
 
         $v_data['isi_konten'] = '';
 
@@ -34,6 +35,7 @@ public function index(){
         if($list_data->num_rows() > 0)
         {
             $index=1;
+            $total_pengeluaran = 0;
             foreach($list_data->result() as $row)
             {
                 $v_data['isi_konten'] .= '
@@ -51,11 +53,37 @@ public function index(){
 
                 '; 
                 $index++;
-            }
+                $total_pengeluaran = $total_pengeluaran + $row->jumlah_keluar;
+
+            }   
+
+            $total_selisih = $tot_masuk - $total_pengeluaran;
+
+              $v_data['isi_konten'] .= '
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align: center;">Total Pengeluaran</th>
+                        <th style="text-align: center;">'.$total_pengeluaran.'</th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th style="text-align: center;">'.$tot_masuk.'</th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="text-align: center;">Total Selisih</th>
+                        <th style="text-align: center;">'.$total_selisih.'</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </tfoot>
+              ';
+
         }
 
        $v_data['isi_konten']  .= ' 
-           </tbody>
            </table>
        ';
 
@@ -129,21 +157,21 @@ public function index(){
     public function tambah_masuk(){
         $v_data['is_aktif'] = 'masuk';
 
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
-            'required' => 'Silahkan masukkan Nama toko!',
+        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('kontak', 'Kontak', 'required|trim', [
-            'required' => 'Silahkan masukkan Kontak toko!',
+        $this->form_validation->set_rules('asal', 'Asal', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
 
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
-            'required' => 'Silahkan masukkan Alamat toko!',
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
 
-        $this->form_validation->set_rules('status','Status','required|callback_validasi_status');
-        $this->form_validation->set_rules('rute','Rute','required|callback_validasi_rute');
-
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
@@ -151,54 +179,21 @@ public function index(){
             $this->load->view('templates/footer_admin');    
         }
         else{
-            $v_status = $this->input->post('status');
-            $v_rute = $this->input->post('rute');
-            $v_nama     = $this->input->post('nama');
-            $v_kontak = $this->input->post('kontak');
-            $v_alamat = $this->input->post('alamat');
+            $v_jenis = $this->input->post('jenis');
+            $v_asal = $this->input->post('asal');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
             
-            $upload_foto = $_FILES['foto']['name'];
+            $v_data = [
+                'jenis_masuk' => $v_jenis,
+                'jumlah_masuk' => $v_jumlah,
+                'asal_masuk' => $v_asal,
+                'tahun_masuk' => $v_tahun
+            ];
 
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '15000';
-                $config['upload_path'] = './assets/foto/toko/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('foto')){
-                    $v_nama_foto = $this->upload->data('file_name');             
-                    $v_data = [
-                        'toko_id_rute' => $v_rute,
-                        'toko_id_status' => $v_status,
-                        'toko_nama' => $v_nama,
-                        'toko_kontak' => $v_kontak,
-                        'toko_alamat' => $v_alamat,
-                        'toko_foto' => $v_nama_foto,
-                        'toko_created' => date('Y-m-d')
-                    ];
-                }
-                else
-                {
-                    echo $this->upload->display_errors();
-                }
-
-            }else{
-                $v_data = [
-                    'toko_id_rute' => $v_rute,
-                    'toko_id_status' => $v_status,
-                    'toko_nama' => $v_nama,
-                    'toko_kontak' => $v_kontak,
-                    'toko_alamat' => $v_alamat,
-                    'toko_foto' => 'default.png',
-                    'toko_created' => date('Y-m-d')
-                ];
-            }
-
-            $this->M_toko->create_toko($v_data);
+            $this->M_create->create_masuk($v_data);
             $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect('admin/daftar_toko');
+            redirect('admin/masuk');
 
         }
     }
