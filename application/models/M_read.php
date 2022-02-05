@@ -7,6 +7,11 @@ class M_read extends CI_model {
     }
 
 
+    public function get_masuk(){
+      $sql='SELECT * FROM tb_masuk';
+      return $query=$this->db->query($sql);
+    }
+
     public function get_tot_masuk(){
       	$sql='SELECT * FROM tb_masuk';
       	$query=$this->db->query($sql);
@@ -22,11 +27,11 @@ class M_read extends CI_model {
     }
 
 
+    // public function get_masuk_by_id($id){
+    //   $sql='SELECT * FROM tb_masuk';
+    //   return $query=$this->db->query($sql);
+    // }
 
-    public function get_masuk(){
-      $sql='SELECT * FROM tb_masuk';
-      return $query=$this->db->query($sql);
-    }
 
 
 }

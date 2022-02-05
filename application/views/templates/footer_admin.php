@@ -43,29 +43,28 @@
 
   function button_logout() {
     swal({
-            title: 'Yakin logout?',
-            icon : "warning",
-            buttons:{
-              confirm: {
-                text : 'Iya',
-                className : 'btn btn-focus'
-              },
-              cancel: {
-                text : 'Tidak',
-                visible: true,
-                className: 'btn btn-primary'
-              }
-            }
-          }).then((keluar) => {
-            if (keluar) {
-              document.location.href = "<?php echo base_url('auth/logout')?>";
-            };
-          });
+      title: 'Yakin logout?',
+      icon : "warning",
+      buttons:{
+        confirm: {
+          text : 'Iya',
+          className : 'btn btn-focus'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-primary'
+        }
+      }
+    }).then((keluar) => {
+      if (keluar) {
+        document.location.href = "<?php echo base_url('auth/logout')?>";
+      };
+    });
   }
 
 
   $('#button_tambah').click(function(e) {
-
         if ($('#form1').val() == '' || $('#form2').val() == '' || $('#form3').val() == '' || $('#form4').val() == '') 
         {
            swal({
@@ -79,9 +78,7 @@
               },
           });
         }
-        
         else {
-
           swal({
             title: 'Yakin ditambah?',
             icon: 'warning',
@@ -103,17 +100,18 @@
               swal.close();
             }
           });
-
-
         }
-
-        
-
     });
-  
+    
 
-  function button_kembali() {
-    window.history.go(-1)
+  function button_edit($is,$id) {
+    // console.log($is+"++++"+$id);
+    if ($is == 1) {
+        document.location.href = "<?php echo base_url('admin/edit_masuk/')?>"+$id;
+    }else {
+        document.location.href = "<?php echo base_url('admin/edit_keluar/')?>"+$id;
+    }
+
   }
 
 

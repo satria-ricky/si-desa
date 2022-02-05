@@ -179,8 +179,8 @@ public function index(){
                         <td>'.$row->asal_masuk.'</td>
                         <td>'.$row->tahun_masuk.'</td>
                         <td>'.$row->jumlah_masuk.'</td>
-                        <td><button onclick="button_edit_keluar('.encrypt_url($row->id_masuk).')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus_keluar('.encrypt_url($row->id_masuk).')"><i class="fa fa-trash"></i></button ></td>
+                        <td><button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i></button ></td>
                         </td>
                     </tr>
 
@@ -214,92 +214,54 @@ public function index(){
 
 
     public function edit_masuk($id){
-        $v_id = decrypt_url($hai);
-        $v_data['title'] = 'Edit toko';
 
-        $v_id_username = $this->session->userdata('id_username');
-        $v_data['data_pengguna'] = $this->M_user->get_pengguna($v_id_username);
-        $v_data['data_detail'] = $this->M_toko->get_by_id($v_id);    
-        $v_data['list_status'] = $this->M_status->select_status(); 
-        $v_data['list_rute'] = $this->M_rute->select_rute();
+        
+        $v_data['is_aktif'] = 'masuk';
 
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
-            'required' => 'Silahkan masukkan Nama toko!',
+        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('kontak', 'Kontak', 'required|trim', [
-            'required' => 'Silahkan masukkan Kontak toko!',
+        $this->form_validation->set_rules('asal', 'Asal', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
 
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
-            'required' => 'Silahkan masukkan Alamat toko!',
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
         ]);
 
-        $this->form_validation->set_rules('status','Status','required|callback_validasi_status');
-        $this->form_validation->set_rules('rute','Rute','required|callback_validasi_rute');
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
 
         if($this->form_validation->run() == false){
-            $this->load->view('templates/header', $v_data);
-            $this->load->view('templates/topbar', $v_data);
-            $this->load->view('templates/sidebar_admin', $v_data);
-            $this->load->view('templates/load_template_footer');
-            $this->load->view('v_toko/edit_toko', $v_data);
-            $this->load->view('templates/footer');
-
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('edit_masuk',$v_data);
+            $this->load->view('templates/footer_admin');    
         }
         else{
-            $v_status = $this->input->post('status');
-            $v_rute = $this->input->post('rute');
-            $v_nama     = $this->input->post('nama');
-            $v_kontak = $this->input->post('kontak');
-            $v_alamat = $this->input->post('alamat');
+            $v_jenis = $this->input->post('jenis');
+            $v_asal = $this->input->post('asal');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
             
-            $upload_foto = $_FILES['foto']['name'];
+            $v_data = [
+                'jenis_masuk' => $v_jenis,
+                'jumlah_masuk' => $v_jumlah,
+                'asal_masuk' => $v_asal,
+                'tahun_masuk' => $v_tahun
+            ];
 
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '15000';
-                $config['upload_path'] = './assets/foto/toko/';
-                    
-                $this->load->library('upload', $config);
+            $this->M_create->create_masuk($v_data);
+            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+            redirect('admin/masuk');
 
-                if ($this->upload->do_upload('foto')){
-                    $v_nama_foto = $this->upload->data('file_name');             
-                    $v_data = [
-                        'toko_id_rute' => $v_rute,
-                        'toko_id_status' => $v_status,
-                        'toko_nama' => $v_nama,
-                        'toko_kontak' => $v_kontak,
-                        'toko_alamat' => $v_alamat,
-                        'toko_foto' => $v_nama_foto,
-                        'toko_last_updated' => date('Y-m-d')
-                    ];
-                }
-                else
-                {
-                    echo $this->upload->display_errors();
-                }
-
-            }else{
-                $v_data = [
-                    'toko_id_rute' => $v_rute,
-                    'toko_id_status' => $v_status,
-                    'toko_nama' => $v_nama,
-                    'toko_kontak' => $v_kontak,
-                    'toko_alamat' => $v_alamat,
-                    'toko_foto' => 'default.png',
-                    'toko_last_updated' => date('Y-m-d')
-                ];
-            }
-
-            $this->M_toko->edit_toko($v_id, $v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect('admin/daftar_toko');
         }
 
 
     }
+
+
 
 
 
