@@ -295,6 +295,6 @@
 </body>
 <script>
 function goBack() {
-  window.history.go(-1)
+  document.location.href = "<?php echo base_url('dashboard/')?>";
 }
 </script>

@@ -8,6 +8,11 @@ class Admin extends CI_Controller {
         cek_login();
     }
 
+
+
+//PENGELUARAN
+
+
 public function index(){
         $v_data['is_aktif'] = 'keluar';
 
@@ -24,7 +29,7 @@ public function index(){
                     <th>Jenis Pengeluaran</th>
                     <th>Tujuan Pengeluaran</th>
                     <th>Tahun Pengeluaran</th>
-                    <th>Jumlah</th>
+                    <th>Jumlah (Rp.)</th>
                     <th>Edit</th>
                     <th>Hapus</th>
                 </tr>
@@ -44,11 +49,9 @@ public function index(){
                         <td>'.$row->jenis_keluar.'</td>
                         <td>'.$row->tujuan_keluar.'</td>
                         <td>'.$row->tahun_keluar.'</td>
-                        <td>'.$row->jumlah_keluar.'</td>
-                        <td><button onclick="button_edit_keluar('.$row->id_keluar.')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus_keluar('.$row->id_keluar.')"><i class="fa fa-trash"></i></button ></td>
-                        
-                        </td>
+                        <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
+                        <td><button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button ></td>
                     </tr>
 
                 '; 
@@ -65,17 +68,17 @@ public function index(){
                 <tfoot>
                     <tr>
                         <th colspan="4" style="text-align: center;">Total Pengeluaran</th>
-                        <th style="text-align: center;">'.$total_pengeluaran.'</th>
+                        <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
                         <th colspan="4" style="text-align: center;">Total Pemasukan</th>
-                        <th style="text-align: center;">'.$tot_masuk.'</th>
+                        <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
                         <th colspan="4" style="text-align: center;">Total Selisih</th>
-                        <th style="text-align: center;">'.$total_selisih.'</th>
+                        <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                 </tfoot>
@@ -159,7 +162,7 @@ public function index(){
                     <th>Jenis Pemasukan</th>
                     <th>Asal Pemasukan</th>
                     <th>Tahun Pemasukan</th>
-                    <th>Jumlah</th>
+                    <th>Jumlah (Rp.)</th>
                     <th>Edit</th>
                     <th>Hapus</th>
                 </tr>
@@ -178,10 +181,9 @@ public function index(){
                         <td>'.$row->jenis_masuk.'</td>
                         <td>'.$row->asal_masuk.'</td>
                         <td>'.$row->tahun_masuk.'</td>
-                        <td>'.$row->jumlah_masuk.'</td>
+                        <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
                         <td><button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i></button></td>
                         <td><button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i></button ></td>
-                        </td>
                     </tr>
 
                 '; 
@@ -193,7 +195,7 @@ public function index(){
                 <tfoot>
                     <tr>
                         <th colspan="4" style="text-align: center;">Total Pemasukan</th>
-                        <th style="text-align: center;">'.$tot_masuk.'</th>
+                        <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                 </tfoot>
@@ -215,8 +217,11 @@ public function index(){
 
     public function edit_masuk($id){
 
-        
+        $v_id = decrypt_url($id);
+
         $v_data['is_aktif'] = 'masuk';
+
+        $v_data['data_edit'] = $this->M_read->get_masuk_by_id($v_id);
 
         $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
             'required' => 'Kolom harus diisi!',
@@ -234,12 +239,14 @@ public function index(){
             'required' => 'Kolom harus diisi!',
         ]);
 
+
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
             $this->load->view('edit_masuk',$v_data);
             $this->load->view('templates/footer_admin');    
         }
         else{
+
             $v_jenis = $this->input->post('jenis');
             $v_asal = $this->input->post('asal');
             $v_tahun     = $this->input->post('tahun');
@@ -252,8 +259,8 @@ public function index(){
                 'tahun_masuk' => $v_tahun
             ];
 
-            $this->M_create->create_masuk($v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+            $this->M_update->edit_masuk($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
             redirect('admin/masuk');
 
         }
@@ -261,8 +268,12 @@ public function index(){
 
     }
 
-
-
+    public function hapus_masuk($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_masuk($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/masuk');
+    }   
 
 
 }

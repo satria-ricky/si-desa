@@ -114,5 +114,112 @@
 
   }
 
+  function button_hapus($is,$id) {
+
+    swal({
+      title: 'Yakin Hapus Data?',
+      text: 'Data yang telah terhapus tidak dapat dipulihkan!',
+      icon: 'warning',
+      buttons:{
+        confirm: {
+          text : 'Hapus',
+          className : 'btn btn-danger'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-focus'
+        }
+      }
+    }).then((Hapus) => {
+      if (Hapus) {
+        
+        if ($is == 1) {
+            document.location.href = "<?php echo base_url('admin/hapus_masuk/')?>"+$id;
+        }else {
+            document.location.href = "<?php echo base_url('admin/hapus_keluar/')?>"+$id;
+        }
+
+      } else {
+        swal.close();
+      }
+    });
+
+
+    
+
+  }
+
+
+   $('#button_simpan_edit').click(function(e) {
+        if ($('#form1').val() == '' || $('#form2').val() == '' || $('#form3').val() == '' || $('#form4').val() == '') 
+        {
+           swal({
+              title: 'Opppss!',
+              text: 'Harap isi semua form!',
+              icon: 'warning',
+              buttons: {                  
+                  confirm: {
+                      className : 'btn btn-focus'
+                  }
+              },
+          });
+        }
+        else {
+          swal({
+            title: 'Simpan Perubahan?',
+            icon: 'warning',
+            buttons:{
+              confirm: {
+                text : 'Simpan',
+                className : 'btn btn-success'
+              },
+              cancel: {
+                text : 'Tidak',
+                visible: true,
+                className: 'btn btn-focus'
+              }
+            }
+          }).then((Edit) => {
+            if (Edit) {
+              $('form').submit();
+            } else {
+              swal.close();
+            }
+          });
+        }
+    });
+
+
+
+  function button_kembali() {
+
+    swal({
+        title: 'Buang Perubahan dan Kembali?',
+        icon: 'warning',
+        buttons:{
+          confirm: {
+            text : 'Iya',
+            className : 'btn btn-info'
+          },
+          cancel: {
+            text : 'Batal',
+            visible: true,
+            className: 'btn btn-focus'
+          }
+        }
+      }).then((Tambah) => {
+        if (Tambah) {
+           window.history.go(-1);
+        } else {
+          swal.close();
+        }
+      });
+   
+  }
+
+
+
+
 
 </script>
