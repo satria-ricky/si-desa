@@ -50,8 +50,8 @@ public function index(){
                         <td>'.$row->tujuan_keluar.'</td>
                         <td>'.$row->tahun_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
-                        <td><button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button ></td>
+                        <td><button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button></td>
+                        <td><button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button ></td>
                     </tr>
 
                 '; 
@@ -95,6 +95,114 @@ public function index(){
         $this->load->view('keluar',$v_data);
         $this->load->view('templates/footer_admin');         
     }
+
+
+    public function tambah_keluar(){
+        $v_data['is_aktif'] = 'keluar';
+
+        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+       
+        $this->form_validation->set_rules('tujuan', 'Tujuan', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('tambah_keluar',$v_data);
+            $this->load->view('templates/footer_admin');    
+        }
+        else{
+            $v_jenis = $this->input->post('jenis');
+            $v_tujuan = $this->input->post('tujuan');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
+            
+            $v_data = [
+                'jenis_keluar' => $v_jenis,
+                'jumlah_keluar' => $v_jumlah,
+                'tujuan_keluar' => $v_tujuan,
+                'tahun_keluar' => $v_tahun
+            ];
+
+            $this->M_create->create_keluar($v_data);
+            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+            redirect('admin/');
+
+        }
+    }
+
+
+
+    public function edit_keluar($id){
+
+        $v_id = decrypt_url($id);
+
+        $v_data['is_aktif'] = 'keluar';
+
+        $v_data['data_edit'] = $this->M_read->get_keluar_by_id($v_id);
+
+        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+       
+        $this->form_validation->set_rules('tujuan', 'Tujuan', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('edit_keluar',$v_data);
+            $this->load->view('templates/footer_admin');    
+        }
+        else{
+
+            $v_jenis = $this->input->post('jenis');
+            $v_tujuan = $this->input->post('tujuan');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
+            
+            $v_data = [
+                'jenis_keluar' => $v_jenis,
+                'jumlah_keluar' => $v_jumlah,
+                'tujuan_keluar' => $v_tujuan,
+                'tahun_keluar' => $v_tahun
+            ];
+
+            $this->M_update->edit_keluar($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect('admin/');
+
+        }
+
+
+    }
+
+    public function hapus_keluar($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_keluar($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/');
+    }  
+
 
 
 // PEMASUKAN

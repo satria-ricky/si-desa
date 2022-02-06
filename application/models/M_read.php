@@ -7,6 +7,10 @@ class M_read extends CI_model {
     }
 
 
+  public function get_keluar_by_id($id){
+    $sql='SELECT * FROM tb_keluar  WHERE id_keluar = ?';
+   return $this->db->query($sql,$id)->row_array(); 
+  }
 
 
 

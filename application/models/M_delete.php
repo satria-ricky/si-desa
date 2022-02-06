@@ -6,5 +6,10 @@ class M_delete extends CI_model {
       $this->db->delete('tb_masuk');
     }
 
+    public function delete_keluar($v_id) {
+      $this->db->where('id_keluar', $v_id);
+      $this->db->delete('tb_keluar');
+    }
+
 
 }
