@@ -27,16 +27,20 @@
               </div>
 
               <div class="mb-3"  style="margin-top: 15px;">
-                <label for="exampleFormControlInput1" class="form-label">Tujuan Pengeluaran</label>
-                <input type="text" class="form-control" placeholder="tujuan pengeluaran" name="tujuan" value="<?= set_value('tujuan'); ?>" id="form2">
+                <label for="exampleFormControlInput1" class="form-label">Rincian</label>
+                <input type="text" class="form-control" placeholder="rincian" name="rincian" value="<?= set_value('rincian'); ?>" id="form1">
               </div>
               <div class="mb-3" style="margin-top: 15px;">
-                <label for="exampleFormControlInput1" class="form-label">Tahun Pengeluaran</label>
-                <input type="number" class="form-control" name="tahun"  placeholder="tahun" value="<?= set_value('tahun'); ?>" id="form3">
+                <label for="exampleFormControlInput1" class="form-label">Kode Rekening</label>
+                <input type="number" class="form-control" name="kode_rekening"  placeholder="Cth*'00.00.00'" value="<?= set_value('kode_rekening'); ?>" id="form2">
               </div>
               <div class="mt-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>
-                <input type="number" class="form-control" name="jumlah" placeholder="Rp." value="<?= set_value('jumlah'); ?>" id="form4">
+                <input type="number" class="form-control" name="jumlah" placeholder="Rp." value="<?= set_value('jumlah'); ?>" id="form3">
+              </div>
+               <div class="mb-3" style="margin-top: 15px;">
+                <label for="exampleFormControlInput1" class="form-label">Tahun Pengeluaran</label>
+                <input type="number" class="form-control" name="tahun"  placeholder="tahun" value="<?= set_value('tahun'); ?>" id="form4">
               </div>
               
             

@@ -9,8 +9,19 @@ class Admin extends CI_Controller {
     }
 
 
+function validasi_option($id)
+{
+    if($id == ""){
+        $this->form_validation->set_message('validasi_option', 'Silahkan pilih opsi!');
+        return false;
+    } else{
+        return true;
+    }
+
+}
 
 //PENGELUARAN
+
 
 
 public function index(){
@@ -31,6 +42,7 @@ public function index(){
                     <th>Rincian</th>
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
+                    <th>Tahun</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -51,6 +63,7 @@ public function index(){
                         <td>'.$row->rincian_keluar.'</td>
                         <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
+                        <td>'.$row->tahun_keluar.'</td>
                         <td>
                             <button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
                             <button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
@@ -114,14 +127,16 @@ public function index(){
                 '; 
             }  
         }
-         
 
-        
-        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+
+        $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
+
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('tujuan', 'Tujuan', 'required|trim', [
+        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -139,16 +154,20 @@ public function index(){
             $this->load->view('templates/footer_admin');    
         }
         else{
-            $v_jenis = $this->input->post('jenis');
-            $v_tujuan = $this->input->post('tujuan');
+            $v_bidang = $this->input->post('bidang');
+            $v_sub_bidang = $this->input->post('sub_bidang');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
             $v_jumlah = $this->input->post('jumlah');
             
             $v_data = [
-                'jenis_keluar' => $v_jenis,
+                'rekening_keluar' => $v_kode_rekening,
                 'jumlah_keluar' => $v_jumlah,
-                'tujuan_keluar' => $v_tujuan,
-                'tahun_keluar' => $v_tahun
+                'rincian_keluar' => $v_rincian,
+                'tahun_keluar' => $v_tahun,
+                'id_bidang_keluar' => $v_bidang,
+                'id_subbidang_keluar' => $v_sub_bidang
             ];
 
             $this->M_create->create_keluar($v_data);
@@ -168,11 +187,14 @@ public function index(){
 
         $v_data['data_edit'] = $this->M_read->get_keluar_by_id($v_id);
 
-        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+        $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
+
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('tujuan', 'Tujuan', 'required|trim', [
+        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -192,16 +214,20 @@ public function index(){
         }
         else{
 
-            $v_jenis = $this->input->post('jenis');
-            $v_tujuan = $this->input->post('tujuan');
+            $v_bidang = $this->input->post('bidang');
+            $v_sub_bidang = $this->input->post('sub_bidang');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
             $v_jumlah = $this->input->post('jumlah');
             
             $v_data = [
-                'jenis_keluar' => $v_jenis,
+                'rekening_keluar' => $v_kode_rekening,
                 'jumlah_keluar' => $v_jumlah,
-                'tujuan_keluar' => $v_tujuan,
-                'tahun_keluar' => $v_tahun
+                'rincian_keluar' => $v_rincian,
+                'tahun_keluar' => $v_tahun,
+                'id_bidang_keluar' => $v_bidang,
+                'id_subbidang_keluar' => $v_sub_bidang
             ];
 
             $this->M_update->edit_keluar($v_data,$v_id);
