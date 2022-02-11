@@ -10,10 +10,22 @@
                 
         <form style="width: 500px;" method="post" action="<?= base_url('admin/tambah_keluar'); ?>">
               
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Jenis Pengeluaran</label>
-                <input type="text" class="form-control" placeholder="jenis pengeluaran" name="jenis" value="<?= set_value('jenis'); ?>" id="form1">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Bidang</label>
+                <select class="form-control" id="bidang" name="bidang">
+                  <?= $isi_bidang; ?>
+                </select>
+                <?= form_error('bidang', '<small class="text-danger">', '</small>'); ?>
               </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Sub Bidang</label>
+                <select class="form-control" id="sub_bidang" name="sub_bidang">
+                  <option value=""> -- Pilih subbidang -- </option>
+                </select>
+                <?= form_error('sub_bidang', '<small class="text-danger">', '</small>'); ?>
+              </div>
+
               <div class="mb-3"  style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Tujuan Pengeluaran</label>
                 <input type="text" class="form-control" placeholder="tujuan pengeluaran" name="tujuan" value="<?= set_value('tujuan'); ?>" id="form2">

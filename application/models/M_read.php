@@ -1,7 +1,9 @@
 <?php
 class M_read extends CI_model {
 
-	public function get_keluar(){
+//KELUAR
+
+  public function get_keluar(){
      $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar';
       return $query=$this->db->query($sql);    
     }
@@ -14,7 +16,7 @@ class M_read extends CI_model {
 
 
 
-
+//MASUK
     public function get_masuk(){
       $sql='SELECT * FROM tb_masuk';
       return $query=$this->db->query($sql);
@@ -39,6 +41,19 @@ class M_read extends CI_model {
      return $this->db->query($sql,$id)->row_array(); 
     }
 
+
+
+
+//BIDANG
+    public function get_bidang(){
+      $sql='SELECT * FROM tb_bidang';
+      return $query=$this->db->query($sql);
+    }
+
+    public function get_subbidang_by_bidang($id){
+    $sql='SELECT * FROM tb_subbidang  WHERE sub_id_bidang = ?';
+   return $this->db->query($sql,$id)->result_array(); 
+  }
 
 
 }

@@ -30,7 +30,7 @@ public function index(){
                     <th>Sub Bidang</th>
                     <th>Rincian</th>
                     <th>Kode Rekening</th>
-                    <th>Jumlah</th>
+                    <th>Jumlah (Rp.)</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -52,8 +52,8 @@ public function index(){
                         <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>
-                            <button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button>
-                            <button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button >
+                            <button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
                         </td>
                     </tr>
 
@@ -103,6 +103,20 @@ public function index(){
     public function tambah_keluar(){
         $v_data['is_aktif'] = 'keluar';
 
+        $list_data_bidang = $this->M_read->get_bidang();
+        $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
+         if($list_data_bidang->num_rows() > 0)
+        {
+            foreach($list_data_bidang->result() as $row)
+            {
+                $v_data['isi_bidang'] .= '
+                    <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                '; 
+            }  
+        }
+         
+
+        
         $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);

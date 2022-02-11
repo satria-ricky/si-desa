@@ -7,6 +7,19 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
+
+    public function get_subbidang(){
+        $id = $this->input->post('id');
+        $v_data = $this->M_read->get_subbidang_by_bidang($id);
+        $output = '<option value="">--Pilih subbidang --</option>';
+        foreach ($v_data as $row){
+            $output .= '<option value="'.$row['sub_id'].'">'.$row['sub_nama'].'</option>';
+        }
+        echo json_encode($output);
+    }
+
+
+
     public function login(){
 
         $v_username = $this->input->post('username');

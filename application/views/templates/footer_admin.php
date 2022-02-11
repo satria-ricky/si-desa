@@ -221,5 +221,26 @@
 
 
 
+//get sub bidang
+
+$(document).ready(function(){
+  $('#bidang').change(function(){
+    var id = $(this).val();
+    // console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "<?= base_url('auth/get_subbidang'); ?>",
+      data: {
+        id : id
+      },
+      dataType : "JSON",
+      success: function(response){
+        $('#sub_bidang').html(response);
+      }
+    
+    });
+  });
+});
+
 
 </script>
