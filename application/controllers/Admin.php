@@ -26,12 +26,12 @@ public function index(){
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Jenis Pengeluaran</th>
-                    <th>Tujuan Pengeluaran</th>
-                    <th>Tahun Pengeluaran</th>
-                    <th>Jumlah (Rp.)</th>
-                    <th>Edit</th>
-                    <th>Hapus</th>
+                    <th>Bidang</th>
+                    <th>Sub Bidang</th>
+                    <th>Rincian</th>
+                    <th>Kode Rekening</th>
+                    <th>Jumlah</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,12 +46,15 @@ public function index(){
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
-                        <td>'.$row->jenis_keluar.'</td>
-                        <td>'.$row->tujuan_keluar.'</td>
-                        <td>'.$row->tahun_keluar.'</td>
+                        <td>'.$row->nama_bidang.'</td>
+                        <td>'.$row->sub_nama.'</td>
+                        <td>'.$row->rincian_keluar.'</td>
+                        <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
-                        <td><button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button ></td>
+                        <td>
+                            <button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i></button>
+                            <button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i></button >
+                        </td>
                     </tr>
 
                 '; 
@@ -67,17 +70,17 @@ public function index(){
 
                 <tfoot>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pengeluaran</th>
+                        <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
                         <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Selisih</th>
+                        <th colspan="5" style="text-align: center;">Total Selisih</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>

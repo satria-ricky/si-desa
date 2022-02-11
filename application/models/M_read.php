@@ -2,8 +2,8 @@
 class M_read extends CI_model {
 
 	public function get_keluar(){
-      $sql='SELECT * FROM tb_keluar';
-      return $query=$this->db->query($sql);
+     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar';
+      return $query=$this->db->query($sql);    
     }
 
 
