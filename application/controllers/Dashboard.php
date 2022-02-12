@@ -29,10 +29,12 @@ private $link_header = 'dashboard';
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Jenis Pengeluaran</th>
-                    <th>Tujuan Pengeluaran</th>
-                    <th>Tahun Pengeluaran</th>
+                    <th>Bidang</th>
+                    <th>Sub Bidang</th>
+                    <th>Rincian</th>
+                    <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
+                    <th>Tahun</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,10 +49,12 @@ private $link_header = 'dashboard';
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
-                        <td>'.$row->jenis_keluar.'</td>
-                        <td>'.$row->tujuan_keluar.'</td>
+                        <td>'.$row->nama_bidang.'</td>
+                        <td>'.$row->sub_nama.'</td>
+                        <td>'.$row->rincian_keluar.'</td>
+                        <td>'.$row->rekening_keluar.'</td>
+                        <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>'.$row->tahun_keluar.'</td>
-                        <td>'.number_format($row->jumlah_keluar,2,',','.').'</td> 
                     </tr>
 
                 '; 
@@ -66,19 +70,19 @@ private $link_header = 'dashboard';
 
                 <tfoot>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pengeluaran</th>
+                        <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
                         <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                        
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Selisih</th>
+                        <th colspan="5" style="text-align: center;">Total Selisih</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                        
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';
@@ -88,7 +92,6 @@ private $link_header = 'dashboard';
        $v_data['isi_konten']  .= ' 
            </table>
        ';
-
 
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('keluar',$v_data);
@@ -110,10 +113,12 @@ private $link_header = 'dashboard';
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Jenis Pemasukan</th>
-                    <th>Asal Pemasukan</th>
-                    <th>Tahun Pemasukan</th>
+                    <th>Sumber Pemasukan</th>
+                    <th>Jenis Sumber Pemasukan</th>
+                    <th>Rincian</th>
+                    <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
+                    <th>Tahun Pemasukan</th>
                 </tr>
             </thead>
             <tbody>
@@ -127,10 +132,12 @@ private $link_header = 'dashboard';
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
-                        <td>'.$row->jenis_masuk.'</td>
-                        <td>'.$row->asal_masuk.'</td>
-                        <td>'.$row->tahun_masuk.'</td>
+                        <td>'.$row->sumber_masuk_nama.'</td>
+                        <td>'.$row->jenis_nama.'</td>
+                        <td>'.$row->rincian_masuk.'</td>
+                        <td>'.$row->rekening_masuk.'</td>
                         <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
+                        <td>'.$row->tahun_masuk.'</td>
                     </tr>
 
                 '; 
@@ -141,8 +148,9 @@ private $link_header = 'dashboard';
 
                 <tfoot>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';
@@ -152,6 +160,7 @@ private $link_header = 'dashboard';
        $v_data['isi_konten']  .= ' 
            </table>
        ';
+
 
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('masuk',$v_data);
