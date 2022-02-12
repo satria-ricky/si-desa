@@ -187,6 +187,35 @@ public function index(){
 
         $v_data['data_edit'] = $this->M_read->get_keluar_by_id($v_id);
 
+        $list_data_bidang = $this->M_read->get_bidang();
+        $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
+         if($list_data_bidang->num_rows() > 0)
+        {
+            foreach($list_data_bidang->result() as $row)
+            {
+                if ($row->id_bidang == $v_data['data_edit']['id_bidang_keluar']) {
+                     $v_data['isi_bidang'] .= '
+                        <option value="'.$row->id_bidang.'" selected>'.$row->nama_bidang.'</option>
+                    '; 
+                }else{
+                    $v_data['isi_bidang'] .= '
+                        <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                    '; 
+                }
+            }  
+        }
+
+        $list_data_subbidang = $this->M_read->get_subbidang_by_bidang($v_data['data_edit']['id_bidang_keluar']);
+        $v_data['isi_subbidang'] = '';
+
+        foreach ($list_data_subbidang as $row){
+            if ($row['sub_id'] == $v_data['data_edit']['id_subbidang_keluar']) {
+                 $v_data['isi_subbidang'] .='<option selected value="'.$row['sub_id'].'">'.$row['sub_nama'].'</option>';
+            }else{
+                $v_data['isi_subbidang'] .= '<option value="'.$row['sub_id'].'">'.$row['sub_nama'].'</option>';
+            }
+        }
+
         $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
         $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
 

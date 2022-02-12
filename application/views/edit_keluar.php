@@ -11,14 +11,33 @@
         <div style="width: 500px;" >
           <?= form_open_multipart(); ?>
               <input type="hidden" id="id_keluar" value="<?= $data_edit['id_keluar'];?>">
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Jenis Pengeluaran</label>
-                <input type="text" class="form-control" placeholder="jenis pengeluaran" name="jenis" value="<?= $data_edit['jenis_keluar']; ?>" id="form1">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Bidang</label>
+                <select class="form-control" id="bidang" name="bidang">
+                  <?= $isi_bidang; ?>
+                </select>
+                <?= form_error('bidang', '<small class="text-danger">', '</small>'); ?>
               </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Sub Bidang</label>
+                <select class="form-control" id="sub_bidang" name="sub_bidang">
+                  <option value=""> -- Pilih subbidang -- </option>
+                  <?= $isi_subbidang; ?>
+                </select>
+                <?= form_error('sub_bidang', '<small class="text-danger">', '</small>'); ?>
+              </div>
+
               <div class="mb-3"  style="margin-top: 15px;">
-                <label for="exampleFormControlInput1" class="form-label">Tujuan Pengeluaran</label>
-                <input type="text" class="form-control" placeholder="tujuan pengeluaran" name="tujuan" value="<?= $data_edit['tujuan_keluar']; ?>" id="form2">
+                <label for="exampleFormControlInput1" class="form-label">Rincian</label>
+                <input type="text" class="form-control" placeholder="rincian" name="rincian" value="<?= $data_edit['rincian_keluar']; ?>" id="form1">
               </div>
+              <div class="mb-3" style="margin-top: 15px;">
+                <label for="exampleFormControlInput1" class="form-label">Kode Rekening</label>
+                <input type="number" class="form-control" name="kode_rekening"  placeholder="Cth*'00.00.00'" value="<?= $data_edit['rekening_keluar']; ?>" id="form2">
+              </div>
+
+
               <div class="mb-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Tahun Pengeluaran</label>
                 <input type="number" class="form-control" name="tahun"  placeholder="tahun" value="<?= $data_edit['tahun_keluar']; ?>" id="form3">
