@@ -18,7 +18,7 @@ class M_read extends CI_model {
 
 //MASUK
     public function get_masuk(){
-      $sql='SELECT * FROM tb_masuk';
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk';
       return $query=$this->db->query($sql);
     }
 
@@ -60,5 +60,16 @@ class M_read extends CI_model {
    return $this->db->query($sql,$id)->result_array(); 
   }
 
+
+//SUMBER PEMASUKAN
+  public function get_sumber(){
+    $sql='SELECT * FROM tb_sumber_masuk';
+    return $query=$this->db->query($sql);
+  }
+
+  public function get_jenis_by_sumber($id){
+    $sql='SELECT * FROM tb_jenis_masuk  WHERE jenis_sumber_id = ?';
+   return $this->db->query($sql,$id)->result_array(); 
+  }
 
 }

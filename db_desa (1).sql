@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Feb 2022 pada 15.26
+-- Waktu pembuatan: 12 Feb 2022 pada 17.45
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -133,8 +133,7 @@ CREATE TABLE `tb_masuk` (
 --
 
 INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, `rincian_masuk`, `rekening_masuk`, `jumlah_masuk`, `tahun_masuk`) VALUES
-(1, 1, 1, 'rincian masuk 1', '9800.987', 5000, 2001),
-(2, 1, 3, 'rincian masuk 2', '12.34.5', 4000, 2002),
+(1, 1, 3, 'rincian masuk 1', '9800.987', 5000, 2001),
 (3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2003);
 
 -- --------------------------------------------------------
@@ -272,7 +271,7 @@ ALTER TABLE `tb_keluar`
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
 --
 ALTER TABLE `tb_masuk`
-  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_subbidang`

@@ -283,11 +283,27 @@ public function index(){
     public function tambah_masuk(){
         $v_data['is_aktif'] = 'masuk';
 
-        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+        $list_data_sumber = $this->M_read->get_sumber();
+        $v_data['isi_sumber'] = '<option value=""> -- Pilih sumber -- </option>';
+         if($list_data_sumber->num_rows() > 0)
+        {
+            foreach($list_data_sumber->result() as $row)
+            {
+                $v_data['isi_sumber'] .= '
+                    <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                '; 
+            }  
+        }
+
+
+        $this->form_validation->set_rules('sumber','Sumber','required|callback_validasi_option');
+        $this->form_validation->set_rules('jenis','Jenis','required|callback_validasi_option');
+
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('asal', 'Asal', 'required|trim', [
+        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -305,16 +321,20 @@ public function index(){
             $this->load->view('templates/footer_admin');    
         }
         else{
+            $v_sumber = $this->input->post('sumber');
             $v_jenis = $this->input->post('jenis');
-            $v_asal = $this->input->post('asal');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
             $v_jumlah = $this->input->post('jumlah');
             
             $v_data = [
-                'jenis_masuk' => $v_jenis,
+                'rekening_masuk' => $v_kode_rekening,
                 'jumlah_masuk' => $v_jumlah,
-                'asal_masuk' => $v_asal,
-                'tahun_masuk' => $v_tahun
+                'rincian_masuk' => $v_rincian,
+                'tahun_masuk' => $v_tahun,
+                'id_sumber_masuk' => $v_sumber,
+                'id_jenis_sumber_masuk' => $v_jenis
             ];
 
             $this->M_create->create_masuk($v_data);
@@ -339,12 +359,13 @@ public function index(){
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Jenis Pemasukan</th>
-                    <th>Asal Pemasukan</th>
-                    <th>Tahun Pemasukan</th>
+                    <th>Sumber Pemasukan</th>
+                    <th>Jenis Sumber Pemasukan</th>
+                    <th>Rincian</th>
+                    <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
-                    <th>Edit</th>
-                    <th>Hapus</th>
+                    <th>Tahun Pemasukan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -358,12 +379,16 @@ public function index(){
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
-                        <td>'.$row->jenis_masuk.'</td>
-                        <td>'.$row->asal_masuk.'</td>
-                        <td>'.$row->tahun_masuk.'</td>
+                        <td>'.$row->sumber_masuk_nama.'</td>
+                        <td>'.$row->jenis_nama.'</td>
+                        <td>'.$row->rincian_masuk.'</td>
+                        <td>'.$row->rekening_masuk.'</td>
                         <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
-                        <td><button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i></button></td>
-                        <td><button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i></button ></td>
+                        <td>'.$row->tahun_masuk.'</td>
+                        <td>
+                            <button onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i>Edit</button>
+                            <button onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i>Hapus</button >
+                        </td>
                     </tr>
 
                 '; 
@@ -374,7 +399,7 @@ public function index(){
 
                 <tfoot>
                     <tr>
-                        <th colspan="4" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -402,12 +427,45 @@ public function index(){
         $v_data['is_aktif'] = 'masuk';
 
         $v_data['data_edit'] = $this->M_read->get_masuk_by_id($v_id);
+        $list_data_sumber = $this->M_read->get_sumber();
+        $v_data['isi_sumber'] = '<option value=""> -- Pilih sumber -- </option>';
+         if($list_data_sumber->num_rows() > 0)
+        {
+            foreach($list_data_sumber->result() as $row)
+            {
+                if ($row->sumber_masuk_id == $v_data['data_edit']['id_sumber_masuk']) {
+                     $v_data['isi_sumber'] .= '
+                        <option selected value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                    ';  
+                }else{
+                    $v_data['isi_sumber'] .= '
+                        <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                    '; 
+                }
+            }  
+        }
 
-        $this->form_validation->set_rules('jenis', 'Jenis', 'required|trim', [
+
+        $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+        $v_data['isi_jenis'] = '';
+
+        foreach ($list_data_jenis as $row){
+            if ($row['jenis_masuk_id'] == $v_data['data_edit']['id_jenis_sumber_masuk']) {
+                 $v_data['isi_jenis'] .='<option selected value="'.$row['jenis_masuk_id'].'">'.$row['jenis_nama'].'</option>';
+            }else{
+                $v_data['isi_jenis'] .= '<option value="'.$row['jenis_masuk_id'].'">'.$row['jenis_nama'].'</option>';
+            }
+        }
+
+
+        $this->form_validation->set_rules('sumber','Sumber','required|callback_validasi_option');
+        $this->form_validation->set_rules('jenis','Jenis','required|callback_validasi_option');
+
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
        
-        $this->form_validation->set_rules('asal', 'Asal', 'required|trim', [
+        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -419,7 +477,6 @@ public function index(){
             'required' => 'Kolom harus diisi!',
         ]);
 
-
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
             $this->load->view('edit_masuk',$v_data);
@@ -427,16 +484,20 @@ public function index(){
         }
         else{
 
+            $v_sumber = $this->input->post('sumber');
             $v_jenis = $this->input->post('jenis');
-            $v_asal = $this->input->post('asal');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
             $v_jumlah = $this->input->post('jumlah');
             
             $v_data = [
-                'jenis_masuk' => $v_jenis,
+                'rekening_masuk' => $v_kode_rekening,
                 'jumlah_masuk' => $v_jumlah,
-                'asal_masuk' => $v_asal,
-                'tahun_masuk' => $v_tahun
+                'rincian_masuk' => $v_rincian,
+                'tahun_masuk' => $v_tahun,
+                'id_sumber_masuk' => $v_sumber,
+                'id_jenis_sumber_masuk' => $v_jenis
             ];
 
             $this->M_update->edit_masuk($v_data,$v_id);

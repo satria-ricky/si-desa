@@ -242,4 +242,23 @@ $(document).ready(function(){
 });
 
 
+//get jenis pemasukan
+$(document).ready(function(){
+  $('#sumber').change(function(){
+    var id = $(this).val();
+    $.ajax({
+      type: "POST",
+      url: "<?= base_url('auth/get_jenis'); ?>",
+      data: {
+        id : id
+      },
+      dataType : "JSON",
+      success: function(response){
+        $('#jenis').html(response);
+      }
+    
+    });
+  });
+});
+
 </script>
