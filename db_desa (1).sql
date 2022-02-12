@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Feb 2022 pada 02.20
+-- Waktu pembuatan: 12 Feb 2022 pada 15.26
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -67,20 +67,20 @@ INSERT INTO `tb_bidang` (`id_bidang`, `nama_bidang`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_jenis_pemasukan`
+-- Struktur dari tabel `tb_jenis_masuk`
 --
 
-CREATE TABLE `tb_jenis_pemasukan` (
+CREATE TABLE `tb_jenis_masuk` (
   `jenis_masuk_id` int(11) NOT NULL,
   `jenis_sumber_id` int(11) DEFAULT NULL,
   `jenis_nama` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_jenis_pemasukan`
+-- Dumping data untuk tabel `tb_jenis_masuk`
 --
 
-INSERT INTO `tb_jenis_pemasukan` (`jenis_masuk_id`, `jenis_sumber_id`, `jenis_nama`) VALUES
+INSERT INTO `tb_jenis_masuk` (`jenis_masuk_id`, `jenis_sumber_id`, `jenis_nama`) VALUES
 (1, 1, 'Hasil usaha desa'),
 (2, 1, 'Hasil aset desa'),
 (3, 1, 'Swadaya, partisipasi dan gotong royong'),
@@ -109,8 +109,8 @@ CREATE TABLE `tb_keluar` (
 --
 
 INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rincian_keluar`, `tahun_keluar`, `id_bidang_keluar`, `id_subbidang_keluar`) VALUES
-(1, NULL, 1000, 'tujuan k', 2003, NULL, NULL),
-(2, NULL, 2000, 'tujuan k', 2004, NULL, NULL);
+(1, '098098.09', 1000, 'rincian keluar 1', 2003, 3, 28),
+(4, '98908.23', 20000, 'rincian surplus', 2131, 6, 39);
 
 -- --------------------------------------------------------
 
@@ -133,9 +133,9 @@ CREATE TABLE `tb_masuk` (
 --
 
 INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, `rincian_masuk`, `rekening_masuk`, `jumlah_masuk`, `tahun_masuk`) VALUES
-(1, NULL, NULL, NULL, NULL, 5000, 2001),
-(2, NULL, NULL, NULL, NULL, 4000, 2002),
-(3, NULL, NULL, NULL, NULL, 3000, 2003);
+(1, 1, 1, 'rincian masuk 1', '9800.987', 5000, 2001),
+(2, 1, 3, 'rincian masuk 2', '12.34.5', 4000, 2002),
+(3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2003);
 
 -- --------------------------------------------------------
 
@@ -211,9 +211,9 @@ ALTER TABLE `tb_bidang`
   ADD PRIMARY KEY (`id_bidang`);
 
 --
--- Indeks untuk tabel `tb_jenis_pemasukan`
+-- Indeks untuk tabel `tb_jenis_masuk`
 --
-ALTER TABLE `tb_jenis_pemasukan`
+ALTER TABLE `tb_jenis_masuk`
   ADD PRIMARY KEY (`jenis_masuk_id`);
 
 --
@@ -257,16 +257,16 @@ ALTER TABLE `tb_bidang`
   MODIFY `id_bidang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_jenis_pemasukan`
+-- AUTO_INCREMENT untuk tabel `tb_jenis_masuk`
 --
-ALTER TABLE `tb_jenis_pemasukan`
+ALTER TABLE `tb_jenis_masuk`
   MODIFY `jenis_masuk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_keluar`
 --
 ALTER TABLE `tb_keluar`
-  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
