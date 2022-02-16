@@ -4,13 +4,13 @@ class M_read extends CI_model {
 //KELUAR
 
   public function get_keluar(){
-     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar';
+     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar';
       return $query=$this->db->query($sql);    
     }
 
 
   public function get_keluar_by_id($id){
-    $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_keluar = ?';
+    $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_keluar = ? ORDER BY id_bidang_keluar';
    return $this->db->query($sql,$id)->row_array(); 
   }
 
@@ -18,7 +18,7 @@ class M_read extends CI_model {
 
 //MASUK
     public function get_masuk(){
-      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk';
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk ORDER BY id_sumber_masuk';
       return $query=$this->db->query($sql);
     }
 
@@ -41,6 +41,13 @@ class M_read extends CI_model {
      return $this->db->query($sql,$id)->row_array(); 
     }
 
+
+
+//GET TAHUN
+public function get_tahun_keluar(){
+     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar';
+      return $query=$this->db->query($sql);    
+    }
 
 
 

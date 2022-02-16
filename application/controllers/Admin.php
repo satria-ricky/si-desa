@@ -30,9 +30,40 @@ public function index(){
         $list_data = $this->M_read->get_keluar();
         $tot_masuk = $this->M_read->get_tot_masuk();
 
+        $list_data_bidang = $this->M_read->get_bidang();
+        $data_bidang = '';
+         if($list_data_bidang->num_rows() > 0)
+        {
+            foreach($list_data_bidang->result() as $row)
+            {
+                $data_bidang .= '
+                    <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                '; 
+            }  
+        }
+
+
+
+        $v_data['isi_card_header'] = '
+           <div class="form-group">
+                <select class="form-control" id="bidang_header" name="bidang_header">
+                  <option value=""> -- Pilih bidang -- </option>
+                  '.$data_bidang.'
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="form-control" id="tahun_header" name="tahun_header">
+                  <option value=""> -- Pilih tahun pemasukan -- </option>
+                  '.$data_bidang.'
+                </select>
+              </div>
+              <button class="btn btn-primary" id="filter">Filter Data</button>
+        ';
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '
+            
             <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
@@ -65,8 +96,8 @@ public function index(){
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>'.$row->tahun_keluar.'</td>
                         <td>
-                            <button onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
                         </td>
                     </tr>
 

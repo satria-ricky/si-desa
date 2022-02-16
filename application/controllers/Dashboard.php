@@ -102,6 +102,7 @@ private $link_header = 'dashboard';
 
 
     public function masuk(){
+        
         $v_data['is_aktif'] = 'masuk';
         $list_data = $this->M_read->get_masuk();
         $tot_masuk = $this->M_read->get_tot_masuk();
