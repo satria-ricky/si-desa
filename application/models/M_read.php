@@ -4,13 +4,19 @@ class M_read extends CI_model {
 //KELUAR
 
   public function get_keluar(){
-     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar';
-      return $query=$this->db->query($sql);    
-    }
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar DESC';
+    return $query=$this->db->query($sql);    
+  }
+
+  public function get_keluar_by_tahun($tahun){
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE tahun_keluar = ? ORDER BY id_bidang_keluar DESC';
+    return $query=$this->db->query($sql,$tahun);    
+  }
+
 
 
   public function get_keluar_by_id($id){
-    $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_keluar = ? ORDER BY id_bidang_keluar';
+    $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_keluar = ?';
    return $this->db->query($sql,$id)->row_array(); 
   }
 
@@ -45,7 +51,7 @@ class M_read extends CI_model {
 
 //GET TAHUN
 public function get_tahun_keluar(){
-     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar';
+     $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
       return $query=$this->db->query($sql);    
     }
 

@@ -25,10 +25,8 @@ function validasi_option($id)
 
 
 public function index(){
-        $v_data['is_aktif'] = 'keluar';
 
-        $list_data = $this->M_read->get_keluar();
-        $tot_masuk = $this->M_read->get_tot_masuk();
+        $v_data['is_aktif'] = 'keluar';
 
         $list_data_bidang = $this->M_read->get_bidang();
         $data_bidang = '';
@@ -43,23 +41,32 @@ public function index(){
         }
 
 
+        $list_tahun = $this->M_read->get_tahun_keluar();
+        $data_tahun = '';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                $data_tahun .= '
+                    <option value="'.$row->tahun_keluar.'">'.$row->tahun_keluar.'</option>
+                '; 
+            }  
+        }
 
         $v_data['isi_card_header'] = '
-           <div class="form-group">
-                <select class="form-control" id="bidang_header" name="bidang_header">
-                  <option value=""> -- Pilih bidang -- </option>
-                  '.$data_bidang.'
-                </select>
-              </div>
-
-              <div class="form-group">
-                <select class="form-control" id="tahun_header" name="tahun_header">
-                  <option value=""> -- Pilih tahun pemasukan -- </option>
-                  '.$data_bidang.'
-                </select>
-              </div>
-              <button class="btn btn-primary" id="filter">Filter Data</button>
+          <div class="form-group">
+            <select class="form-control" id="tahun_filter">
+              <option value=""> -- Pilih tahun pemasukan -- </option>
+              '.$data_tahun.'
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="button_filter(\''."1".'\')">Filter Data</button>
         ';
+
+
+
+         $list_data = $this->M_read->get_keluar();
+        $tot_masuk = $this->M_read->get_tot_masuk();
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '

@@ -163,7 +163,7 @@
                       className : 'btn btn-focus'
                   }
               },
-          });
+            });
         }
         else {
           swal({
@@ -219,6 +219,58 @@
   }
 
 
+function get_filter(tahun){
+
+  $.ajax({
+      type: "POST",
+      url: "<?= base_url('auth/get_filter'); ?>",
+      data: {
+        tahun : tahun
+      },
+      dataType : "JSON",
+      success: function(response){
+        $('#filter_datatable').html(response);
+        console.log(response);
+      }
+    
+    });
+
+}
+
+
+ function button_filter(is) {
+
+    var tahun = $('#tahun_filter').val();
+     if(tahun.length == 0){
+      
+      swal({
+        title: 'Opppss!',
+        text: 'Harap pilih tahun!',
+        icon: 'warning',
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-focus'
+            }
+        },
+      });
+      
+    }
+    else{
+
+      if (is == 1) {
+        //keluar
+        // $('#datatable').DataTable().destroy();
+        get_filter(tahun);
+      }else if (is == 2){
+        //masuk
+        // $('#datatable').DataTable().destroy();
+        get_filter(tahun);
+      }
+      
+    }
+
+   
+  }
 
 
 //get sub bidang
