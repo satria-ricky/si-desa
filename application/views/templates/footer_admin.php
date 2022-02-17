@@ -219,23 +219,36 @@
   }
 
 
-function get_filter(tahun){
+function button_refresh(is) {
 
-  $.ajax({
-      type: "POST",
-      url: "<?= base_url('auth/get_filter'); ?>",
-      data: {
-        tahun : tahun
-      },
-      dataType : "JSON",
-      success: function(response){
-        $('#filter_datatable').html(response);
-        console.log(response);
-      }
-    
-    });
+    swal({
+        title: 'Refresh Data ?',
+        icon: 'warning',
+        buttons:{
+          confirm: {
+            text : 'Iya',
+            className : 'btn btn-success'
+          },
+          cancel: {
+            text : 'Batal',
+            visible: true,
+            className: 'btn btn-focus'
+          }
+        }
+      }).then((Refresh) => {
+        if (Refresh) {
+           if (is  == 1) {
+              document.location.href = "<?php echo base_url('admin/masuk')?>";
+           }else{
+              document.location.href = "<?php echo base_url('admin/')?>";
+           }
+        } else {
+          swal.close();
+        }
+      });
+   
+  }
 
-}
 
 
  function button_filter(is) {
@@ -257,14 +270,13 @@ function get_filter(tahun){
     }
     else{
 
-      if (is == 1) {
-        //keluar
-        // $('#datatable').DataTable().destroy();
-        get_filter(tahun);
-      }else if (is == 2){
-        //masuk
-        // $('#datatable').DataTable().destroy();
-        get_filter(tahun);
+     if(is == 1){
+        // filter_masuk(is,tahun);
+        document.location.href = "<?php echo base_url('admin/filter_masuk/')?>"+tahun;
+      }
+      else{
+        // filter_keluar(is,tahun);
+        document.location.href = "<?php echo base_url('admin/filter_keluar/')?>"+tahun;
       }
       
     }

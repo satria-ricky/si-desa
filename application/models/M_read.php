@@ -24,9 +24,16 @@ class M_read extends CI_model {
 
 //MASUK
     public function get_masuk(){
-      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk ORDER BY id_sumber_masuk';
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk ORDER BY id_sumber_masuk DESC';
       return $query=$this->db->query($sql);
     }
+
+
+    public function get_masuk_by_tahun($tahun){
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE tahun_masuk = ? ORDER BY id_sumber_masuk DESC';
+      return $query=$this->db->query($sql,$tahun);  
+    }
+
 
     public function get_tot_masuk(){
       	$sql='SELECT * FROM tb_masuk';
@@ -51,9 +58,15 @@ class M_read extends CI_model {
 
 //GET TAHUN
 public function get_tahun_keluar(){
-     $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
-      return $query=$this->db->query($sql);    
-    }
+ $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
+  return $query=$this->db->query($sql);    
+}
+
+
+public function get_tahun_masuk(){
+ $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk';
+  return $query=$this->db->query($sql);    
+}
 
 
 

@@ -25,4 +25,70 @@
       $('#datatable').DataTable();
   } );
 
+
+function button_refresh(is) {
+
+    swal({
+        title: 'Refresh Data ?',
+        icon: 'warning',
+        buttons:{
+          confirm: {
+            text : 'Iya',
+            className : 'btn btn-success'
+          },
+          cancel: {
+            text : 'Batal',
+            visible: true,
+            className: 'btn btn-focus'
+          }
+        }
+      }).then((Refresh) => {
+        if (Refresh) {
+           if (is  == 1) {
+              document.location.href = "<?php echo base_url('dashboard/masuk')?>";
+           }else{
+              document.location.href = "<?php echo base_url('dashboard/')?>";
+           }
+        } else {
+          swal.close();
+        }
+      });
+   
+  }
+
+
+
+ function button_filter(is) {
+
+    var tahun = $('#tahun_filter').val();
+     if(tahun.length == 0){
+      
+      swal({
+        title: 'Opppss!',
+        text: 'Harap pilih tahun!',
+        icon: 'warning',
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-focus'
+            }
+        },
+      });
+      
+    }
+    else{
+
+     if(is == 1){
+        // filter_masuk(is,tahun);
+        document.location.href = "<?php echo base_url('dashboard/filter_masuk/')?>"+tahun;
+      }
+      else{
+        // filter_keluar(is,tahun);
+        document.location.href = "<?php echo base_url('dashboard/filter_keluar/')?>"+tahun;
+      }
+      
+    }
+
+   
+  }
+
 </script>
