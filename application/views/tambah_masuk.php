@@ -32,7 +32,7 @@
               </div>
               <div class="mb-3"  style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Kode Rekening</label>
-                <input type="text" class="form-control" placeholder="kode rekening" name="kode_rekening" value="<?= set_value('kode_rekening'); ?>" id="form2">
+                <input type="text" class="form-control" placeholder="kode rekening" name="kode_rekening" value="<?= set_value('kode_rekening'); ?>" id="form2" onkeypress="return isNumberKey(event)">
               </div>
               <div class="mt-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>

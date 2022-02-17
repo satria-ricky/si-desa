@@ -4,12 +4,12 @@ class M_read extends CI_model {
 //KELUAR
 
   public function get_keluar(){
-   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar DESC';
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar ASC';
     return $query=$this->db->query($sql);    
   }
 
   public function get_keluar_by_tahun($tahun){
-   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE tahun_keluar = ? ORDER BY id_bidang_keluar DESC';
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE tahun_keluar = ? ORDER BY id_bidang_keluar ASC';
     return $query=$this->db->query($sql,$tahun);    
   }
 
@@ -24,13 +24,13 @@ class M_read extends CI_model {
 
 //MASUK
     public function get_masuk(){
-      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk ORDER BY id_sumber_masuk DESC';
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk ORDER BY id_sumber_masuk ASC';
       return $query=$this->db->query($sql);
     }
 
 
     public function get_masuk_by_tahun($tahun){
-      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE tahun_masuk = ? ORDER BY id_sumber_masuk DESC';
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE tahun_masuk = ? ORDER BY id_sumber_masuk ASC';
       return $query=$this->db->query($sql,$tahun);  
     }
 
@@ -47,6 +47,21 @@ class M_read extends CI_model {
 	         return $tot;
 	    }
 	   
+    }
+
+
+    public function get_tot_masuk_by_tahun($tahun){
+        $sql='SELECT * FROM tb_masuk WHERE tahun_masuk =?';
+        $query=$this->db->query($sql,$tahun);
+        $tot = 0;
+        if ($query->num_rows() > 0) {
+          foreach($query->result() as $row)
+            {
+              $tot = $tot + $row->jumlah_masuk; 
+            }
+           return $tot;
+      }
+     
     }
 
     public function get_masuk_by_id($id){

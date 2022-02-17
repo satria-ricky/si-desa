@@ -614,7 +614,7 @@ public function filter_masuk($tahun){
 
 
         $list_data = $this->M_read->get_masuk_by_tahun($tahun);
-        $tot_masuk = $this->M_read->get_tot_masuk();
+        $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
 
         $v_data['isi_konten'] = '';
 

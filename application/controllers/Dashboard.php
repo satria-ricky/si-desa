@@ -234,6 +234,28 @@ private $link_header = 'dashboard';
     public function masuk(){
         
         $v_data['is_aktif'] = 'masuk';
+        $list_tahun = $this->M_read->get_tahun_masuk();
+        $data_tahun = '';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                $data_tahun .= '
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                '; 
+            }  
+        }
+
+        $v_data['isi_card_header'] = '
+          <div class="form-group">
+            <select class="form-control" id="tahun_filter">
+              <option value=""> -- Pilih tahun -- </option>
+              '.$data_tahun.'
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="button_filter(\''."1".'\')">Filter Data</button>
+        ';
+
         $list_data = $this->M_read->get_masuk();
         $tot_masuk = $this->M_read->get_tot_masuk();
 
@@ -297,6 +319,105 @@ private $link_header = 'dashboard';
         $this->load->view('masuk',$v_data);
         $this->load->view('templates/footer_dashboard');         
     }
+
+
+    
+    public function filter_masuk($tahun){
+        
+        $v_data['is_aktif'] = 'masuk';
+        
+
+        $list_tahun = $this->M_read->get_tahun_masuk();
+        $data_tahun = '';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                $data_tahun .= '
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                '; 
+            }  
+        }
+
+        $v_data['isi_card_header'] = '
+          <div class="form-group">
+            <select class="form-control" id="tahun_filter">
+              <option value=""> -- Pilih tahun -- </option>
+              '.$data_tahun.'
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="button_filter(\''."1".'\')">Filter Data</button>
+          <button class="btn btn-success" onclick="button_refresh(\''."1".'\')">Refresh Data</button>
+        ';
+
+
+        $list_data = $this->M_read->get_masuk_by_tahun($tahun);
+
+        $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
+
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Sumber Pemasukan</th>
+                    <th>Jenis Sumber Pemasukan</th>
+                    <th>Rincian</th>
+                    <th>Kode Rekening</th>
+                    <th>Jumlah (Rp.)</th>
+                    <th>Tahun Pemasukan</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->sumber_masuk_nama.'</td>
+                        <td>'.$row->jenis_nama.'</td>
+                        <td>'.$row->rincian_masuk.'</td>
+                        <td>'.$row->rekening_masuk.'</td>
+                        <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
+                        <td>'.$row->tahun_masuk.'</td>
+                    </tr>
+
+                '; 
+                $index++;
+            }
+            $v_data['isi_konten'] .= '
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                        <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                        <th colspan="1"></th>
+                    </tr>
+                </tfoot>
+              ';
+
+        }
+
+       $v_data['isi_konten']  .= ' 
+           </table>
+       ';
+
+
+        $this->load->view('templates/header_dashboard',$v_data);
+        $this->load->view('masuk',$v_data);
+        $this->load->view('templates/footer_dashboard');         
+    }
+
+
+
 
 
     public function login(){
