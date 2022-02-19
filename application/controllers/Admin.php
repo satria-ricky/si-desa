@@ -27,14 +27,14 @@ public function index(){
 
         $v_data['is_aktif'] = 'keluar';
 
-        $list_tahun = $this->M_read->get_tahun_keluar();
+        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
             foreach($list_tahun->result() as $row)
             {
                 $data_tahun .= '
-                    <option value="'.$row->tahun_keluar.'">'.$row->tahun_keluar.'</option>
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
                 '; 
             }  
         }
@@ -152,9 +152,21 @@ public function index(){
             }  
         }
 
+        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['data_tahun'] = '';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                $v_data['data_tahun'] .= '
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                '; 
+            }  
+        }
 
         $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
         $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('tahun','Tahun','required|callback_validasi_option');
 
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
@@ -240,9 +252,30 @@ public function index(){
             }
         }
 
+
+        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['isi_tahun'] = '<option value=""> -- Pilih tahun -- </option>';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                if ($row->tahun_masuk == $v_data['data_edit']['tahun_keluar']) {
+                    $v_data['isi_tahun'] .= '
+                        <option selected value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                    '; 
+                }else{
+                    $v_data['isi_tahun'] .= '
+                        <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                    ';
+                }
+                
+            }  
+        }
+
+
         $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
         $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
-
+        $this->form_validation->set_rules('tahun','Tahun','required|callback_validasi_option');
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
@@ -306,14 +339,14 @@ public function index(){
 
         $v_data['is_aktif'] = 'keluar';
 
-        $list_tahun = $this->M_read->get_tahun_keluar();
+        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
             foreach($list_tahun->result() as $row)
             {
                 $data_tahun .= '
-                    <option value="'.$row->tahun_keluar.'">'.$row->tahun_keluar.'</option>
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
                 '; 
             }  
         }
@@ -332,7 +365,7 @@ public function index(){
 
 
          $list_data = $this->M_read->get_keluar_by_tahun($tahun);
-        $tot_masuk = $this->M_read->get_tot_masuk();
+        $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '

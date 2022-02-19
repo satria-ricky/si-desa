@@ -19,14 +19,14 @@ private $link_header = 'dashboard';
 
         $v_data['is_aktif'] = 'keluar';
 
-        $list_tahun = $this->M_read->get_tahun_keluar();
+        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
             foreach($list_tahun->result() as $row)
             {
                 $data_tahun .= '
-                    <option value="'.$row->tahun_keluar.'">'.$row->tahun_keluar.'</option>
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
                 '; 
             }  
         }
@@ -126,14 +126,14 @@ private $link_header = 'dashboard';
 
         $v_data['is_aktif'] = 'keluar';
 
-        $list_tahun = $this->M_read->get_tahun_keluar();
+        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
             foreach($list_tahun->result() as $row)
             {
                 $data_tahun .= '
-                    <option value="'.$row->tahun_keluar.'">'.$row->tahun_keluar.'</option>
+                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
                 '; 
             }  
         }
@@ -151,7 +151,7 @@ private $link_header = 'dashboard';
 
 
          $list_data = $this->M_read->get_keluar_by_tahun($tahun);
-        $tot_masuk = $this->M_read->get_tot_masuk();
+        $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
 
         $v_data['isi_konten'] = '';
 

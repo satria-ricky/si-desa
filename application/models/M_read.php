@@ -64,6 +64,8 @@ class M_read extends CI_model {
      
     }
 
+    
+
     public function get_masuk_by_id($id){
       $sql='SELECT * FROM tb_masuk  WHERE id_masuk = ?';
      return $this->db->query($sql,$id)->row_array(); 
@@ -72,10 +74,10 @@ class M_read extends CI_model {
 
 
 //GET TAHUN
-public function get_tahun_keluar(){
- $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
-  return $query=$this->db->query($sql);    
-}
+// public function get_tahun_keluar(){
+//  $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
+//   return $query=$this->db->query($sql);    
+// }
 
 
 public function get_tahun_masuk(){

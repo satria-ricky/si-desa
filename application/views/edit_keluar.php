@@ -40,7 +40,10 @@
 
               <div class="mb-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Tahun Pengeluaran</label>
-                <input type="number" class="form-control" name="tahun"  placeholder="tahun" value="<?= $data_edit['tahun_keluar']; ?>" id="form3">
+                <select class="form-control" id="form3" name="tahun">
+                  <?= $isi_tahun; ?>
+                </select>
+                <?= form_error('sub_bidang', '<small class="text-danger">', '</small>'); ?>
               </div>
               <div class="mt-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>
