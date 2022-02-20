@@ -50,6 +50,35 @@ class M_read extends CI_model {
     }
 
 
+    public function get_selisih(){
+        $sql='SELECT * FROM tb_masuk';
+        $query=$this->db->query($sql);
+        $tot = 0;
+        if ($query->num_rows() > 0) {
+          foreach($query->result() as $row)
+            {
+              $tot = $tot + $row->jumlah_masuk; 
+            }
+            $simpanan_masuk = $tot;
+         }
+         
+
+        $sql_keluar='SELECT * FROM tb_keluar';
+        $query=$this->db->query($sql_keluar);
+        $tot_keluar = 0;
+        if ($query->num_rows() > 0) {
+          foreach($query->result() as $row)
+            {
+              $tot_keluar = $tot_keluar + $row->jumlah_keluar; 
+            }
+           $simpanan_keluar = $tot_keluar;
+         }
+
+         return $hasil = $simpanan_masuk - $simpanan_keluar;  
+
+    }
+
+
     public function get_tot_masuk_by_tahun($tahun){
         $sql='SELECT * FROM tb_masuk WHERE tahun_masuk =?';
         $query=$this->db->query($sql,$tahun);

@@ -18,6 +18,19 @@
   </body>
 </html>
 
+ <?php if($this->session->flashdata('error')){ ?>
+  <script>
+    swal("<?php echo $this->session->flashdata('error'); ?>", {
+        icon : "error",
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-danger'
+            }
+        },
+    });
+  </script>
+<?php } ?>
+
 
  <?php if($this->session->flashdata('pesan')){ ?>
   <script>

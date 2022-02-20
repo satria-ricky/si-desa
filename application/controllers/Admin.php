@@ -25,6 +25,9 @@ function validasi_option($id)
 
 public function index(){
 
+        // $list_tahun = $this->M_read->get_selisih();
+        // var_dump($list_tahun);
+        // die();
         $v_data['is_aktif'] = 'keluar';
 
         $list_tahun = $this->M_read->get_tahun_masuk();
@@ -195,21 +198,31 @@ public function index(){
             $v_rincian = $this->input->post('rincian');
             $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
-            $v_jumlah = $this->input->post('jumlah');
             
-            $v_data = [
-                'rekening_keluar' => $v_kode_rekening,
-                'jumlah_keluar' => $v_jumlah,
-                'rincian_keluar' => $v_rincian,
-                'tahun_keluar' => $v_tahun,
-                'id_bidang_keluar' => $v_bidang,
-                'id_subbidang_keluar' => $v_sub_bidang
-            ];
+            $v_jumlah = $this->input->post('jumlah');
+            $selisih = $this->M_read->get_selisih();
+            if (($selisih - $v_jumlah) < 0) {
+                $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan!');
+                redirect('admin/tambah_keluar');
+                // echo"<script>
+                //     window.history.go(-1)
+                // </script>
+                // ";
+            }
+            else{
+                $v_data = [
+                    'rekening_keluar' => $v_kode_rekening,
+                    'jumlah_keluar' => $v_jumlah,
+                    'rincian_keluar' => $v_rincian,
+                    'tahun_keluar' => $v_tahun,
+                    'id_bidang_keluar' => $v_bidang,
+                    'id_subbidang_keluar' => $v_sub_bidang
+                ];
 
-            $this->M_create->create_keluar($v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect('admin/');
-
+                $this->M_create->create_keluar($v_data);
+                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+                redirect('admin/');
+            }
         }
     }
 
@@ -305,21 +318,32 @@ public function index(){
             $v_rincian = $this->input->post('rincian');
             $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
+
             $v_jumlah = $this->input->post('jumlah');
+            $selisih = $this->M_read->get_selisih();
+            $get_selisih = $selisih + $v_data['data_edit']['jumlah_keluar'];
             
-            $v_data = [
-                'rekening_keluar' => $v_kode_rekening,
-                'jumlah_keluar' => $v_jumlah,
-                'rincian_keluar' => $v_rincian,
-                'tahun_keluar' => $v_tahun,
-                'id_bidang_keluar' => $v_bidang,
-                'id_subbidang_keluar' => $v_sub_bidang
-            ];
+            if (($get_selisih - $v_jumlah) < 0) {
+                $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan!');
+                redirect('admin/edit_keluar/'.$id);
+                // echo"<script>
+                //     window.history.go(-1)
+                // </script>
+                // ";
+            }else {
+                $v_data = [
+                    'rekening_keluar' => $v_kode_rekening,
+                    'jumlah_keluar' => $v_jumlah,
+                    'rincian_keluar' => $v_rincian,
+                    'tahun_keluar' => $v_tahun,
+                    'id_bidang_keluar' => $v_bidang,
+                    'id_subbidang_keluar' => $v_sub_bidang
+                ];
 
-            $this->M_update->edit_keluar($v_data,$v_id);
-            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect('admin/');
-
+                $this->M_update->edit_keluar($v_data,$v_id);
+                $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+                redirect('admin/');
+            }
         }
 
 
