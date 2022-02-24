@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Feb 2022 pada 17.45
+-- Waktu pembuatan: 24 Feb 2022 pada 16.29
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -109,8 +109,10 @@ CREATE TABLE `tb_keluar` (
 --
 
 INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rincian_keluar`, `tahun_keluar`, `id_bidang_keluar`, `id_subbidang_keluar`) VALUES
-(1, '098098.09', 1000, 'rincian keluar 1', 2003, 3, 28),
-(4, '98908.23', 20000, 'rincian surplus', 2131, 6, 39);
+(1, '098098.09', 300, 'rincian keluar 1', 2003, 3, 28),
+(8, '1213.23', 1000, 'asdasd', 2022, 4, 29),
+(9, '1213.23', 200, 's', 2003, 3, 27),
+(10, '90.90.90', 700, 'RINCIAN', 5555, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -133,8 +135,9 @@ CREATE TABLE `tb_masuk` (
 --
 
 INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, `rincian_masuk`, `rekening_masuk`, `jumlah_masuk`, `tahun_masuk`) VALUES
-(1, 1, 3, 'rincian masuk 1', '9800.987', 5000, 2001),
-(3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2003);
+(1, 1, 2, 'rincian masuk 1', '9800.987', 5000, 2001),
+(3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2003),
+(6, 1, 3, 'RINCIAN BARU', '321', 1000, 5555);
 
 -- --------------------------------------------------------
 
@@ -265,13 +268,13 @@ ALTER TABLE `tb_jenis_masuk`
 -- AUTO_INCREMENT untuk tabel `tb_keluar`
 --
 ALTER TABLE `tb_keluar`
-  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
 --
 ALTER TABLE `tb_masuk`
-  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_subbidang`

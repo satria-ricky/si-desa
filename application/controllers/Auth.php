@@ -8,6 +8,13 @@ class Auth extends CI_Controller {
     }
 
     
+
+    public function get_tahun(){
+        $v_data = $this->M_read->get_tahun_charts();
+        echo json_encode($v_data);
+    }
+
+
     public function get_subbidang(){
         $id = $this->input->post('id');
         $v_data = $this->M_read->get_subbidang_by_bidang($id);

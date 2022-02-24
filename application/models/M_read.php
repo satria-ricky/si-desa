@@ -8,6 +8,11 @@ class M_read extends CI_model {
     return $query=$this->db->query($sql);    
   }
 
+  public function get_keluar_charts(){
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar ORDER BY id_bidang_keluar ASC';
+    return $query=$this->db->query($sql)->result_array();    
+  }
+
   public function get_keluar_by_tahun($tahun){
    $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE tahun_keluar = ? ORDER BY id_bidang_keluar ASC';
     return $query=$this->db->query($sql,$tahun);    
@@ -103,16 +108,12 @@ class M_read extends CI_model {
 
 
 //GET TAHUN
-// public function get_tahun_keluar(){
-//  $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
-//   return $query=$this->db->query($sql);    
-// }
-
 
 public function get_tahun_masuk(){
  $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk';
   return $query=$this->db->query($sql);    
 }
+
 
 
 
@@ -143,5 +144,31 @@ public function get_tahun_masuk(){
     $sql='SELECT * FROM tb_jenis_masuk  WHERE jenis_sumber_id = ?';
    return $this->db->query($sql,$id)->result_array(); 
   }
+
+
+
+//CHARTS
+
+public function get_tahun_keluar_charts(){
+ $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar ORDER BY tahun_keluar ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
+public function get_jumlah_keluar_charts(){
+ $sql='SELECT tahun_keluar, SUM(jumlah_keluar) as jumlah_keluar FROM tb_keluar GROUP BY tahun_keluar ORDER BY tahun_keluar ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
+
+public function get_tahun_masuk_charts(){
+ $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk ORDER BY tahun_masuk ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
+public function get_jumlah_masuk_charts(){
+ $sql='SELECT tahun_masuk, SUM(jumlah_masuk) as jumlah_masuk FROM tb_masuk GROUP BY tahun_masuk  ORDER BY tahun_masuk ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
 
 }

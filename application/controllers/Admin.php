@@ -25,11 +25,9 @@ function validasi_option($id)
 
 public function index(){
 
-        // $list_tahun = $this->M_read->get_selisih();
-        // var_dump($list_tahun);
-        // die();
         $v_data['is_aktif'] = 'keluar';
-
+        $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
+        $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -136,12 +134,14 @@ public function index(){
 
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar',$v_data);
-        $this->load->view('templates/footer_admin');         
+        $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_keluar',$v_data);         
     }
 
 
     public function tambah_keluar(){
         $v_data['is_aktif'] = 'keluar';
+
 
         $list_data_bidang = $this->M_read->get_bidang();
         $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
@@ -363,6 +363,8 @@ public function index(){
 
         $v_data['is_aktif'] = 'keluar';
 
+        $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
+        $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -470,7 +472,8 @@ public function index(){
 
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar',$v_data);
-        $this->load->view('templates/footer_admin');         
+        $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_keluar',$v_data);         
     }
 
 
@@ -548,7 +551,8 @@ public function index(){
     public function masuk(){
         $v_data['is_aktif'] = 'masuk';
 
-
+        $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
+        $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -638,14 +642,16 @@ public function index(){
 
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk',$v_data);
-        $this->load->view('templates/footer_admin');         
+        $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_masuk',$v_data);         
     }
 
 
 public function filter_masuk($tahun){
         $v_data['is_aktif'] = 'masuk';
 
-
+        $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
+        $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -736,7 +742,8 @@ public function filter_masuk($tahun){
 
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk',$v_data);
-        $this->load->view('templates/footer_admin');         
+        $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_masuk',$v_data);         
     }
 
 
