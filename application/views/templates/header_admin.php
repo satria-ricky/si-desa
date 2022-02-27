@@ -50,7 +50,7 @@
           <ul class="nav nav-justified">
             <!-- <li class="active"><a href="#">Home</a></li> -->
             
-
+            <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/">Beranda</a></li>
             <li class="dropdown <?= ($is_aktif === 'masuk') ? 'active' : '' ?>">
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pemasukan Desa <span class="caret"></span></a>
@@ -65,7 +65,7 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengeluaran Desa <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin">Data Pengeluaran</a></li>
+                    <li><a href="<?= base_url(); ?>admin/keluar">Data Pengeluaran</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/tambah_keluar">Tambah Data Pengeluaran</a></li>
                   </ul>

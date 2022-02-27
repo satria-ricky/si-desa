@@ -49,9 +49,9 @@
         <h3 class="text-muted">SISTEM INFORMASI KEUANGAN DESA DORDUNGGA KEC.DONGGO KAB.BIMA</h3>
         <nav>
           <ul class="nav nav-justified">
-            <!-- <li class="active"><a href="#">Home</a></li> -->
+            <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/">Beranda</a></li>
             <li class="<?= ($is_aktif === 'masuk') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/masuk">Pemasukan Desa</a></li>
-            <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/">Pengeluaran Desa</a></li>
+            <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/keluar">Pengeluaran Desa</a></li>
             <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/login">Login</a></li>
           </ul>
         </nav>        

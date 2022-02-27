@@ -51,7 +51,7 @@ function button_refresh(is) {
            if (is  == 1) {
               document.location.href = "<?php echo base_url('dashboard/masuk')?>";
            }else{
-              document.location.href = "<?php echo base_url('dashboard/')?>";
+              document.location.href = "<?php echo base_url('dashboard/keluar')?>";
            }
         } else {
           swal.close();
