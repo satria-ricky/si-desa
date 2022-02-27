@@ -63,8 +63,8 @@
               ],
               datasets : [{
                 label: "Pengeluaran (Rp.)",
-                backgroundColor: 'rgb(23, 125, 255)',
-                borderColor: 'rgb(23, 125, 255)',
+                backgroundColor: '#f3545d',
+                borderColor: '#f3545d',
                 data: [
                   <?php
                     if (count($jumlah_charts_keluar)>0) {

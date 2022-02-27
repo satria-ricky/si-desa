@@ -3,6 +3,7 @@
       <div class="jumbotron">
         <h1>Statistik Pemasukan dan Pengeluaran Desa</h1>
       </div>
+      <div style="display: flex;flex-direction: column; justify-content: center;align-items: center; text-align: center;">
       <div class="card">
           <div class="card-header ml-2">
                <div class="form-inline">
@@ -35,7 +36,7 @@
             </div>
           </div>
         </div>
-
+</div>
       
      
 
