@@ -211,4 +211,14 @@ public function get_jumlah_masuk_charts(){
   }
 
 
+  public function cek_kode_rekenening_masuk($rekening,$tahun){
+    $sql='SELECT * FROM tb_masuk WHERE rekening_masuk=? AND tahun_masuk=?';
+    return $query=$this->db->query($sql,array($rekening,$tahun))->row_array();
+  }
+
+  public function cek_kode_rekenening_masuk_e($rekening,$tahun,$id){
+    $sql='SELECT * FROM tb_masuk WHERE rekening_masuk=? AND tahun_masuk=? AND id_masuk != ?';
+    return $query=$this->db->query($sql,array($rekening,$tahun,$id))->row_array();
+  }
+
 }

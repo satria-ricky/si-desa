@@ -43,6 +43,28 @@ function validasi_rekening_keluar()
 }
 
 
+function validasi_rekening_masuk()
+{
+    $v_kode_rekening = $this->input->post('kode_rekening');
+    $v_tahun = $this->input->post('tahun');
+
+    if (!$this->input->post('id')) {
+        if ($keluar_check = $this->M_read->cek_kode_rekenening_masuk($v_kode_rekening,$v_tahun)) {
+           $this->form_validation->set_message('validasi_rekening_masuk','Kode Rekening ditahun ini telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }else{
+        if ($keluar_check = $this->M_read->cek_kode_rekenening_masuk_e($v_kode_rekening,$v_tahun,$this->input->post('id'))) {
+           $this->form_validation->set_message('validasi_rekening_masuk','Kode Rekening ditahun ini telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }
+    
+}
+
+
 public function index(){
 
         $v_data['is_aktif'] = 'beranda';
@@ -528,12 +550,8 @@ public function keluar(){
 
         $this->form_validation->set_rules('sumber','Sumber','required|callback_validasi_option');
         $this->form_validation->set_rules('jenis','Jenis','required|callback_validasi_option');
-
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_masuk');
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-       
-        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -816,15 +834,11 @@ public function filter_masuk($tahun){
 
         $this->form_validation->set_rules('sumber','Sumber','required|callback_validasi_option');
         $this->form_validation->set_rules('jenis','Jenis','required|callback_validasi_option');
-
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_masuk');
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
-       
-        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-
+  
         $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);

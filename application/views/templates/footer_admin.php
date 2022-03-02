@@ -303,7 +303,6 @@ function button_refresh(is) {
 //get sub bidang
 
 $(document).ready(function(){
-  var id = $('#bidang').val()
   $('#bidang').change(function(){
     var id = $(this).val();
     $.ajax({
