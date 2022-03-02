@@ -10,7 +10,7 @@
                 
         <div style="width: 500px;" >
           <?= form_open_multipart(); ?>
-              <input type="hidden" id="id_keluar" value="<?= $data_edit['id_keluar'];?>">
+              <input type="hidden" id="id_keluar" name="id" value="<?= $data_edit['id_keluar'];?>">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Bidang</label>
                 <select class="form-control" id="bidang" name="bidang">
@@ -35,6 +35,7 @@
               <div class="mb-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Kode Rekening</label>
                 <input type="text" class="form-control" name="kode_rekening"  placeholder="Cth*'00.00.00'" value="<?= $data_edit['rekening_keluar']; ?>" id="form2" onkeypress="return isNumberKey(event)">
+                <?= form_error('kode_rekening', '<small class="text-danger">', '</small>'); ?>
               </div>
 
 
@@ -43,7 +44,7 @@
                 <select class="form-control" id="form3" name="tahun">
                   <?= $isi_tahun; ?>
                 </select>
-                <?= form_error('sub_bidang', '<small class="text-danger">', '</small>'); ?>
+                 
               </div>
               <div class="mt-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>

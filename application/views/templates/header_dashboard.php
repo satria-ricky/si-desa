@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="<?= base_url('assets/'); ?>img/icon.ico">
 
-    <title>SI Keuangan Desa Dordungga Kec.Donggo Kab.Bima</title>
+    <title>SI Keuangan Desa Doridungga Kec.Donggo Kab.Bima</title>
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>

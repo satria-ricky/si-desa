@@ -80,7 +80,35 @@ class M_read extends CI_model {
          }
 
          return $hasil = $simpanan_masuk - $simpanan_keluar;  
+    }
 
+
+
+    public function get_selisih_by_tahun($tahun){
+        $sql='SELECT * FROM tb_masuk WHERE tahun_masuk =?';
+        $query=$this->db->query($sql,$tahun);
+        $tot = 0;
+        if ($query->num_rows() > 0) {
+          foreach($query->result() as $row)
+            {
+              $tot = $tot + $row->jumlah_masuk; 
+            }
+            $simpanan_masuk = $tot;
+         }
+         
+
+        $sql_keluar='SELECT * FROM tb_keluar WHERE tahun_keluar =?';
+        $query=$this->db->query($sql_keluar,$tahun);
+        $tot_keluar = 0;
+        if ($query->num_rows() > 0) {
+          foreach($query->result() as $row)
+            {
+              $tot_keluar = $tot_keluar + $row->jumlah_keluar; 
+            }
+           $simpanan_keluar = $tot_keluar;
+         }
+
+         return $hasil = $simpanan_masuk - $simpanan_keluar;  
     }
 
 
@@ -169,6 +197,18 @@ public function get_jumlah_masuk_charts(){
  $sql='SELECT tahun_masuk, SUM(jumlah_masuk) as jumlah_masuk FROM tb_masuk GROUP BY tahun_masuk  ORDER BY tahun_masuk ASC';
   return $query=$this->db->query($sql)->result();    
 }
+
+
+//CEK KODE REKENING
+  public function cek_kode_rekenening_keluar($rekening,$tahun){
+    $sql='SELECT * FROM tb_keluar WHERE rekening_keluar=? AND tahun_keluar=?';
+    return $query=$this->db->query($sql,array($rekening,$tahun))->row_array();
+  }
+
+  public function cek_kode_rekenening_keluar_e($rekening,$tahun,$id){
+    $sql='SELECT * FROM tb_keluar WHERE rekening_keluar=? AND tahun_keluar=? AND id_keluar != ?';
+    return $query=$this->db->query($sql,array($rekening,$tahun,$id))->row_array();
+  }
 
 
 }

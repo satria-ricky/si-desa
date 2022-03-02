@@ -33,6 +33,7 @@
               <div class="mb-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Kode Rekening</label>
                 <input type="text" class="form-control" name="kode_rekening"  placeholder="Cth*'00.00.00'" value="<?= set_value('kode_rekening'); ?>" id="form2" onkeypress="return isNumberKey(event)">
+                <?= form_error('kode_rekening', '<small class="text-danger">', '</small>'); ?>
               </div>
               <div class="mt-3" style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Jumlah (Rp.)</label>

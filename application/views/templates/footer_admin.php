@@ -2,7 +2,7 @@
 
       <!-- Site footer -->
       <footer class="footer">
-        <p>&copy; Kantor Desa Dordungga Kec. Donggo Kab. Bima</p>
+        <p>&copy; Kantor Desa Doridungga Kec. Donggo Kab. Bima</p>
       </footer>
 
     </div> <!-- /container -->
@@ -303,6 +303,7 @@ function button_refresh(is) {
 //get sub bidang
 
 $(document).ready(function(){
+  var id = $('#bidang').val()
   $('#bidang').change(function(){
     var id = $(this).val();
     $.ajax({

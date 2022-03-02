@@ -21,6 +21,28 @@ function validasi_option($id)
 }
 
 
+function validasi_rekening_keluar()
+{
+    $v_kode_rekening = $this->input->post('kode_rekening');
+    $v_tahun = $this->input->post('tahun');
+
+    if (!$this->input->post('id')) {
+        if ($keluar_check = $this->M_read->cek_kode_rekenening_keluar($v_kode_rekening,$v_tahun)) {
+           $this->form_validation->set_message('validasi_rekening_keluar','Kode Rekening ditahun ini telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }else{
+        if ($keluar_check = $this->M_read->cek_kode_rekenening_keluar_e($v_kode_rekening,$v_tahun,$this->input->post('id'))) {
+           $this->form_validation->set_message('validasi_rekening_keluar','Kode Rekening ditahun ini telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }
+    
+}
+
+
 public function index(){
 
         $v_data['is_aktif'] = 'beranda';
@@ -178,20 +200,17 @@ public function keluar(){
             foreach($list_tahun->result() as $row)
             {
                 $v_data['data_tahun'] .= '
-                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                    <option value="'.$row->tahun_masuk.'" "'.set_select('tahun',  $row->tahun_masuk).'">'.$row->tahun_masuk.'</option>
                 '; 
             }  
         }
 
         $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
         $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_keluar');
         $this->form_validation->set_rules('tahun','Tahun','required|callback_validasi_option');
 
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-       
-        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -214,16 +233,16 @@ public function keluar(){
             $v_rincian = $this->input->post('rincian');
             $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
-            
+            // if ($this->M_read->cek_kode_rekenening_keluar($v_kode_rekening,$v_tahun)) {
+            //    $this->session->set_flashdata('error', 'Kode Rekening ditahun '+$v_tahun+' telah tersedia!');
+            //     redirect('admin/tambah_keluar');
+            // }
+
             $v_jumlah = $this->input->post('jumlah');
-            $selisih = $this->M_read->get_selisih();
-            if (($selisih - $v_jumlah) < 0) {
-                $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan!');
+            $selisih = $this->M_read->get_selisih_by_tahun($v_tahun);
+            if (($selisih - $v_jumlah) < 0 ) {
+                $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan tahun ini!');
                 redirect('admin/tambah_keluar');
-                // echo"<script>
-                //     window.history.go(-1)
-                // </script>
-                // ";
             }
             else{
                 $v_data = [
@@ -304,14 +323,11 @@ public function keluar(){
 
         $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
         $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
-        $this->form_validation->set_rules('tahun','Tahun','required|callback_validasi_option');
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_keluar');
         $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
-       
-        $this->form_validation->set_rules('kode_rekening', 'Kode_rekening', 'required|trim', [
-            'required' => 'Kolom harus diisi!',
-        ]);
+
 
         $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
             'required' => 'Kolom harus diisi!',
@@ -328,7 +344,7 @@ public function keluar(){
             $this->load->view('templates/footer_admin');    
         }
         else{
-
+            $name_id = $this->input->post('id');
             $v_bidang = $this->input->post('bidang');
             $v_sub_bidang = $this->input->post('sub_bidang');
             $v_rincian = $this->input->post('rincian');
@@ -336,16 +352,12 @@ public function keluar(){
             $v_tahun     = $this->input->post('tahun');
 
             $v_jumlah = $this->input->post('jumlah');
-            $selisih = $this->M_read->get_selisih();
+            $selisih = $this->M_read->get_selisih_by_tahun($v_tahun);
             $get_selisih = $selisih + $v_data['data_edit']['jumlah_keluar'];
             
             if (($get_selisih - $v_jumlah) < 0) {
                 $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan!');
                 redirect('admin/edit_keluar/'.$id);
-                // echo"<script>
-                //     window.history.go(-1)
-                // </script>
-                // ";
             }else {
                 $v_data = [
                     'rekening_keluar' => $v_kode_rekening,
