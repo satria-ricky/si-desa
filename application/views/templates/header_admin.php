@@ -58,6 +58,8 @@
                     <li><a href="<?= base_url(); ?>admin/masuk">Data Pemasukan</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/tambah_masuk">Tambah Data Pemasukan</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li> <a href="#" onclick="button_cetak(1)">Cetak Data Pemasukan</a> </li>
                   </ul>
 
             </li>
@@ -68,6 +70,8 @@
                     <li><a href="<?= base_url(); ?>admin/keluar">Data Pengeluaran</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/tambah_keluar">Tambah Data Pengeluaran</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li> <a href="#" onclick="button_cetak(2)">Cetak Data Pengeluaran</a> </li>
                   </ul>
 
             </li>

@@ -351,4 +351,62 @@ function isNumberKey(evt)
   return true;
 }
 
+function button_cetak(e){
+  $('#modal_cetak').modal('show');
+  // console.log(e);
+  if (e == 1) {
+    $('#modal_header').html('Cetak Data Pemasukan');
+  }else{
+    $('#modal_header').html('Cetak Data Pengeluaran');
+  }
+
+}
+
+
+
+
 </script>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_cetak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="modal_header"></h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+        <form>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Pilih Tahun</label>
+            <select class="form-control" id="modal_tahun" name="modal_tahun">
+              <option>2002</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Ketua</label>
+            <input type="text" class="form-control" id="modal_ketua" name="modal_ketua" placeholder="nama ketua ...">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Sekretaris</label>
+            <input type="text" class="form-control" id="modal_sekretaris" name="modal_sekretaris" placeholder="nama sekretaris ...">
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Cetak</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>

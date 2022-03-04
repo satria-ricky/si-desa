@@ -178,7 +178,7 @@ public function keluar(){
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Total Selisih</th>
+                        <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -506,7 +506,7 @@ public function keluar(){
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Total Selisih</th>
+                        <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -885,6 +885,27 @@ public function filter_masuk($tahun){
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
         redirect('admin/masuk');
     }   
+
+
+     public function cetak (){        
+        $this->load->library('dompdf_gen');
+    
+
+        $data['title'] = 'laporan';
+
+        $this->load->view('cetak',$data);
+    
+        
+
+        $ukuran_kertas = 'A4';
+        $orientation = 'portrait';
+        $html = $this->output->get_output();
+        $this->dompdf->set_paper($ukuran_kertas,$orientation);
+
+        $this->dompdf->load_html($html);
+        // $this->dompdf->render();
+        // $this->dompdf->stream("laporan.pdf", array('Attachment' => 0));
+    }
 
 
 }
