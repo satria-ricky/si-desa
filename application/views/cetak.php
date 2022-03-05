@@ -23,23 +23,37 @@
                 padding-top: 10px;
                 padding-bottom: 10px;
                 text-align: left;
-                background-color: #4CAF50;
-                color: white;
+                /*background-color: #4CAF50;*/
+                color: black;
+            }
+
+            #ttd {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            #ttd th {
+                /*padding-top: 10px;
+                padding-bottom: 10px;*/
+                /*background-color: #4CAF50;*/
+                color: black;
+                /*border: 1px solid #ddd;*/
+                /*padding: 8px;*/
             }
         </style>
 </head><body>
         <div style="text-align:center">
-            <h3> Laporan PDF Toko Kita</h3>
-            <?= $v_jenis,$v_tahun,$v_ketua,$v_sekretaris; ?>
+            <h3> Laporan Keuangan</h3>
         </div>
         <table id="table">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Nama Produk</th>
-                    <th>Harga Jual</th>
-                    <th>Terjual</th>
-                    <th>Tanggal Transaksi</th>
+                    <th style="text-align:center">KODE REKENING</th>
+                    <th style="text-align:center">URAIAN</th>
+                    <th style="text-align:center">TAHUN</th>
+                    <th style="text-align:center">HARGA SATUAN</th>
+                    <th style="text-align:center">JUMLAH</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,4 +87,28 @@
                 </tr>
             </tbody>
         </table>
+        <br>
+        <table id="ttd" >
+            <thead >
+                <tr>
+                    <th style="text-align:center; width: 50%;">Disetujui</th>
+                    <th style="text-align:right;padding-right: 40px;">Desa Doridungga, <?php echo date("d-m-Y"); ?></th>
+                </tr>
+                <tr>
+                    <th style="text-align:center;padding-bottom: 70px;">Ketua</th>
+                    <th style="text-align:center;padding-bottom: 70px;">Sekretaris</th>
+                </tr>
+                <tr>
+                    <th style="text-align:center">Nama Ketua</th>
+                    <th style="text-align:center">Nama Sekretaris</th>
+                </tr>
+            </thead>
+        </table>
+        <script type="text/javascript">
+            n =  new Date();
+            y = n.getFullYear();
+            m = n.getMonth() + 1;
+            d = n.getDate();
+            document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+        </script>
     </body></html>

@@ -361,11 +361,7 @@ function get_tahun(jenis) {
         data: {jenis: jenis},
         dataType: "json",
         success: function(data) {
-            console.log(data);
-            // var Body = "";
-            // for(var key in data){
-            //   Body +=`<option value="${data[key]['tahun_masuk']}">${data[key]['tahun_masuk']}</option>`;
-            // }
+            // console.log(data);
             $("#modal_tahun").html(data);
         }
     });
@@ -383,16 +379,13 @@ function button_cetak(e){
     get_tahun(e);
   }
 
-
   document.getElementById("jenis_form_cetak").value = e;
-  // document.getElementById('jenis_form_cetak').val() = e;
 }
 
 function form_cetak(){
   console.log('a');
   document.getElementById("form_modal_cetak").submit();
   document.getElementById("jenis_form_cetak").value = '';
-  // document.getElementById("modal_tahun").value = '';
   document.getElementById("modal_ketua").value = '';
   document.getElementById("modal_sekretaris").value = '';
 }

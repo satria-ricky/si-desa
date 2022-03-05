@@ -896,7 +896,7 @@ public function filter_masuk($tahun){
         $data['v_ketua'] = $this->input->post('modal_ketua');
         $data['v_sekretaris'] = $this->input->post('modal_sekretaris');
         $this->load->library('dompdf_gen');
-    
+        
 
         $data['title'] = 'laporan';
 
