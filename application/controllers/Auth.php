@@ -14,6 +14,23 @@ class Auth extends CI_Controller {
         echo json_encode($v_data);
     }
 
+    public function get_tahun_modal(){
+        $jenis = $this->input->post('jenis');
+         $output = '<option value="">-- Pilih Tahun --</option>';
+        if ($jenis == 1) {
+            $v_data = $this->M_read->get_tahun_masuk()->result_array();
+            foreach ($v_data as $row){
+                $output .= '<option value="'.$row['tahun_masuk'].'">'.$row['tahun_masuk'].'</option>';
+            }
+        }else{
+            $v_data = $this->M_read->get_tahun_keluar()->result_array();
+            foreach ($v_data as $row){
+                $output .= '<option value="'.$row['tahun_keluar'].'">'.$row['tahun_keluar'].'</option>';
+            }
+        }
+        
+        echo json_encode($output);
+    }
 
     public function get_subbidang(){
         $id = $this->input->post('id');

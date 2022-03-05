@@ -142,6 +142,10 @@ public function get_tahun_masuk(){
   return $query=$this->db->query($sql);    
 }
 
+public function get_tahun_keluar(){
+ $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
+  return $query=$this->db->query($sql);    
+}
 
 
 

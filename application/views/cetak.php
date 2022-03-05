@@ -30,6 +30,7 @@
 </head><body>
         <div style="text-align:center">
             <h3> Laporan PDF Toko Kita</h3>
+            <?= $v_jenis,$v_tahun,$v_ketua,$v_sekretaris; ?>
         </div>
         <table id="table">
             <thead>

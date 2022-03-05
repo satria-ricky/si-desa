@@ -887,7 +887,14 @@ public function filter_masuk($tahun){
     }   
 
 
-     public function cetak (){        
+
+
+     public function cetak (){
+
+        $data['v_jenis'] = $this->input->post('jenis_form_cetak');
+        $data['v_tahun'] = $this->input->post('modal_tahun');
+        $data['v_ketua'] = $this->input->post('modal_ketua');
+        $data['v_sekretaris'] = $this->input->post('modal_sekretaris');
         $this->load->library('dompdf_gen');
     
 

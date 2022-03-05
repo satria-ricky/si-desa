@@ -351,15 +351,50 @@ function isNumberKey(evt)
   return true;
 }
 
+
+function get_tahun(jenis) {
+  var jenis = jenis;
+  // console.log(jenis);
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/get_tahun_modal",
+        type: "post",
+        data: {jenis: jenis},
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            // var Body = "";
+            // for(var key in data){
+            //   Body +=`<option value="${data[key]['tahun_masuk']}">${data[key]['tahun_masuk']}</option>`;
+            // }
+            $("#modal_tahun").html(data);
+        }
+    });
+}
+
+
 function button_cetak(e){
   $('#modal_cetak').modal('show');
   // console.log(e);
   if (e == 1) {
     $('#modal_header').html('Cetak Data Pemasukan');
+    get_tahun(e);
   }else{
     $('#modal_header').html('Cetak Data Pengeluaran');
+    get_tahun(e);
   }
 
+
+  document.getElementById("jenis_form_cetak").value = e;
+  // document.getElementById('jenis_form_cetak').val() = e;
+}
+
+function form_cetak(){
+  console.log('a');
+  document.getElementById("form_modal_cetak").submit();
+  document.getElementById("jenis_form_cetak").value = '';
+  // document.getElementById("modal_tahun").value = '';
+  document.getElementById("modal_ketua").value = '';
+  document.getElementById("modal_sekretaris").value = '';
 }
 
 
@@ -380,15 +415,11 @@ function button_cetak(e){
       <div class="modal-body">
         
 
-        <form>
+        <form method="post" id="form_modal_cetak" target="_blank" action="<?= base_url('admin/cetak'); ?>">
+          <input type="hidden" name="jenis_form_cetak" id="jenis_form_cetak">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Tahun</label>
             <select class="form-control" id="modal_tahun" name="modal_tahun">
-              <option>2002</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
             </select>
           </div>
           <div class="form-group">
@@ -399,12 +430,13 @@ function button_cetak(e){
             <label for="exampleFormControlInput1">Sekretaris</label>
             <input type="text" class="form-control" id="modal_sekretaris" name="modal_sekretaris" placeholder="nama sekretaris ...">
           </div>
-        </form>
+        
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Cetak</button>
+        <button type="button" class="btn btn-primary" onclick="form_cetak()" data-dismiss="modal">Cetak</button>
+        </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
