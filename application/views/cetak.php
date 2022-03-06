@@ -99,12 +99,12 @@
                     <th style="text-align:right;padding-right: 40px;">Desa Doridungga, <?php echo date("d-m-Y"); ?></th>
                 </tr>
                 <tr>
-                    <th style="text-align:center;padding-bottom: 70px;">Ketua</th>
+                    <th style="text-align:center;padding-bottom: 70px;">Kepala Desa</th>
                     <th style="text-align:center;padding-bottom: 70px;">Sekretaris</th>
                 </tr>
                 <tr>
-                    <th style="text-align:center">Nama Ketua</th>
-                    <th style="text-align:center">Nama Sekretaris</th>
+                    <th style="text-align:center"><?php echo $v_ketua; ?></th>
+                    <th style="text-align:center"><?php echo $v_sekretaris; ?></th>
                 </tr>
             </thead>
         </table>

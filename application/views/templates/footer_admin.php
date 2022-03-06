@@ -416,7 +416,7 @@ function form_cetak(){
             </select>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Ketua</label>
+            <label for="exampleFormControlInput1">Kepala Desa</label>
             <input type="text" class="form-control" id="modal_ketua" name="modal_ketua" placeholder="nama ketua ...">
           </div>
           <div class="form-group">

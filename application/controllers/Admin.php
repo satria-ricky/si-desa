@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require FCPATH . 'vendor/autoload.php';
 
 class Admin extends CI_Controller {
 
@@ -895,7 +896,7 @@ public function filter_masuk($tahun){
         $v_data['v_tahun'] = $this->input->post('modal_tahun');
         $v_data['v_ketua'] = $this->input->post('modal_ketua');
         $v_data['v_sekretaris'] = $this->input->post('modal_sekretaris');
-        $this->load->library('dompdf_gen');
+        
 
         $v_data['title'] = 'laporan';
 
@@ -1037,21 +1038,11 @@ public function filter_masuk($tahun){
            ';
 
         }
-
-
-
-        $this->load->view('cetak',$v_data);
+        $ini_html = $this->load->view('cetak',$v_data, true);
     
-        
-
-        $ukuran_kertas = 'A4';
-        $orientation = 'portrait';
-        $html = $this->output->get_output();
-        $this->dompdf->set_paper($ukuran_kertas,$orientation);
-
-        $this->dompdf->load_html($html);
-        // $this->dompdf->render();
-        // $this->dompdf->stream("laporan.pdf", array('Attachment' => 0));
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($ini_html);
+        $mpdf->Output();
     }
 
 
