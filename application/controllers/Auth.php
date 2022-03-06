@@ -68,7 +68,8 @@ class Auth extends CI_Controller {
                 $v_data['id_username'] = $pengguna['id_admin'];
 
                 $this->session->set_userdata($v_data);
-                 redirect('admin');
+                $this->session->set_flashdata('pesan', 'Berhasil login !');
+                redirect('admin');
 
         }else {
             $this->session->set_flashdata('error', 'username dan password salah !');

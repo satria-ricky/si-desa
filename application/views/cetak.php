@@ -43,10 +43,11 @@
             }
         </style>
 </head><body>
-        <div style="text-align:center">
-            <h3> Laporan Keuangan</h3>
+        <div id="table" style="text-align:center" >
+            <h3> RINCIAN ANGGARAN <?php echo $v_jenis_beneran; ?> DESA <br> PEMERINTAH DORI DUNGGA KECAMATAN DONGGO <br> TAHUN ANGGARAN <?php echo $v_tahun; ?></h3>
         </div>
-        <table id="table">
+        <div> <?php echo $isi_konten; ?> </div>
+        <!-- <table id="table">
             <thead>
                 <tr>
                     <th style="text-align:center">KODE REKENING</th>
@@ -86,7 +87,10 @@
                     <td>25 Oktober 2020, 14:04:03</td>
                 </tr>
             </tbody>
-        </table>
+            <tfoot>
+                
+            </tfoot>
+        </table> -->
         <br>
         <table id="ttd" >
             <thead >

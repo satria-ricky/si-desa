@@ -138,12 +138,12 @@ class M_read extends CI_model {
 //GET TAHUN
 
 public function get_tahun_masuk(){
- $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk';
+ $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk ORDER BY tahun_masuk ASC';
   return $query=$this->db->query($sql);    
 }
 
 public function get_tahun_keluar(){
- $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar';
+ $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar ORDER BY tahun_keluar ASC';
   return $query=$this->db->query($sql);    
 }
 
