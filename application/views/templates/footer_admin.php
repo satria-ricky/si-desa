@@ -382,12 +382,29 @@ function button_cetak(e){
   document.getElementById("jenis_form_cetak").value = e;
 }
 
+
 function form_cetak(){
-  console.log('a');
-  document.getElementById("form_modal_cetak").submit();
-  document.getElementById("jenis_form_cetak").value = '';
-  document.getElementById("modal_ketua").value = '';
-  document.getElementById("modal_sekretaris").value = '';
+  // console.log('a');
+  if (document.getElementById("modal_tahun").value == '' || document.getElementById("modal_ketua").value == '' || document.getElementById("modal_sekretaris").value == '') {
+    swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+    });
+  }else {
+    document.getElementById("form_modal_cetak").submit();
+    $('#modal_cetak').modal('hide');
+    document.getElementById("jenis_form_cetak").value = '';
+    document.getElementById("modal_ketua").value = '';
+    document.getElementById("modal_sekretaris").value = '';
+
+  }
+ 
 }
 
 
@@ -412,23 +429,23 @@ function form_cetak(){
           <input type="hidden" name="jenis_form_cetak" id="jenis_form_cetak">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Tahun</label>
-            <select class="form-control" id="modal_tahun" name="modal_tahun">
+            <select class="form-control" id="modal_tahun" name="modal_tahun" required="">
             </select>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Kepala Desa</label>
-            <input type="text" class="form-control" id="modal_ketua" name="modal_ketua" placeholder="nama ketua ...">
+            <input type="text" class="form-control" id="modal_ketua" name="modal_ketua" placeholder="nama kepala desa ..." required="">
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Sekretaris</label>
-            <input type="text" class="form-control" id="modal_sekretaris" name="modal_sekretaris" placeholder="nama sekretaris ...">
+            <input type="text" class="form-control" id="modal_sekretaris" name="modal_sekretaris" placeholder="nama sekretaris ..." required="">
           </div>
         
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="form_cetak()" data-dismiss="modal">Cetak</button>
+        <button type="button" class="btn btn-primary" onclick="form_cetak()">Cetak</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
