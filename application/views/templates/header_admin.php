@@ -75,7 +75,27 @@
                   </ul>
 
             </li>
-            <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a onclick="button_logout()" style="cursor: pointer;"> Logout</a></li>
+            <li class=" dropdown <?= ($is_aktif === 'pengguna') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kelola Pengguna <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>admin/kepala_desa">Data Kepala Desa</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url(); ?>admin/sekretaris">Data Sekretaris</a></li>
+                  </ul>
+
+            </li>
+            <li class=" dropdown <?= ($is_aktif === 'pengaturan') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengaturan <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>admin/profile">Profile</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a onclick="button_logout()" style="cursor: pointer;">Logout</a></li>
+                  </ul>
+
+            </li>
+            
           </ul>
         </nav>        
       </div>

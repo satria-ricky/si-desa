@@ -63,12 +63,12 @@
       buttons:{
         confirm: {
           text : 'Iya',
-          className : 'btn btn-focus'
+          className : 'btn btn-danger'
         },
         cancel: {
           text : 'Tidak',
           visible: true,
-          className: 'btn btn-primary'
+          className: 'btn btn-success'
         }
       }
     }).then((keluar) => {

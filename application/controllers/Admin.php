@@ -1043,7 +1043,67 @@ public function filter_masuk($tahun){
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($ini_html);
         $mpdf->Output();
+
     }
 
+
+
+    //KELOLA PENGGUNA
+    public function kepala_desa (){
+
+        $v_data['judul'] = 'Data Kepala Desa';
+        $v_data['is_aktif'] = 'pengguna';
+        
+
+        $list_data = $this->M_read->get_user_by_level(2);
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->user_nama.'</td>
+                        <td>'.$row->user_username.'</td>
+                        <td>'.$row->user_password.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+        $this->load->view('templates/header_admin',$v_data);
+        $this->load->view('kelola_pengguna',$v_data);
+        $this->load->view('templates/footer_admin',$v_data);
+
+    }
 
 }

@@ -225,4 +225,12 @@ public function get_jumlah_masuk_charts(){
     return $query=$this->db->query($sql,array($rekening,$tahun,$id))->row_array();
   }
 
+
+
+//KELOLA PENGGUNA
+  public function get_user_by_level($level){
+    $sql='SELECT * FROM tb_user WHERE user_id_level=? ORDER BY user_id ASC';
+    return $query=$this->db->query($sql,$level);
+  }
+
 }
