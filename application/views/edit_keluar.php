@@ -9,7 +9,7 @@
               <div class="table-responsive">
                 
         <div style="width: 500px;" >
-          <?= form_open_multipart(); ?>
+         <form style="width: 500px;" id="form_edit" method="post">
               <input type="hidden" id="id_keluar" name="id" value="<?= $data_edit['id_keluar'];?>">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Bidang</label>
@@ -53,7 +53,7 @@
               
                 <button type="button" onclick="button_kembali()" style="margin-top: 25px;" class="btn btn-focus"><i class="fas fa-times"></i> Buang Perubahan</button>
                 <button type="button" id="button_simpan_edit" style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-edit"></i> Simpan Perubahan</button>
-                <?= form_close(); ?>
+              </form>
             </div>
       
 

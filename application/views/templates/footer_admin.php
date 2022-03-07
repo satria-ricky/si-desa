@@ -110,7 +110,7 @@
             }
           }).then((Tambah) => {
             if (Tambah) {
-              $('form').submit();
+              document.getElementById("form_tambah").submit();
             } else {
               swal.close();
             }
@@ -197,7 +197,7 @@
             }
           }).then((Edit) => {
             if (Edit) {
-              $('form').submit();
+              document.getElementById("form_edit").submit();
             } else {
               swal.close();
             }

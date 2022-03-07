@@ -8,7 +8,7 @@
             <div class="card-body">
               <div class="table-responsive">
                 
-        <form style="width: 500px;" method="post" action="<?= base_url('admin/tambah_masuk'); ?>">
+        <form style="width: 500px;" id="form_tambah" method="post" action="<?= base_url('admin/tambah_masuk'); ?>">
               
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Sumber Pemasukan</label>
