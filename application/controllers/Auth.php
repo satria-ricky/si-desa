@@ -7,7 +7,6 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
-    
 
     public function get_tahun(){
         $v_data = $this->M_read->get_tahun_charts();
@@ -43,6 +42,24 @@ class Auth extends CI_Controller {
     }
 
 
+
+
+
+    public function index(){
+        
+        if ($this->session->userdata('level_user')) {
+            if ($this->session->userdata('level_user') == 1) {
+               redirect('admin');
+            }else {
+                redirect('dashboard');
+            }
+        }
+        
+
+        $this->load->view('signin/index');
+    }
+
+
     public function get_jenis(){
         $id = $this->input->post('id');
         $v_data = $this->M_read->get_jenis_by_sumber($id);
@@ -58,31 +75,46 @@ class Auth extends CI_Controller {
 
     public function login(){
 
+        $v_level = $this->input->post('level_user');
         $v_username = $this->input->post('username');
         $v_password = $this->input->post('password');
 
-        $pengguna = $this->M_auth->auth($v_username, $v_password);
+        $pengguna = $this->M_auth->auth($v_level, $v_username, $v_password);
 
         if ($pengguna){
 
-                $v_data['id_username'] = $pengguna['id_admin'];
+            $v_data['level_user'] = $pengguna['user_id_level'];
+            $v_data['id_user'] = $pengguna['user_id'];
+            $this->session->set_userdata($v_data);
+            $this->session->set_flashdata('pesan', 'Berhasil login !');
 
-                $this->session->set_userdata($v_data);
-                $this->session->set_flashdata('pesan', 'Berhasil login !');
+            if ($pengguna['user_id_level'] == 1) {
+                //ADMIN
                 redirect('admin');
+            }else if ($pengguna['user_id_level'] == 2) {
+                //KEPALA DESA
+                redirect('dashboard');
+            }else if ($pengguna['user_id_level'] == 3){
+                //SEKRETARIS
+                redirect('dashboard');
+            } 
 
         }else {
             $this->session->set_flashdata('error', 'username dan password salah !');
-            redirect('dashboard/login');
+            redirect('auth');
         }
 
     }
 
 
     public function logout(){
-        $this->session->unset_userdata('id_username');
-        $this->session->set_flashdata('logout', 'Berhasil logout !');
-        redirect('dashboard/login');
+        // $this->session->unset_userdata('id_user');
+        // $this->session->unset_userdata('level_user');
+        $array_items = array('id_user','level_user');
+        $this->session->unset_userdata($array_items);
+        // session_destroy();
+        $this->session->set_flashdata('pesan', 'Berhasil logout !');
+        redirect('auth');
     }
 
 

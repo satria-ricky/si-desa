@@ -3,16 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
     
-    
-private $link_header = 'dashboard';
     public function __construct(){
         parent::__construct();
-        if ($this->session->userdata('id_username')) {
-            echo"<script>
-                window.history.go(-1)
-            </script>
-            ";
-        }
+        cek_login();
     }
 
 

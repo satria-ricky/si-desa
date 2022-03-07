@@ -295,6 +295,6 @@
 </body>
 <script>
 function goBack() {
-  document.location.href = "<?php echo base_url('dashboard/')?>";
+  document.location.href = "<?php echo base_url('auth')?>";
 }
 </script>
