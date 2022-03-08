@@ -75,7 +75,7 @@ public function index(){
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts();
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('beranda',$v_data);
+        $this->load->view('beranda/beranda',$v_data);
         $this->load->view('templates/footer_admin');
         $this->load->view('templates/charts',$v_data);              
     }
@@ -194,7 +194,7 @@ public function keluar(){
 
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('keluar',$v_data);
+        $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
         // $this->load->view('templates/charts_keluar',$v_data);         
     }
@@ -247,7 +247,7 @@ public function keluar(){
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
-            $this->load->view('tambah_keluar',$v_data);
+            $this->load->view('keluar/tambah_keluar',$v_data);
             $this->load->view('templates/footer_admin');    
         }
         else{
@@ -363,7 +363,7 @@ public function keluar(){
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
-            $this->load->view('edit_keluar',$v_data);
+            $this->load->view('keluar/edit_keluar',$v_data);
             $this->load->view('templates/footer_admin');    
         }
         else{
@@ -566,7 +566,7 @@ public function keluar(){
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
-            $this->load->view('tambah_masuk',$v_data);
+            $this->load->view('masuk/tambah_masuk',$v_data);
             $this->load->view('templates/footer_admin');    
         }
         else{
@@ -688,7 +688,7 @@ public function keluar(){
 
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('masuk',$v_data);
+        $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_admin');
         // $this->load->view('templates/charts_masuk',$v_data);         
     }
@@ -850,7 +850,7 @@ public function filter_masuk($tahun){
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
-            $this->load->view('edit_masuk',$v_data);
+            $this->load->view('masuk/edit_masuk',$v_data);
             $this->load->view('templates/footer_admin');    
         }
         else{
@@ -1101,7 +1101,65 @@ public function filter_masuk($tahun){
        ';
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('kelola_pengguna',$v_data);
+        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
+        $this->load->view('templates/footer_admin',$v_data);
+
+    }
+
+
+    public function sekretaris (){
+
+        $v_data['judul'] = 'Data Sekretaris';
+        $v_data['is_aktif'] = 'pengguna';
+        
+
+        $list_data = $this->M_read->get_user_by_level(3);
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->user_nama.'</td>
+                        <td>'.$row->user_username.'</td>
+                        <td>'.$row->user_password.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+        $this->load->view('templates/header_admin',$v_data);
+        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
         $this->load->view('templates/footer_admin',$v_data);
 
     }

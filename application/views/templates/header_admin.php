@@ -82,6 +82,8 @@
                     <li><a href="<?= base_url(); ?>admin/kepala_desa">Data Kepala Desa</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/sekretaris">Data Sekretaris</a></li>
+                     <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="button_tambah_pengguna()">Tambah Data Pengguna</a></li>
                   </ul>
 
             </li>
