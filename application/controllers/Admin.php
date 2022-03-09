@@ -44,6 +44,20 @@ function validasi_rekening_keluar()
 }
 
 
+function validasi_username()
+{
+    $v_username = $this->input->post('username');
+    $v_id = $this->input->post('user_id');
+
+    if ($this->M_read->cek_username($v_username,$v_id)) {
+        $this->form_validation->set_message('validasi_username','Username ini telah tersedia!');
+        return FALSE;   
+    }
+    return TRUE;
+    
+}
+
+
 function validasi_rekening_masuk()
 {
     $v_kode_rekening = $this->input->post('kode_rekening');
@@ -66,6 +80,57 @@ function validasi_rekening_masuk()
 }
 
 
+//PROFILE
+
+    public function profile(){
+
+        $v_id = $this->session->userdata('id_user');
+
+        $v_data['data'] = $this->M_read->get_profile($v_id);
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+        $this->form_validation->set_rules('password', 'Password', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $v_data['is_aktif'] = 'pengaturan';
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('profile/profile',$v_data);
+            $this->load->view('templates/footer_admin');      
+        }
+        else{
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+        
+            
+            $v_data = [
+                'user_nama' => $v_nama,
+                'user_username' => $v_username,
+                'user_password' => $v_password
+            ];
+
+            $this->M_update->edit_profile($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Profile berhasil diubah!');
+            redirect('admin/profile');
+            
+        }
+
+
+             
+    }
+
+
+
+//BERANDA
 public function index(){
 
         $v_data['is_aktif'] = 'beranda';
@@ -1049,13 +1114,18 @@ public function filter_masuk($tahun){
 
 
     //KELOLA PENGGUNA
-    public function kepala_desa (){
-
-        $v_data['judul'] = 'Data Kepala Desa';
+    public function kelola_pengguna (){
+        $v_data['id'] = $this->input->get('id');
+        if ($v_data['id'] == 'kepala_desa') {
+             $v_data['judul'] = 'Data Kepala Desa';
+             $list_data = $this->M_read->get_user_by_level(2);
+        }else {
+            $v_data['judul'] = 'Data Sekretaris';
+            $list_data = $this->M_read->get_user_by_level(3);
+        }
+       
         $v_data['is_aktif'] = 'pengguna';
         
-
-        $list_data = $this->M_read->get_user_by_level(2);
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '
@@ -1107,61 +1177,5 @@ public function filter_masuk($tahun){
     }
 
 
-    public function sekretaris (){
-
-        $v_data['judul'] = 'Data Sekretaris';
-        $v_data['is_aktif'] = 'pengguna';
-        
-
-        $list_data = $this->M_read->get_user_by_level(3);
-        $v_data['isi_konten'] = '';
-
-        $v_data['isi_konten'] .= '
-            
-            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-        ';
-    
-        if($list_data->num_rows() > 0)
-        {
-            $index=1;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->user_nama.'</td>
-                        <td>'.$row->user_username.'</td>
-                        <td>'.$row->user_password.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
-                    </tr>
-
-                '; 
-                $index++;
-            }   
-        }
-
-       $v_data['isi_konten']  .= ' 
-            </tbody>
-           </table>
-       ';
-
-        $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
-        $this->load->view('templates/footer_admin',$v_data);
-
-    }
-
+  
 }

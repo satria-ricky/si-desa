@@ -233,4 +233,16 @@ public function get_jumlah_masuk_charts(){
     return $query=$this->db->query($sql,$level);
   }
 
+//PROFILE
+  public function get_profile($id){
+    $sql='SELECT * FROM tb_user WHERE user_id = ?';
+    return $query=$this->db->query($sql,$id)->row_array();
+  }  
+
+   public function cek_username($username,$id){
+    $sql='SELECT * FROM tb_user WHERE user_username=? AND user_id != ?';
+    return $query=$this->db->query($sql,array($username,$id))->row_array();
+  }
+
+
 }

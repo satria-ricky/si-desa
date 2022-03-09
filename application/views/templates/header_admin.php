@@ -8,7 +8,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="<?= base_url('assets/'); ?>img/icon.ico">
+    <link rel="icon" href="<?= base_url('assets/'); ?>foto/logo.png">
 
     <title>SI Keuangan Desa Doridungga Kec.Donggo Kab.Bima</title>
 <!-- FONT AWESOME -->
@@ -79,9 +79,9 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kelola Pengguna <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/kepala_desa">Data Kepala Desa</a></li>
+                    <li><a href="<?= base_url(); ?>admin/kelola_pengguna?id=kepala_desa">Data Kepala Desa</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/sekretaris">Data Sekretaris</a></li>
+                    <li><a href="<?= base_url(); ?>admin/kelola_pengguna?id=sekretaris">Data Sekretaris</a></li>
                      <li role="separator" class="divider"></li>
                     <li><a href="#" onclick="button_tambah_pengguna()">Tambah Data Pengguna</a></li>
                   </ul>

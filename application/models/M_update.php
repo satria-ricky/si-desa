@@ -10,4 +10,10 @@ class M_update extends CI_model {
       $this->db->update('tb_keluar', $data, array('id_keluar' => $id));
     }
 
+
+    //PFORILE
+    public function edit_profile($data,$id){     
+      $this->db->update('tb_user', $data, array('user_id' => $id));
+    }
+
 }
