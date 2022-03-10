@@ -6,10 +6,9 @@
 
       <div class="card" style="margin-top: -50px;">
             <div class="card-body">
-              <div class="table-responsive">
                 
-        <form style="width: 500px;" id="form_profile" method="post">
-            <input type="hidden" name="user_id">
+        <form style="width: 500px;" id="form_profile" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="user_id" value="<?= $data['user_id']; ?>">
               <div class="mb-3"  style="margin-top: 15px;">
                 <label for="exampleFormControlInput1" class="form-label">Nama Lengkap</label>
                 <input type="text" class="form-control" placeholder="nama" name="nama" value="<?= $data['user_nama']; ?>" id="form1">
@@ -28,11 +27,17 @@
                  <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
               </div>
 
+                <img style="width: 200px; height: 130px; margin-top: 15px;" src="<?= base_url('assets/foto/ttd/').$data['user_ttd']; ?>" alt="..." class="img-thumbnail">
+              
+
+              <div class="mb-3"  style="">
+                <label for="exampleFormControlInput1" class="form-label">Ubah TTD</label>
+                <input type="file" class="form-control" name="gambar_ttd" accept="image/*">
+              </div>
+
                 <button type="button" onclick="button_edit_profile()"  style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Profile</button>
             </form>
-      
-
-              </div>
+    
             </div>
         </div>
 

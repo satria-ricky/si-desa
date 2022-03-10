@@ -110,22 +110,43 @@ function validasi_rekening_masuk()
             $v_nama = $this->input->post('nama');
             $v_username = $this->input->post('username');
             $v_password = $this->input->post('password');
-        
-            
-            $v_data = [
-                'user_nama' => $v_nama,
-                'user_username' => $v_username,
-                'user_password' => $v_password
-            ];
+            $upload_foto = $_FILES['gambar_ttd']['name'];
 
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_foto_lama = $v_data['data']['user_ttd'];
+                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
+                    $v_data = [
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else
+                {
+                    echo $this->upload->display_errors();
+                }
+
+            }else{
+                $v_data = [
+                    'user_nama' => $v_nama,
+                    'user_username' => $v_username,
+                    'user_password' => $v_password
+                ];
+            }
             $this->M_update->edit_profile($v_data,$v_id);
             $this->session->set_flashdata('pesan', 'Profile berhasil diubah!');
-            redirect('admin/profile');
-            
-        }
-
-
-             
+            redirect('admin/profile');       
+        }             
     }
 
 
