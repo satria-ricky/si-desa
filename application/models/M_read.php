@@ -239,10 +239,16 @@ public function get_jumlah_masuk_charts(){
     return $query=$this->db->query($sql,$id)->row_array();
   }  
 
-   public function cek_username($username,$id){
+  public function cek_username($username,$id){
     $sql='SELECT * FROM tb_user WHERE user_username=? AND user_id!=?';
     return $query=$this->db->query($sql,array($username,$id))->row_array();
   }
+
+  public function cek_username_aja($username){
+    $sql='SELECT * FROM tb_user WHERE user_username=?';
+    return $query=$this->db->query($sql,$username)->row_array();
+  }
+
 
 //  PENGGUNA
 public function get_jabatan(){
