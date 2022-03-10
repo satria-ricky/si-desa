@@ -159,11 +159,37 @@
         swal.close();
       }
     });
-
-
-    
-
   }
+
+
+
+function button_hapus_user($id) {
+
+    swal({
+      title: 'Yakin Hapus Data?',
+      text: 'Data yang telah terhapus tidak dapat dipulihkan!',
+      icon: 'warning',
+      buttons:{
+        confirm: {
+          text : 'Hapus',
+          className : 'btn btn-danger'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-focus'
+        }
+      }
+    }).then((Hapus) => {
+      if (Hapus) {
+        document.location.href = "<?php echo base_url('admin/hapus_pengguna/')?>"+$id;
+
+      } else {
+        swal.close();
+      }
+    });
+  }
+
 
 
    $('#button_simpan_edit').click(function(e) {
@@ -352,6 +378,20 @@ function isNumberKey(evt)
 }
 
 
+
+//MODAL
+
+function get_jabatan() {
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/get_jabatan",
+        dataType: "json",
+        success: function(data) {
+            // console.log(data);
+            $("#modal_jabatan").html(data);
+        }
+    });
+}
+
 function get_tahun(jenis) {
   var jenis = jenis;
   // console.log(jenis);
@@ -365,6 +405,11 @@ function get_tahun(jenis) {
             $("#modal_tahun").html(data);
         }
     });
+}
+
+function button_tambah_pengguna(){
+  $('#modal_tambah_pengguna').modal('show');
+  get_jabatan();
 }
 
 
@@ -403,6 +448,31 @@ function form_cetak(){
     document.getElementById("modal_ketua").value = '';
     document.getElementById("modal_sekretaris").value = '';
 
+  }
+ 
+}
+
+function form_tambah_pengguna(){
+  // console.log('a');
+  if (document.getElementById("modal_jabatan").value == '' || document.getElementById("modal_nama").value == '' || document.getElementById("modal_username").value == '' || document.getElementById("modal_password").value == '' || document.getElementById("modal_gambar_ttd").value == '') {
+    swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+    });
+  }else {
+    document.getElementById("form_modal_tambah_pengguna").submit();
+    $('#modal_tambah_pengguna').modal('hide');
+    document.getElementById("modal_jabatan").value = '';
+    document.getElementById("modal_nama").value = '';
+    document.getElementById("modal_username").value = '';
+    document.getElementById("modal_password").value = '';
+    document.getElementById("modal_gambar_ttd").value = '';
   }
  
 }
@@ -484,6 +554,56 @@ function button_edit_profile (){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="form_cetak()">Cetak</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal_tambah_pengguna" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title">Tambah Data Pengguna</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+        <form method="post" id="form_modal_tambah_pengguna" action="<?= base_url('admin/tambah_pengguna'); ?>" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Jabatan</label>
+            <select class="form-control" id="modal_jabatan" name="jabatan" required="">
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Nama Lengkap</label>
+            <input class="form-control" id="modal_nama" name="nama" placeholder="nama lengkap..." required="">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Username</label>
+            <input type="text" class="form-control" id="modal_username" name="username" placeholder="username ..." required="">
+            <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Password</label>
+            <input type="text" class="form-control" id="modal_password" name="password" placeholder="password ..." required="">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Upload TTD</label>
+            <input type="file" class="form-control" id="modal_gambar_ttd" name="gambar_ttd" required="">
+          </div>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="form_tambah_pengguna()"> <i class="fas fa-plus"></i> Tambah Pengguna</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>

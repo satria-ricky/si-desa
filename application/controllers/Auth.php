@@ -8,6 +8,20 @@ class Auth extends CI_Controller {
     }
 
 
+    public function get_jabatan(){
+        $output = '<option value="">-- Pilih Jabatan --</option>';
+        $v_data = $this->M_read->get_jabatan()->result_array();
+            foreach ($v_data as $row){
+                if($row['user_id_level'] == 2) {
+                    $output .= '<option value="'.$row['user_id_level'].'"> Kepala Desa</option>';
+                }else{ 
+                    $output .= '<option value="'.$row['user_id_level'].'"> Sekretaris</option>'; 
+                }
+        }
+
+        echo json_encode($output);
+    }
+
     public function get_tahun(){
         $v_data = $this->M_read->get_tahun_charts();
         echo json_encode($v_data);
@@ -40,9 +54,6 @@ class Auth extends CI_Controller {
         }
         echo json_encode($output);
     }
-
-
-
 
 
     public function index(){

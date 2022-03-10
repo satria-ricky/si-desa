@@ -51,15 +51,27 @@
             <!-- <li class="active"><a href="#">Home</a></li> -->
             
             <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/">Beranda</a></li>
+             <li class="dropdown <?= ($is_aktif === 'laporan') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laporan <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>admin/laporan"> <i class="fas fa-list"></i> Data Laporan</a></li>
+                    <li role="separator" class="divider"></li>
+                    <!-- <li><a href="<?= base_url(); ?>admin/tambah_masuk"> <i class="fas fa-plus"></i> Tambah Data Pemasukan</a></li> -->
+                    <!-- <li role="separator" class="divider"></li> -->
+                    <li> <a href="#" onclick="button_tambah_laporan()"> <i class="fas fa-plus"></i> Tambah Data Laporan</a> </li>
+                  </ul>
+
+            </li>
             <li class="dropdown <?= ($is_aktif === 'masuk') ? 'active' : '' ?>">
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pemasukan Desa <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/masuk">Data Pemasukan</a></li>
+                    <li><a href="<?= base_url(); ?>admin/masuk"> <i class="fas fa-list"></i> Data Pemasukan</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/tambah_masuk">Tambah Data Pemasukan</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li> <a href="#" onclick="button_cetak(1)">Cetak Data Pemasukan</a> </li>
+                    <li><a href="<?= base_url(); ?>admin/tambah_masuk"> <i class="fas fa-plus"></i> Tambah Data Pemasukan</a></li>
+                    <!-- <li role="separator" class="divider"></li>
+                    <li> <a href="#" onclick="button_cetak(1)"> <i class="fas fa-download"></i> Cetak Data Pemasukan</a> </li> -->
                   </ul>
 
             </li>
@@ -67,23 +79,23 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengeluaran Desa <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/keluar">Data Pengeluaran</a></li>
+                    <li><a href="<?= base_url(); ?>admin/keluar"> <i class="fas fa-list"></i> Data Pengeluaran</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/tambah_keluar">Tambah Data Pengeluaran</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li> <a href="#" onclick="button_cetak(2)">Cetak Data Pengeluaran</a> </li>
+                    <li><a href="<?= base_url(); ?>admin/tambah_keluar"> <i class="fas fa-plus"></i> Tambah Data Pengeluaran</a></li>
+                    <!-- <li role="separator" class="divider"></li> -->
+                    <!-- <li> <a href="#" onclick="button_cetak(2)"> <i class="fas fa-download"></i> Cetak Data Pengeluaran</a> </li> -->
                   </ul>
 
             </li>
             <li class=" dropdown <?= ($is_aktif === 'pengguna') ? 'active' : '' ?>">
 
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kelola Pengguna <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Pengguna <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/kelola_pengguna?id=kepala_desa">Data Kepala Desa</a></li>
+                    <li><a href="<?= base_url(); ?>admin/pengguna?id=kepala_desa"> <i class="fas fa-users"></i> Data Kepala Desa</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/kelola_pengguna?id=sekretaris">Data Sekretaris</a></li>
+                    <li><a href="<?= base_url(); ?>admin/pengguna?id=sekretaris"> <i class="fas fa-users"></i> Data Sekretaris</a></li>
                      <li role="separator" class="divider"></li>
-                    <li><a href="#" onclick="button_tambah_pengguna()">Tambah Data Pengguna</a></li>
+                    <li><a href="#" onclick="button_tambah_pengguna()"> <i class="fas fa-plus"></i> Tambah Data Pengguna</a></li>
                   </ul>
 
             </li>
@@ -91,9 +103,9 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengaturan <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/profile">Profile</a></li>
+                    <li><a href="<?= base_url(); ?>admin/profile"> <i class="fas fa-user"></i> Profile</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a onclick="button_logout()" style="cursor: pointer;">Logout</a></li>
+                    <li><a onclick="button_logout()" style="cursor: pointer;"> <i class="fas fa-sign-out"></i> Logout</a></li>
                   </ul>
 
             </li>

@@ -11,5 +11,10 @@ class M_delete extends CI_model {
       $this->db->delete('tb_keluar');
     }
 
+    public function delete_pengguna($v_id) {
+      $this->db->where('user_id', $v_id);
+      $this->db->delete('tb_user');
+    }
+
 
 }

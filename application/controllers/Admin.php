@@ -84,6 +84,7 @@ function validasi_rekening_masuk()
 
     public function profile(){
 
+        $v_data['is_aktif'] = 'pengaturan';
         $v_id = $this->session->userdata('id_user');
 
         $v_data['data'] = $this->M_read->get_profile($v_id);
@@ -99,7 +100,7 @@ function validasi_rekening_masuk()
             'required' => 'Kolom harus diisi!',
         ]);
 
-        $v_data['is_aktif'] = 'pengaturan';
+        
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header_admin',$v_data);
@@ -1135,7 +1136,7 @@ public function filter_masuk($tahun){
 
 
     //KELOLA PENGGUNA
-    public function kelola_pengguna (){
+    public function pengguna (){
         $v_data['id'] = $this->input->get('id');
         if ($v_data['id'] == 'kepala_desa') {
              $v_data['judul'] = 'Data Kepala Desa';
@@ -1198,5 +1199,55 @@ public function filter_masuk($tahun){
     }
 
 
-  
-}
+     public function tambah_pengguna(){
+
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[tb_user.user_username]', [
+            'required' => 'Kolom harus diisi!',
+            'is_unique' => 'Username ini telah tersedia!'
+        ]);
+
+        $v_jabatan = $this->input->post('jabatan');
+        $v_nama = $this->input->post('nama');
+        $v_username = $this->input->post('username');
+        $v_password = $this->input->post('password');
+        $upload_foto = $_FILES['gambar_ttd']['name'];
+
+        if($upload_foto){
+            
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['max_size']     = '5000';
+            $config['upload_path'] = './assets/foto/ttd/';
+                
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('gambar_ttd')){
+                $v_nama_foto = $this->upload->data('file_name');
+                $v_data = [
+                    'user_id_level' => $v_jabatan,
+                    'user_nama' => $v_nama,
+                    'user_username' => $v_username,
+                    'user_password' => $v_password,
+                    'user_ttd' => $v_nama_foto
+                ];
+            }
+            else{
+                echo $this->upload->display_errors();
+            }
+
+        }
+        $this->M_create->create_pengguna($v_data);
+        $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+        redirect('admin/pengguna?id='+$v_jabatan);   
+
+    }
+
+    public function hapus_pengguna($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_pengguna($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/pengguna/');
+    }   
+
+    
+}   

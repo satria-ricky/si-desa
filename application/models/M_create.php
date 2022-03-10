@@ -15,4 +15,11 @@ class M_create extends CI_model {
 	}
 
 
+
+	public function create_pengguna($v_data)
+	{
+	  $this->db->insert('tb_user', $v_data);
+	  return $this->db->affected_rows();
+	}
+
 }
