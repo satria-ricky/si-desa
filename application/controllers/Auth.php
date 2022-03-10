@@ -8,6 +8,12 @@ class Auth extends CI_Controller {
     }
 
 
+    public function get_user(){
+        $v_data = $this->M_read->get_user_by_id(decrypt_url($this->input->post('id')));
+        echo json_encode($v_data);
+    }
+
+
     public function get_jabatan(){
         $output = '<option value="">-- Pilih Jabatan --</option>';
         $v_data = $this->M_read->get_jabatan()->result_array();

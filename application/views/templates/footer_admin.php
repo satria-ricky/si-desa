@@ -162,6 +162,25 @@
   }
 
 
+function button_edit_user($id) {
+  $('#modal_edit_pengguna').modal('show');
+  var id = $id;
+  $.ajax({
+    url: "<?php echo base_url(); ?>auth/get_user",
+    data: {
+      id : id
+    },
+    type: "POST",
+    dataType: "json",
+    success: function(data) {
+        // console.log(data);
+        document.getElementById("modal_edit_id_user").value = data.user_id;
+        document.getElementById("modal_edit_nama").value =  data.user_nama;
+    }
+  });
+
+}
+
 
 function button_hapus_user($id) {
 
@@ -332,11 +351,11 @@ $(document).ready(function(){
   $('#bidang').change(function(){
     var id = $(this).val();
     $.ajax({
-      type: "POST",
       url: "<?= base_url('auth/get_subbidang'); ?>",
       data: {
         id : id
       },
+      type: "POST",
       dataType : "JSON",
       success: function(response){
         $('#sub_bidang').html(response);
@@ -381,16 +400,7 @@ function isNumberKey(evt)
 
 //MODAL
 
-function get_jabatan() {
-    $.ajax({
-        url: "<?php echo base_url(); ?>auth/get_jabatan",
-        dataType: "json",
-        success: function(data) {
-            // console.log(data);
-            $("#modal_jabatan").html(data);
-        }
-    });
-}
+
 
 function get_tahun(jenis) {
   var jenis = jenis;
@@ -403,6 +413,17 @@ function get_tahun(jenis) {
         success: function(data) {
             // console.log(data);
             $("#modal_tahun").html(data);
+        }
+    });
+}
+
+function get_jabatan() {
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/get_jabatan",
+        dataType: "json",
+        success: function(data) {
+            // console.log(data);
+            $("#modal_jabatan").html(data);
         }
     });
 }
@@ -604,6 +625,59 @@ function button_edit_profile (){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="form_tambah_pengguna()"> <i class="fas fa-plus"></i> Tambah Pengguna</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modal_edit_pengguna" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title">Edit Data Pengguna</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+        <form method="post" id="form_modal_edit_pengguna" action="<?= base_url('admin/edit_pengguna'); ?>" enctype="multipart/form-data">
+          <input type="hidden" id="modal_edit_id_user" name="modal_edit_id_user">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Jabatan</label>
+            <select class="form-control" id="modal_edit_jabatan" name="jabatan" required="">
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Nama Lengkap</label>
+            <input class="form-control" id="modal_edit_nama" name="nama" placeholder="nama lengkap..." required="">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Username</label>
+            <input type="text" class="form-control" id="modal_edit_username" name="username" placeholder="username ..." required="">
+            <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Password</label>
+            <input type="text" class="form-control" id="modal_edit_password" name="password" placeholder="password ..." required="">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Upload TTD</label>
+            <input type="file" class="form-control" id="modal_edit_gambar_ttd" name="gambar_ttd" required="">
+          </div>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="form_edit_pengguna()"> <i class="fas fa-edit"></i> Edit Pengguna</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
