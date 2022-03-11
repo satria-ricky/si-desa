@@ -1265,5 +1265,65 @@ public function filter_masuk($tahun){
         redirect('admin/pengguna/');
     }   
 
+
+    public function edit_pengguna(){
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+        
+        
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect('admin/pengguna/');        
+        }
+        else{
+            $v_id = $this->input->post('user_id');
+            $v_jabatan = $this->input->post('jabatan');
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $upload_foto = $_FILES['gambar_ttd']['name'];
+
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_foto_lama = $v_data['data']['user_ttd'];
+                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
+                    $v_data = [
+                        'user_id_level' => $v_jabatan,
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else
+                {
+                    echo $this->upload->display_errors();
+                }
+
+            }else{
+                $v_data = [
+                    'user_id_level' => $v_jabatan,
+                    'user_nama' => $v_nama,
+                    'user_username' => $v_username,
+                    'user_password' => $v_password
+                ];
+            }
+            $this->M_update->edit_profile($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect('admin/pengguna/');       
+        }
+    }
+
     
 }   

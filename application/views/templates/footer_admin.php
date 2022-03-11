@@ -162,24 +162,8 @@
   }
 
 
-function button_edit_user($id) {
-  $('#modal_edit_pengguna').modal('show');
-  var id = $id;
-  $.ajax({
-    url: "<?php echo base_url(); ?>auth/get_user",
-    data: {
-      id : id
-    },
-    type: "POST",
-    dataType: "json",
-    success: function(data) {
-        // console.log(data);
-        document.getElementById("modal_edit_id_user").value = data.user_id;
-        document.getElementById("modal_edit_nama").value =  data.user_nama;
-    }
-  });
 
-}
+
 
 
 function button_hapus_user($id) {
@@ -300,7 +284,7 @@ function button_refresh(is) {
            if (is  == 1) {
               document.location.href = "<?php echo base_url('admin/masuk')?>";
            }else{
-              document.location.href = "<?php echo base_url('admin/')?>";
+              document.location.href = "<?php echo base_url('admin/keluar')?>";
            }
         } else {
           swal.close();
@@ -473,6 +457,7 @@ function form_cetak(){
  
 }
 
+
 function form_tambah_pengguna(){
   // console.log('a');
   if (document.getElementById("modal_jabatan").value == '' || document.getElementById("modal_nama").value == '' || document.getElementById("modal_username").value == '' || document.getElementById("modal_password").value == '' || document.getElementById("modal_gambar_ttd").value == '') {
@@ -496,6 +481,68 @@ function form_tambah_pengguna(){
     document.getElementById("modal_gambar_ttd").value = '';
   }
  
+}
+
+
+function form_edit_pengguna(){
+  // console.log('a');
+  if (document.getElementById("modal_edit_jabatan").value == '' || document.getElementById("modal_edit_nama").value == '' || document.getElementById("modal_edit_username").value == '' || document.getElementById("modal_edit_password").value == '') {
+    swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+    });
+  }else {
+    document.getElementById("form_modal_edit_pengguna").submit();
+    $('#modal_edit_pengguna').modal('hide');
+  }
+ 
+}
+
+
+function button_edit_user($id) {
+  $('#modal_edit_pengguna').modal('show');
+  var id = $id;
+  $.ajax({
+    url: "<?php echo base_url(); ?>auth/get_user",
+    data: {
+      id : id
+    },
+    type: "POST",
+    dataType: "json",
+    success: function(data) {
+        // console.log(data);
+        set_jabatan_edit(data.user_id_level);
+        document.getElementById("modal_edit_id_user").value = data.user_id;
+        document.getElementById("modal_edit_nama").value =  data.user_nama;
+        document.getElementById("modal_edit_username").value =  data.user_username;
+        document.getElementById("modal_edit_password").value =  data.user_password;
+        document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
+        
+    }
+  });
+
+}
+
+function set_jabatan_edit(id) {
+  // console.log(id);
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/set_jabatan_edit",
+        data: {
+          id : id
+        },
+        type: "POST",
+        dataType: "json",
+        success: function(data) {
+            // console.log(data);
+            $("#modal_edit_jabatan").html(data);
+        }
+    });
 }
 
 
@@ -617,7 +664,7 @@ function button_edit_profile (){
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Upload TTD</label>
-            <input type="file" class="form-control" id="modal_gambar_ttd" name="gambar_ttd" required="">
+            <input type="file" class="form-control" id="modal_gambar_ttd" name="gambar_ttd" required="" accept="image/*">
           </div>
         
 
@@ -648,7 +695,7 @@ function button_edit_profile (){
         
 
         <form method="post" id="form_modal_edit_pengguna" action="<?= base_url('admin/edit_pengguna'); ?>" enctype="multipart/form-data">
-          <input type="hidden" id="modal_edit_id_user" name="modal_edit_id_user">
+          <input type="hidden" id="modal_edit_id_user" name="user_id">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Jabatan</label>
             <select class="form-control" id="modal_edit_jabatan" name="jabatan" required="">
@@ -669,8 +716,10 @@ function button_edit_profile (){
             <input type="text" class="form-control" id="modal_edit_password" name="password" placeholder="password ..." required="">
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Upload TTD</label>
-            <input type="file" class="form-control" id="modal_edit_gambar_ttd" name="gambar_ttd" required="">
+            <img style="width: 200px; height: 130px; margin-top: 15px;" id="modal_edit_data_ttd" src="" alt="..." class="img-thumbnail">
+            <br>
+            <label for="exampleFormControlInput1">Ubah TTD?</label>
+            <input type="file" class="form-control" id="modal_edit_gambar_ttd" name="gambar_ttd" required="" accept="image/*">
           </div>
         
 

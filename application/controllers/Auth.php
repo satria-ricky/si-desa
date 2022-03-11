@@ -18,11 +18,23 @@ class Auth extends CI_Controller {
         $output = '<option value="">-- Pilih Jabatan --</option>';
         $v_data = $this->M_read->get_jabatan()->result_array();
             foreach ($v_data as $row){
-                if($row['user_id_level'] == 2) {
-                    $output .= '<option value="'.$row['user_id_level'].'"> Kepala Desa</option>';
-                }else{ 
-                    $output .= '<option value="'.$row['user_id_level'].'"> Sekretaris</option>'; 
+                $output .= '<option value="'.$row['level_id'].'"> '.$row['level_nama'].' </option>';
+        }
+
+        echo json_encode($output);
+    }
+
+    public function set_jabatan_edit(){
+        $level = $this->input->post('id');
+        $output = '<option value="">-- Pilih Jabatan --</option>';
+        $v_data = $this->M_read->get_jabatan()->result_array();
+            foreach ($v_data as $row){
+                if ($level == $row['level_id']) {
+                    $output .= '<option value="'.$row['level_id'].'" selected> '.$row['level_nama'].' </option>';
+                }else {
+                    $output .= '<option value="'.$row['level_id'].'"> '.$row['level_nama'].' </option>';
                 }
+                
         }
 
         echo json_encode($output);

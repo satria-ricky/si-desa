@@ -252,7 +252,7 @@ public function get_jumlah_masuk_charts(){
 
 //  PENGGUNA
   public function get_jabatan(){
-    $sql='SELECT DISTINCT user_id_level FROM tb_user WHERE user_id_level != 1 ORDER BY user_id_level ASC';
+    $sql='SELECT * FROM tb_level_user ORDER BY level_id ASC';
     return $query=$this->db->query($sql);    
   }
 
