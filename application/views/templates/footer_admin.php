@@ -298,6 +298,7 @@ function button_refresh(is) {
  function button_filter(is) {
 
     var tahun = $('#tahun_filter').val();
+    var bidang = $('#bidang_filter').val();
      if(tahun.length == 0){
       
       swal({
@@ -316,11 +317,11 @@ function button_refresh(is) {
 
      if(is == 1){
         // filter_masuk(is,tahun);
-        document.location.href = "<?php echo base_url('admin/filter_masuk/')?>"+tahun;
+        document.location.href = "<?php echo base_url('admin/filter_masuk?')?>";
       }
       else{
         // filter_keluar(is,tahun);
-        document.location.href = "<?php echo base_url('admin/filter_keluar/')?>"+tahun;
+        document.location.href = "<?php echo base_url('admin/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
       }
       
     }

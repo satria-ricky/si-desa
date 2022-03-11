@@ -188,7 +188,7 @@ public function keluar(){
         // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
-         if($list_tahun->num_rows() > 0)
+        if($list_tahun->num_rows() > 0)
         {
             foreach($list_tahun->result() as $row)
             {
@@ -198,10 +198,26 @@ public function keluar(){
             }  
         }
 
+        $list_bidang = $this->M_read->get_bidang();
+        $data_bidang = '';
+        if($list_bidang->num_rows() > 0)
+        {
+            foreach($list_bidang->result() as $row)
+            {
+                $data_bidang .= '
+                    <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                '; 
+            }  
+        }
         $v_data['isi_card_header'] = '
           <div class="form-group">
+          <select class="form-control" id="bidang_filter">
+              <option value=""> -- Pilih Bidang -- </option>
+              '.$data_bidang.'
+            </select>
+
             <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih tahun -- </option>
+              <option value=""> -- Pilih Tahun -- </option>
               '.$data_tahun.'
             </select>
           </div>
@@ -353,10 +369,6 @@ public function keluar(){
             $v_rincian = $this->input->post('rincian');
             $v_kode_rekening = $this->input->post('kode_rekening');
             $v_tahun     = $this->input->post('tahun');
-            // if ($this->M_read->cek_kode_rekenening_keluar($v_kode_rekening,$v_tahun)) {
-            //    $this->session->set_flashdata('error', 'Kode Rekening ditahun '+$v_tahun+' telah tersedia!');
-            //     redirect('admin/tambah_keluar');
-            // }
 
             $v_jumlah = $this->input->post('jumlah');
             $selisih = $this->M_read->get_selisih_by_tahun($v_tahun);
@@ -507,8 +519,11 @@ public function keluar(){
 
 
 
-    public function filter_keluar($tahun){
+    public function filter_keluar(){
 
+        $bidang = $this->input->get('bidang');
+        $tahun = $this->input->get('tahun');
+       
         $v_data['is_aktif'] = 'keluar';
 
         // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
@@ -525,10 +540,26 @@ public function keluar(){
             }  
         }
 
+        $list_bidang = $this->M_read->get_bidang();
+        $data_bidang = '';
+        if($list_bidang->num_rows() > 0)
+        {
+            foreach($list_bidang->result() as $row)
+            {
+                $data_bidang .= '
+                    <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                '; 
+            }  
+        }
         $v_data['isi_card_header'] = '
           <div class="form-group">
+          <select class="form-control" id="bidang_filter">
+              <option value=""> -- Pilih Bidang -- </option>
+              '.$data_bidang.'
+            </select>
+
             <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih tahun -- </option>
+              <option value=""> -- Pilih Tahun -- </option>
               '.$data_tahun.'
             </select>
           </div>
@@ -538,7 +569,7 @@ public function keluar(){
 
 
 
-        $list_data = $this->M_read->get_keluar_by_tahun($tahun);
+        $list_data = $this->M_read->get_keluar_by_bidang_tahun($bidang,$tahun);
         $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
         $v_data['isi_konten'] = '';
 
@@ -599,7 +630,7 @@ public function keluar(){
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -619,7 +650,7 @@ public function keluar(){
 
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('keluar',$v_data);
+        $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
         // $this->load->view('templates/charts_keluar',$v_data);         
     }

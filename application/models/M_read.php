@@ -19,6 +19,11 @@ class M_read extends CI_model {
   }
 
 
+  public function get_keluar_by_bidang_tahun($bidang,$tahun){
+   $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_bidang_keluar=? AND  tahun_keluar = ? ORDER BY id_bidang_keluar ASC';
+    return $query=$this->db->query($sql,array($bidang,$tahun));    
+  }
+
 
   public function get_keluar_by_id($id){
     $sql='SELECT * FROM tb_keluar LEFT JOIN tb_bidang ON tb_bidang.id_bidang = tb_keluar.id_bidang_keluar LEFT JOIN tb_subbidang ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar  WHERE id_keluar = ?';
