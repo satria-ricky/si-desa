@@ -635,7 +635,7 @@ public function keluar(){
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Sisa Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -740,10 +740,27 @@ public function keluar(){
             }  
         }
 
+
+        $list_sumber = $this->M_read->get_sumber();
+        $data_sumber = '';
+        if($list_sumber->num_rows() > 0)
+        {
+            foreach($list_sumber->result() as $row)
+            {
+                $data_sumber .= '
+                    <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                '; 
+            }  
+        }
         $v_data['isi_card_header'] = '
-          <div class="form-group">
+        <div class="form-group">
+          <select class="form-control" id="sumber_filter">
+              <option value=""> -- Pilih Sumber -- </option>
+              '.$data_sumber.'
+            </select>
+
             <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih tahun -- </option>
+              <option value=""> -- Pilih Tahun -- </option>
               '.$data_tahun.'
             </select>
           </div>
@@ -822,7 +839,10 @@ public function keluar(){
     }
 
 
-public function filter_masuk($tahun){
+public function filter_masuk(){
+        $sumber = $this->input->get('sumber');
+        $tahun = $this->input->get('tahun');
+       
         $v_data['is_aktif'] = 'masuk';
 
         // $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
@@ -839,10 +859,26 @@ public function filter_masuk($tahun){
             }  
         }
 
+        $list_sumber = $this->M_read->get_sumber();
+        $data_sumber = '';
+        if($list_sumber->num_rows() > 0)
+        {
+            foreach($list_sumber->result() as $row)
+            {
+                $data_sumber .= '
+                    <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                '; 
+            }  
+        }
         $v_data['isi_card_header'] = '
-          <div class="form-group">
+        <div class="form-group">
+          <select class="form-control" id="sumber_filter">
+              <option value=""> -- Pilih Sumber -- </option>
+              '.$data_sumber.'
+            </select>
+
             <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih tahun -- </option>
+              <option value=""> -- Pilih Tahun -- </option>
               '.$data_tahun.'
             </select>
           </div>
@@ -851,7 +887,7 @@ public function filter_masuk($tahun){
         ';
 
 
-        $list_data = $this->M_read->get_masuk_by_tahun($tahun);
+        $list_data = $this->M_read->get_masuk_by_sumber_tahun($sumber,$tahun);
         $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
 
         $v_data['isi_konten'] = '';
@@ -901,7 +937,7 @@ public function filter_masuk($tahun){
 
                 <tfoot>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="2"></th>
                     </tr>
@@ -916,7 +952,7 @@ public function filter_masuk($tahun){
 
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('masuk',$v_data);
+        $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_admin');
         // $this->load->view('templates/charts_masuk',$v_data);         
     }

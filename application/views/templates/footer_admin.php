@@ -299,32 +299,58 @@ function button_refresh(is) {
 
     var tahun = $('#tahun_filter').val();
     var bidang = $('#bidang_filter').val();
-     if(tahun.length == 0){
-      
-      swal({
-        title: 'Opppss!',
-        text: 'Harap pilih tahun!',
-        icon: 'warning',
-        buttons: {                  
-            confirm: {
-                className : 'btn btn-focus'
-            }
-        },
-      });
-      
-    }
-    else{
+    var sumber = $('#sumber_filter').val();
 
-     if(is == 1){
+    if(is == 1){
         // filter_masuk(is,tahun);
-        document.location.href = "<?php echo base_url('admin/filter_masuk?')?>";
+        if(sumber.length == 0 || tahun.length == 0){
+      
+          swal({
+            title: 'Opppss!',
+            text: 'Harap pilih tahun!',
+            icon: 'warning',
+            buttons: {                  
+                confirm: {
+                    className : 'btn btn-focus'
+                }
+            },
+          });
+          
+        }
+        else{
+          document.location.href = "<?php echo base_url('admin/filter_masuk?')?>sumber="+sumber+"&tahun="+tahun;    
+        }
+
+
+
+
+
       }
       else{
         // filter_keluar(is,tahun);
-        document.location.href = "<?php echo base_url('admin/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
+        if(bidang.length == 0 || tahun.length == 0){
+          
+          swal({
+            title: 'Opppss!',
+            text: 'Harap pilih tahun!',
+            icon: 'warning',
+            buttons: {                  
+                confirm: {
+                    className : 'btn btn-focus'
+                }
+            },
+          });
+          
+        }
+        else{
+            document.location.href = "<?php echo base_url('admin/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
+        }
+
+
+
       }
-      
-    }
+
+     
 
    
   }

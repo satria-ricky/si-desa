@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Mar 2022 pada 08.19
+-- Waktu pembuatan: 12 Mar 2022 pada 15.17
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -107,11 +107,30 @@ INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rinci
 CREATE TABLE `tb_laporan` (
   `laporan_id` int(11) NOT NULL,
   `laporan_user_id_kepala` int(11) DEFAULT NULL,
-  `laporan_ttd_kepala` varchar(255) DEFAULT NULL,
   `laporan_user_id_sekretaris` int(11) DEFAULT NULL,
-  `laporan_ttd_sekretaris` varchar(255) DEFAULT NULL,
-  `laporan_url` varchar(255) DEFAULT NULL
+  `laporan_url` varchar(255) DEFAULT NULL,
+  `laporan_created` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_level_user`
+--
+
+CREATE TABLE `tb_level_user` (
+  `level_id` int(11) NOT NULL,
+  `level_nama` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_level_user`
+--
+
+INSERT INTO `tb_level_user` (`level_id`, `level_nama`) VALUES
+(2, 'Admin'),
+(3, 'Kepala Desa'),
+(4, 'Sekretaris');
 
 -- --------------------------------------------------------
 
@@ -138,7 +157,7 @@ INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, 
 (3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2022),
 (6, 1, 3, 'RINCIAN BARU', '321', 1000, 5555),
 (7, 1, 2, 'RINCIAN BARU', '90.90.90', 10, 2090),
-(8, 2, 4, 'RINCIAN', '90.90.91', 9999, 2022);
+(8, 2, 4, 'RINCIAN', '90.90.91', 9999, 2003);
 
 -- --------------------------------------------------------
 
@@ -212,7 +231,7 @@ CREATE TABLE `tb_user` (
   `user_password` varchar(255) DEFAULT NULL,
   `user_kontak` varchar(255) DEFAULT NULL,
   `user_alamat` varchar(255) DEFAULT NULL,
-  `user_foto` varchar(255) DEFAULT NULL,
+  `user_ttd` varchar(255) DEFAULT NULL,
   `user_created` date DEFAULT NULL,
   `last_updated` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -221,10 +240,11 @@ CREATE TABLE `tb_user` (
 -- Dumping data untuk tabel `tb_user`
 --
 
-INSERT INTO `tb_user` (`user_id`, `user_id_level`, `user_id_status`, `user_nama`, `user_username`, `user_password`, `user_kontak`, `user_alamat`, `user_foto`, `user_created`, `last_updated`) VALUES
-(3, 1, 1, 'NAMA LENGKAP', 'admin', 'admin', '089999999999', 'alamat baru abah', '3599825_1.jpg', '2021-07-28', '2021-07-28'),
-(9, 2, 1, 'nama sales baru', 'kepala', 'kepala', '0896624546123', 'alamat baru', '92e884182387134e41b9d97248e1e151_(1).jpg', '0000-00-00', '2021-07-31'),
-(10, 3, 1, 'a', 'sekretaris', 'sekretaris', '1', 'a', 'default.jpg', '2021-07-28', NULL);
+INSERT INTO `tb_user` (`user_id`, `user_id_level`, `user_id_status`, `user_nama`, `user_username`, `user_password`, `user_kontak`, `user_alamat`, `user_ttd`, `user_created`, `last_updated`) VALUES
+(3, 1, 1, 'nama BARU', 'super admin', 'super admin', '089999999999', 'alamat baru abah', 'tes1.png', '2021-07-28', '2021-07-28'),
+(15, 4, NULL, 'nama sekretaris', 'sekretaris', 'sekretaris', NULL, NULL, '15750.jpg', NULL, NULL),
+(17, 3, NULL, 'nama kepala desa', 'kepala', 'kepala', NULL, NULL, 'P_20160213_133621_1_p1.jpg', NULL, NULL),
+(19, 2, NULL, 'nama admin', 'admin', 'admin', NULL, NULL, '15179223_943850232425852_8786516406049919493_n1.jpg', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -253,6 +273,12 @@ ALTER TABLE `tb_keluar`
 --
 ALTER TABLE `tb_laporan`
   ADD PRIMARY KEY (`laporan_id`);
+
+--
+-- Indeks untuk tabel `tb_level_user`
+--
+ALTER TABLE `tb_level_user`
+  ADD PRIMARY KEY (`level_id`);
 
 --
 -- Indeks untuk tabel `tb_masuk`
@@ -307,6 +333,12 @@ ALTER TABLE `tb_laporan`
   MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT untuk tabel `tb_level_user`
+--
+ALTER TABLE `tb_level_user`
+  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
 --
 ALTER TABLE `tb_masuk`
@@ -328,7 +360,7 @@ ALTER TABLE `tb_sumber_masuk`
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
