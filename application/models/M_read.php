@@ -271,4 +271,15 @@ public function get_jumlah_masuk_charts(){
   }
 
 
+
+
+
+  //LAPORAN
+    public function get_laporan(){
+      $sql='SELECT * FROM tb_laporan LEFT JOIN tb_user ON tb_user.user_id = tb_laporan.laporan_user_id_kepala ORDER BY laporan_id ASC';
+      return $query=$this->db->query($sql);
+    }
+
+
+
 }

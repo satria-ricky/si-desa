@@ -445,44 +445,7 @@ function button_tambah_pengguna(){
 }
 
 
-function button_cetak(e){
-  $('#modal_cetak').modal('show');
-  // console.log(e);
-  if (e == 1) {
-    $('#modal_header').html('Cetak Data Pemasukan');
-    get_tahun(e);
-  }else{
-    $('#modal_header').html('Cetak Data Pengeluaran');
-    get_tahun(e);
-  }
 
-  document.getElementById("jenis_form_cetak").value = e;
-}
-
-
-function form_cetak(){
-  // console.log('a');
-  if (document.getElementById("modal_tahun").value == '' || document.getElementById("modal_ketua").value == '' || document.getElementById("modal_sekretaris").value == '') {
-    swal({
-      title: 'Opppss!',
-      text: 'Harap isi semua form!',
-      icon: 'warning',
-      buttons: {                  
-          confirm: {
-              className : 'btn btn-focus'
-          }
-      },
-    });
-  }else {
-    document.getElementById("form_modal_cetak").submit();
-    $('#modal_cetak').modal('hide');
-    document.getElementById("jenis_form_cetak").value = '';
-    document.getElementById("modal_ketua").value = '';
-    document.getElementById("modal_sekretaris").value = '';
-
-  }
- 
-}
 
 
 function form_tambah_pengguna(){
@@ -613,14 +576,45 @@ function button_edit_profile (){
         }
 }
 
+
+
+//LAPORAN
+function button_tambah_laporan(){
+  $('#modal_tambah_laporan').modal('show');
+}
+
+
+function form_tambah_laporan(){
+  // console.log('a');
+  if (document.getElementById("modal_jenis_laporan").value == '' || document.getElementById("modal_ketua_laporan").value == '' || document.getElementById("modal_sekretaris_laporan").value == '') {
+    swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+    });
+  }else {
+    document.getElementById("form_modal_cetak").submit();
+    $('#modal_cetak').modal('hide');
+    document.getElementById("jenis_form_cetak").value = '';
+    document.getElementById("modal_ketua").value = '';
+    document.getElementById("modal_sekretaris").value = '';
+
+  }
+ 
+}
 </script>
 
 <!-- Modal -->
-<div class="modal fade" id="modal_cetak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_tambah_laporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title" id="modal_header"></h1>
+        <h1 class="modal-title"> Tambah Laporan </h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -631,24 +625,26 @@ function button_edit_profile (){
         <form method="post" id="form_modal_cetak" target="_blank" action="<?= base_url('admin/cetak'); ?>">
           <input type="hidden" name="jenis_form_cetak" id="jenis_form_cetak">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Pilih Tahun</label>
-            <select class="form-control" id="modal_tahun" name="modal_tahun" required="">
+            <label for="exampleFormControlSelect1">Pilih Jenis Laporan</label>
+            <select class="form-control" id="modal_tahun" name="modal_jenis_laporan" required="">
+              <option value="masuk"> Pemasukan</option>
+              <option value="keluar"> Pengeluaran</option>
             </select>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Kepala Desa</label>
-            <input type="text" class="form-control" id="modal_ketua" name="modal_ketua" placeholder="nama kepala desa ..." required="">
+            <input type="text" class="form-control" id="modal_ketua_laporan" name="modal_ketua" placeholder="nama kepala desa ..." required="">
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Sekretaris</label>
-            <input type="text" class="form-control" id="modal_sekretaris" name="modal_sekretaris" placeholder="nama sekretaris ..." required="">
+            <input type="text" class="form-control" id="modal_sekretaris_laporan" name="modal_sekretaris" placeholder="nama sekretaris ..." required="">
           </div>
         
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="form_cetak()">Cetak</button>
+        <button type="button" class="btn btn-primary" onclick="form_tambah_laporan()">Tambah Laporan</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>

@@ -1053,8 +1053,330 @@ public function filter_masuk(){
 
 
 
+    //KELOLA PENGGUNA
+    public function pengguna (){
 
-     public function cetak (){
+        $v_data['id'] = $this->input->get('id');
+
+        if ($v_data['id'] == 2) {
+            $v_data['judul'] = 'Data Admin';
+            $list_data = $this->M_read->get_user_by_level(2);
+        }
+        else if ($v_data['id'] == 3) {
+             $v_data['judul'] = 'Data Kepala Desa';
+             $list_data = $this->M_read->get_user_by_level(3);
+        }
+        else if ($v_data['id'] == 4) {
+            $v_data['judul'] = 'Data Sekretaris';
+            $list_data = $this->M_read->get_user_by_level(4);
+        }else{
+            $this->load->view('blocked');
+        }
+       
+        $v_data['is_aktif'] = 'pengguna';
+        
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->user_nama.'</td>
+                        <td>'.$row->user_username.'</td>
+                        <td>'.$row->user_password.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+        $this->load->view('templates/header_admin',$v_data);
+        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
+        $this->load->view('templates/footer_admin',$v_data);
+
+    }
+
+
+     public function tambah_pengguna(){
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!'
+        ]);
+
+            $v_jabatan = $this->input->post('jabatan');
+            
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $upload_foto = $_FILES['gambar_ttd']['name'];
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        }
+        else{
+            
+
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_data = [
+                        'user_id_level' => $v_jabatan,
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else{
+                    echo $this->upload->display_errors();
+                }
+
+            }
+            $this->M_create->create_pengguna($v_data);
+            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        }
+         
+
+    }
+
+    public function hapus_pengguna($id){
+        $v_id = decrypt_url($id);
+        $data = $this->M_read->get_user_by_id($v_id); 
+        $this->M_delete->delete_pengguna($v_id);
+        unlink(FCPATH . 'assets/foto/ttd/' . $data['user_ttd']);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect(base_url()."admin/pengguna?id=".$data['user_id_level']);
+    }   
+
+
+    public function edit_pengguna(){
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+        
+            $v_id = $this->input->post('user_id');
+            $v_jabatan = $this->input->post('jabatan');
+
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $upload_foto = $_FILES['gambar_ttd']['name'];
+            
+            $v_data['data'] = $this->M_read->get_user_by_id($v_id); 
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);          
+        }
+        else{
+            
+
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_foto_lama = $v_data['data']['user_ttd'];
+                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
+                    $v_data = [
+                        'user_id_level' => $v_jabatan,
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else
+                {
+                    echo $this->upload->display_errors();
+                }
+
+            }else{
+                $v_data = [
+                    'user_id_level' => $v_jabatan,
+                    'user_nama' => $v_nama,
+                    'user_username' => $v_username,
+                    'user_password' => $v_password
+                ];
+            }
+            $this->M_update->edit_profile($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);       
+        }
+    }
+
+    
+
+//LAPORAN
+    public function tambah_laporan(){
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!'
+        ]);
+
+            $v_jabatan = $this->input->post('jabatan');
+            
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $upload_foto = $_FILES['gambar_ttd']['name'];
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        }
+        else{
+            
+
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_data = [
+                        'user_id_level' => $v_jabatan,
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else{
+                    echo $this->upload->display_errors();
+                }
+
+            }
+            $this->M_create->create_pengguna($v_data);
+            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        }
+         
+
+    }
+
+    public function hapus_laporan($id){
+        $v_id = decrypt_url($id);
+        $data = $this->M_read->get_user_by_id($v_id); 
+        $this->M_delete->delete_pengguna($v_id);
+        unlink(FCPATH . 'assets/foto/ttd/' . $data['user_ttd']);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect(base_url()."admin/pengguna?id=".$data['user_id_level']);
+    }   
+
+
+    public function edit_laporan(){
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+        
+            $v_id = $this->input->post('user_id');
+            $v_jabatan = $this->input->post('jabatan');
+
+            $v_nama = $this->input->post('nama');
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $upload_foto = $_FILES['gambar_ttd']['name'];
+            
+            $v_data['data'] = $this->M_read->get_user_by_id($v_id); 
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);          
+        }
+        else{
+            
+
+            if($upload_foto){
+                
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']     = '5000';
+                $config['upload_path'] = './assets/foto/ttd/';
+                    
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('gambar_ttd')){
+                    $v_nama_foto = $this->upload->data('file_name');
+                    $v_foto_lama = $v_data['data']['user_ttd'];
+                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
+                    $v_data = [
+                        'user_id_level' => $v_jabatan,
+                        'user_nama' => $v_nama,
+                        'user_username' => $v_username,
+                        'user_password' => $v_password,
+                        'user_ttd' => $v_nama_foto
+                    ];
+                }
+                else
+                {
+                    echo $this->upload->display_errors();
+                }
+
+            }else{
+                $v_data = [
+                    'user_id_level' => $v_jabatan,
+                    'user_nama' => $v_nama,
+                    'user_username' => $v_username,
+                    'user_password' => $v_password
+                ];
+            }
+            $this->M_update->edit_profile($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);       
+        }
+    }
+
+
+    public function cetak (){
 
         $v_data['v_jenis'] = $this->input->post('jenis_form_cetak');
         $v_data['v_tahun'] = $this->input->post('modal_tahun');
@@ -1202,7 +1524,7 @@ public function filter_masuk(){
            ';
 
         }
-        $ini_html = $this->load->view('cetak',$v_data, true);
+        $ini_html = $this->load->view('laporan/cetak',$v_data, true);
     
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($ini_html);
@@ -1211,204 +1533,4 @@ public function filter_masuk(){
     }
 
 
-
-    //KELOLA PENGGUNA
-    public function pengguna (){
-
-        $v_data['id'] = $this->input->get('id');
-
-        if ($v_data['id'] == 2) {
-            $v_data['judul'] = 'Data Admin';
-            $list_data = $this->M_read->get_user_by_level(2);
-        }
-        else if ($v_data['id'] == 3) {
-             $v_data['judul'] = 'Data Kepala Desa';
-             $list_data = $this->M_read->get_user_by_level(3);
-        }
-        else if ($v_data['id'] == 4) {
-            $v_data['judul'] = 'Data Sekretaris';
-            $list_data = $this->M_read->get_user_by_level(4);
-        }else{
-            $this->load->view('blocked');
-        }
-       
-        $v_data['is_aktif'] = 'pengguna';
-        
-        $v_data['isi_konten'] = '';
-
-        $v_data['isi_konten'] .= '
-            
-            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-        ';
-    
-        if($list_data->num_rows() > 0)
-        {
-            $index=1;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->user_nama.'</td>
-                        <td>'.$row->user_username.'</td>
-                        <td>'.$row->user_password.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
-                    </tr>
-
-                '; 
-                $index++;
-            }   
-        }
-
-       $v_data['isi_konten']  .= ' 
-            </tbody>
-           </table>
-       ';
-
-        $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
-        $this->load->view('templates/footer_admin',$v_data);
-
-    }
-
-
-     public function tambah_pengguna(){
-
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!'
-        ]);
-
-            $v_jabatan = $this->input->post('jabatan');
-            
-            $v_nama = $this->input->post('nama');
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $upload_foto = $_FILES['gambar_ttd']['name'];
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
-        }
-        else{
-            
-
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '5000';
-                $config['upload_path'] = './assets/foto/ttd/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('gambar_ttd')){
-                    $v_nama_foto = $this->upload->data('file_name');
-                    $v_data = [
-                        'user_id_level' => $v_jabatan,
-                        'user_nama' => $v_nama,
-                        'user_username' => $v_username,
-                        'user_password' => $v_password,
-                        'user_ttd' => $v_nama_foto
-                    ];
-                }
-                else{
-                    echo $this->upload->display_errors();
-                }
-
-            }
-            $this->M_create->create_pengguna($v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
-        }
-         
-
-    }
-
-    public function hapus_pengguna($id){
-        $v_id = decrypt_url($id);
-        $data = $this->M_read->get_user_by_id($v_id); 
-        $this->M_delete->delete_pengguna($v_id);
-        unlink(FCPATH . 'assets/foto/ttd/' . $data['user_ttd']);
-        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
-        redirect(base_url()."admin/pengguna?id=".$data['user_id_level']);
-    }   
-
-
-    public function edit_pengguna(){
-
-
-
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-        
-            $v_id = $this->input->post('user_id');
-            $v_jabatan = $this->input->post('jabatan');
-
-            $v_nama = $this->input->post('nama');
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $upload_foto = $_FILES['gambar_ttd']['name'];
-            
-            $v_data['data'] = $this->M_read->get_user_by_id($v_id); 
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);          
-        }
-        else{
-            
-
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '5000';
-                $config['upload_path'] = './assets/foto/ttd/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('gambar_ttd')){
-                    $v_nama_foto = $this->upload->data('file_name');
-                    $v_foto_lama = $v_data['data']['user_ttd'];
-                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
-                    $v_data = [
-                        'user_id_level' => $v_jabatan,
-                        'user_nama' => $v_nama,
-                        'user_username' => $v_username,
-                        'user_password' => $v_password,
-                        'user_ttd' => $v_nama_foto
-                    ];
-                }
-                else
-                {
-                    echo $this->upload->display_errors();
-                }
-
-            }else{
-                $v_data = [
-                    'user_id_level' => $v_jabatan,
-                    'user_nama' => $v_nama,
-                    'user_username' => $v_username,
-                    'user_password' => $v_password
-                ];
-            }
-            $this->M_update->edit_profile($v_data,$v_id);
-            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);       
-        }
-    }
-
-    
 }   
