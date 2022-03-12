@@ -1256,13 +1256,7 @@ public function filter_masuk($tahun){
         ]);
 
             $v_jabatan = $this->input->post('jabatan');
-            // if ($v_jabatan == 2) {
-            //     $id = 'admin';
-            // }elseif ($v_jabatan == 3) {
-            //     $id = 'kepala_desa';
-            // }else{
-            //     $id = 'sekretaris';
-            // }
+            
             $v_nama = $this->input->post('nama');
             $v_username = $this->input->post('username');
             $v_password = $this->input->post('password');
@@ -1310,6 +1304,7 @@ public function filter_masuk($tahun){
         $v_id = decrypt_url($id);
         $data = $this->M_read->get_user_by_id($v_id); 
         $this->M_delete->delete_pengguna($v_id);
+        unlink(FCPATH . 'assets/foto/ttd/' . $data['user_ttd']);
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
         redirect(base_url()."admin/pengguna?id=".$data['user_id_level']);
     }   
@@ -1317,24 +1312,21 @@ public function filter_masuk($tahun){
 
     public function edit_pengguna(){
 
+
+
         $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
             'required' => 'Kolom harus diisi!',
         ]);
         
             $v_id = $this->input->post('user_id');
             $v_jabatan = $this->input->post('jabatan');
-            // if ($v_jabatan == 2) {
-            //     $id = 'admin';
-            // }elseif ($v_jabatan == 3) {
-            //     $id = 'kepala_desa';
-            // }else{
-            //     $id = 'sekretaris';
-            // }
+
             $v_nama = $this->input->post('nama');
             $v_username = $this->input->post('username');
             $v_password = $this->input->post('password');
             $upload_foto = $_FILES['gambar_ttd']['name'];
-        
+            
+            $v_data['data'] = $this->M_read->get_user_by_id($v_id); 
 
         if($this->form_validation->run() == false){
             $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
