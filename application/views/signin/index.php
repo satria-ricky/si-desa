@@ -46,9 +46,10 @@
          <div class="form-group">
           <label for="exampleFormControlInput1">Masuk sebagai:</label>
           <select class="form-control" name="level_user">
-            <option value="1">Admin</option>
-            <option value="2">Kepala Desa</option>
-            <option value="3">Sekretaris</option>
+            <option value="1">Super Admin</option>
+            <option value="2">Admin</option>
+            <option value="3">Kepala Desa</option>
+            <option value="4">Sekretaris</option>
           </select>
         </div>
 

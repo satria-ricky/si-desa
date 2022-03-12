@@ -79,7 +79,9 @@ class Auth extends CI_Controller {
         if ($this->session->userdata('level_user')) {
             if ($this->session->userdata('level_user') == 1) {
                redirect('admin');
-            }else {
+            }elseif ($this->session->userdata('level_user') == 2){
+                redirect('Adm');
+            }else{
                 redirect('dashboard');
             }
         }
@@ -118,13 +120,13 @@ class Auth extends CI_Controller {
             $this->session->set_flashdata('pesan', 'Berhasil login !');
 
             if ($pengguna['user_id_level'] == 1) {
-                //ADMIN
+                //SUPER ADMIN
                 redirect('admin');
             }else if ($pengguna['user_id_level'] == 2) {
-                //KEPALA DESA
-                redirect('dashboard');
-            }else if ($pengguna['user_id_level'] == 3){
-                //SEKRETARIS
+                //ADMIN
+                redirect('adm');
+            }else {
+                //KEPALA DESA DAN SEKRETARIS
                 redirect('dashboard');
             } 
 
@@ -137,8 +139,6 @@ class Auth extends CI_Controller {
 
 
     public function logout(){
-        // $this->session->unset_userdata('id_user');
-        // $this->session->unset_userdata('level_user');
         $array_items = array('id_user','level_user');
         $this->session->unset_userdata($array_items);
         // session_destroy();

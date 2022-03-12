@@ -91,9 +91,11 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Pengguna <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>admin/pengguna?id=kepala_desa"> <i class="fas fa-users"></i> Data Kepala Desa</a></li>
+                    <li><a href="<?= base_url(); ?>admin/pengguna?id=2"> <i class="fas fa-users"></i> Data Admin</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>admin/pengguna?id=sekretaris"> <i class="fas fa-users"></i> Data Sekretaris</a></li>
+                    <li><a href="<?= base_url(); ?>admin/pengguna?id=3"> <i class="fas fa-users"></i> Data Kepala Desa</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url(); ?>admin/pengguna?id=4"> <i class="fas fa-users"></i> Data Sekretaris</a></li>
                      <li role="separator" class="divider"></li>
                     <li><a href="#" onclick="button_tambah_pengguna()"> <i class="fas fa-plus"></i> Tambah Data Pengguna</a></li>
                   </ul>

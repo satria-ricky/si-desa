@@ -13,11 +13,14 @@ function cek_login()
 
 		$menu = $ci->uri->segment(1);
 
-		if (($v_level == 2 || $v_level == 3) && $menu == 'admin' ) {
+		if (($v_level == 3 || $v_level == 4) && ($menu == 'admin' || $menu == 'adm')) {
 			redirect('blocked');
-		}else if ($v_level == 1 && $menu == 'dashboard') {
+		}elseif ($v_level == 1 && ($menu == 'dashboard' || $menu == 'adm')) {
+			redirect('blocked');
+		}elseif ($v_level == 2 && ($menu == 'dashboard' || $menu == 'admin')) {
 			redirect('blocked');
 		}
+
 	}
 	
 }

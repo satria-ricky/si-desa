@@ -1178,13 +1178,22 @@ public function filter_masuk($tahun){
 
     //KELOLA PENGGUNA
     public function pengguna (){
+
         $v_data['id'] = $this->input->get('id');
-        if ($v_data['id'] == 'kepala_desa') {
+
+        if ($v_data['id'] == 2) {
+            $v_data['judul'] = 'Data Admin';
+            $list_data = $this->M_read->get_user_by_level(2);
+        }
+        else if ($v_data['id'] == 3) {
              $v_data['judul'] = 'Data Kepala Desa';
-             $list_data = $this->M_read->get_user_by_level(2);
-        }else {
+             $list_data = $this->M_read->get_user_by_level(3);
+        }
+        else if ($v_data['id'] == 4) {
             $v_data['judul'] = 'Data Sekretaris';
-            $list_data = $this->M_read->get_user_by_level(3);
+            $list_data = $this->M_read->get_user_by_level(4);
+        }else{
+            $this->load->view('blocked');
         }
        
         $v_data['is_aktif'] = 'pengguna';
@@ -1246,17 +1255,25 @@ public function filter_masuk($tahun){
             'required' => 'Kolom harus diisi!'
         ]);
 
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect('admin/pengguna/');  
-        }
-        else{
             $v_jabatan = $this->input->post('jabatan');
+            // if ($v_jabatan == 2) {
+            //     $id = 'admin';
+            // }elseif ($v_jabatan == 3) {
+            //     $id = 'kepala_desa';
+            // }else{
+            //     $id = 'sekretaris';
+            // }
             $v_nama = $this->input->post('nama');
             $v_username = $this->input->post('username');
             $v_password = $this->input->post('password');
             $upload_foto = $_FILES['gambar_ttd']['name'];
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        }
+        else{
+            
 
             if($upload_foto){
                 
@@ -1283,7 +1300,7 @@ public function filter_masuk($tahun){
             }
             $this->M_create->create_pengguna($v_data);
             $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect('admin/pengguna/');  
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
         }
          
 
@@ -1291,9 +1308,10 @@ public function filter_masuk($tahun){
 
     public function hapus_pengguna($id){
         $v_id = decrypt_url($id);
+        $data = $this->M_read->get_user_by_id($v_id); 
         $this->M_delete->delete_pengguna($v_id);
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
-        redirect('admin/pengguna/');
+        redirect(base_url()."admin/pengguna?id=".$data['user_id_level']);
     }   
 
 
@@ -1303,19 +1321,27 @@ public function filter_masuk($tahun){
             'required' => 'Kolom harus diisi!',
         ]);
         
-        
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect('admin/pengguna/');        
-        }
-        else{
             $v_id = $this->input->post('user_id');
             $v_jabatan = $this->input->post('jabatan');
+            // if ($v_jabatan == 2) {
+            //     $id = 'admin';
+            // }elseif ($v_jabatan == 3) {
+            //     $id = 'kepala_desa';
+            // }else{
+            //     $id = 'sekretaris';
+            // }
             $v_nama = $this->input->post('nama');
             $v_username = $this->input->post('username');
             $v_password = $this->input->post('password');
             $upload_foto = $_FILES['gambar_ttd']['name'];
+        
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);          
+        }
+        else{
+            
 
             if($upload_foto){
                 
@@ -1352,7 +1378,7 @@ public function filter_masuk($tahun){
             }
             $this->M_update->edit_profile($v_data,$v_id);
             $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect('admin/pengguna/');       
+            redirect(base_url()."admin/pengguna?id=".$v_jabatan);       
         }
     }
 
