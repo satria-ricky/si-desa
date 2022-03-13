@@ -62,9 +62,7 @@ function validasi_username()
         }
         return TRUE;    
     }
-    
-    
-    
+
 }
 
 
