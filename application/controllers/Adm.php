@@ -184,8 +184,6 @@ public function index(){
 public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
@@ -242,7 +240,6 @@ public function keluar(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -263,10 +260,6 @@ public function keluar(){
                         <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>'.$row->tahun_keluar.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
                     </tr>
 
                 '; 
@@ -284,17 +277,17 @@ public function keluar(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
                         <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';
@@ -315,7 +308,7 @@ public function keluar(){
 
     public function tambah_keluar(){
         $v_data['is_aktif'] = 'keluar';
-
+        $v_data['form_action'] = 'adm';
 
         $list_data_bidang = $this->M_read->get_bidang();
         $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
@@ -585,7 +578,6 @@ public function keluar(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -606,10 +598,6 @@ public function keluar(){
                         <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>'.$row->tahun_keluar.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
                     </tr>
 
                 '; 
@@ -627,21 +615,20 @@ public function keluar(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
                         <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Sisa Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';
-
         }
 
        $v_data['isi_konten']  .= ' 
@@ -663,7 +650,7 @@ public function keluar(){
 
     public function tambah_masuk(){
         $v_data['is_aktif'] = 'masuk';
-
+        $v_data['form_action'] = 'adm';
         $list_data_sumber = $this->M_read->get_sumber();
         $v_data['isi_sumber'] = '<option value=""> -- Pilih sumber -- </option>';
          if($list_data_sumber->num_rows() > 0)
@@ -784,7 +771,6 @@ public function keluar(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun Pemasukan</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -804,10 +790,6 @@ public function keluar(){
                         <td>'.$row->rekening_masuk.'</td>
                         <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
                         <td>'.$row->tahun_masuk.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i>Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i>Hapus</button >
-                        </td>
                     </tr>
 
                 '; 
@@ -820,7 +802,7 @@ public function keluar(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';
@@ -845,8 +827,6 @@ public function filter_masuk(){
        
         $v_data['is_aktif'] = 'masuk';
 
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -903,7 +883,6 @@ public function filter_masuk(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun Pemasukan</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -923,10 +902,6 @@ public function filter_masuk(){
                         <td>'.$row->rekening_masuk.'</td>
                         <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
                         <td>'.$row->tahun_masuk.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i>Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i>Hapus</button >
-                        </td>
                     </tr>
 
                 '; 
@@ -939,7 +914,7 @@ public function filter_masuk(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="2"></th>
+                        <th colspan="1"></th>
                     </tr>
                 </tfoot>
               ';

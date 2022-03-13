@@ -139,9 +139,9 @@ function button_refresh(is) {
       }).then((Refresh) => {
         if (Refresh) {
            if (is  == 1) {
-              document.location.href = "<?php echo base_url('admin/masuk')?>";
+              document.location.href = "<?php echo base_url('adm/masuk')?>";
            }else{
-              document.location.href = "<?php echo base_url('admin/keluar')?>";
+              document.location.href = "<?php echo base_url('adm/keluar')?>";
            }
         } else {
           swal.close();
@@ -175,12 +175,8 @@ function button_refresh(is) {
           
         }
         else{
-          document.location.href = "<?php echo base_url('admin/filter_masuk?')?>sumber="+sumber+"&tahun="+tahun;    
+          document.location.href = "<?php echo base_url('adm/filter_masuk?')?>sumber="+sumber+"&tahun="+tahun;    
         }
-
-
-
-
 
       }
       else{
@@ -200,16 +196,9 @@ function button_refresh(is) {
           
         }
         else{
-            document.location.href = "<?php echo base_url('admin/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
+            document.location.href = "<?php echo base_url('adm/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
         }
-
-
-
-      }
-
-     
-
-   
+      }   
   }
 
 
@@ -285,113 +274,6 @@ function get_tahun(jenis) {
     });
 }
 
-function get_jabatan() {
-    $.ajax({
-        url: "<?php echo base_url(); ?>auth/get_jabatan",
-        dataType: "json",
-        success: function(data) {
-            // console.log(data);
-            $("#modal_jabatan").html(data);
-        }
-    });
-}
-
-function button_tambah_pengguna(){
-  $('#modal_tambah_pengguna').modal('show');
-  get_jabatan();
-}
-
-
-
-
-
-function form_tambah_pengguna(){
-  // console.log('a');
-  if (document.getElementById("modal_jabatan").value == '' || document.getElementById("modal_nama").value == '' || document.getElementById("modal_username").value == '' || document.getElementById("modal_password").value == '' || document.getElementById("modal_gambar_ttd").value == '') {
-    swal({
-      title: 'Opppss!',
-      text: 'Harap isi semua form!',
-      icon: 'warning',
-      buttons: {                  
-          confirm: {
-              className : 'btn btn-focus'
-          }
-      },
-    });
-  }else {
-    document.getElementById("form_modal_tambah_pengguna").submit();
-    $('#modal_tambah_pengguna').modal('hide');
-    document.getElementById("modal_jabatan").value = '';
-    document.getElementById("modal_nama").value = '';
-    document.getElementById("modal_username").value = '';
-    document.getElementById("modal_password").value = '';
-    document.getElementById("modal_gambar_ttd").value = '';
-  }
- 
-}
-
-
-function form_edit_pengguna(){
-  // console.log('a');
-  if (document.getElementById("modal_edit_jabatan").value == '' || document.getElementById("modal_edit_nama").value == '' || document.getElementById("modal_edit_username").value == '' || document.getElementById("modal_edit_password").value == '') {
-    swal({
-      title: 'Opppss!',
-      text: 'Harap isi semua form!',
-      icon: 'warning',
-      buttons: {                  
-          confirm: {
-              className : 'btn btn-focus'
-          }
-      },
-    });
-  }else {
-    document.getElementById("form_modal_edit_pengguna").submit();
-    $('#modal_edit_pengguna').modal('hide');
-  }
- 
-}
-
-
-function button_edit_user($id) {
-  $('#modal_edit_pengguna').modal('show');
-  var id = $id;
-  $.ajax({
-    url: "<?php echo base_url(); ?>auth/get_user",
-    data: {
-      id : id
-    },
-    type: "POST",
-    dataType: "json",
-    success: function(data) {
-        // console.log(data);
-        set_jabatan_edit(data.user_id_level);
-        document.getElementById("modal_edit_id_user").value = data.user_id;
-        document.getElementById("modal_edit_nama").value =  data.user_nama;
-        document.getElementById("modal_edit_username").value =  data.user_username;
-        document.getElementById("modal_edit_password").value =  data.user_password;
-        document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
-        
-    }
-  });
-
-}
-
-function set_jabatan_edit(id) {
-  // console.log(id);
-    $.ajax({
-        url: "<?php echo base_url(); ?>auth/set_jabatan_edit",
-        data: {
-          id : id
-        },
-        type: "POST",
-        dataType: "json",
-        success: function(data) {
-            // console.log(data);
-            $("#modal_edit_jabatan").html(data);
-        }
-    });
-}
-
 
 function button_edit_profile (){
 
@@ -441,9 +323,9 @@ function button_tambah_laporan(){
 }
 
 
-function form_tambah_laporan(){
+function form_pengajuan_laporan(){
   // console.log('a');
-  if (document.getElementById("modal_jenis_laporan").value == '' || document.getElementById("modal_ketua_laporan").value == '' || document.getElementById("modal_sekretaris_laporan").value == '') {
+  if (document.getElementById("modal_tahun").value == '' || document.getElementById("modal_jenis_laporan").value == '') {
     swal({
       title: 'Opppss!',
       text: 'Harap isi semua form!',
@@ -455,11 +337,10 @@ function form_tambah_laporan(){
       },
     });
   }else {
-    document.getElementById("form_modal_cetak").submit();
-    $('#modal_cetak').modal('hide');
-    document.getElementById("jenis_form_cetak").value = '';
-    document.getElementById("modal_ketua").value = '';
-    document.getElementById("modal_sekretaris").value = '';
+    document.getElementById("form_modal_laporan").submit();
+    $('#modal_tambah_laporan').modal('hide');
+    document.getElementById("modal_jenis_laporan").value = '';
+    document.getElementById("modal_tahun").value = '';
 
   }
  
@@ -471,7 +352,7 @@ function form_tambah_laporan(){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title"> Tambah Laporan </h1>
+        <h1 class="modal-title"> Pengajuan Laporan </h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -479,29 +360,25 @@ function form_tambah_laporan(){
       <div class="modal-body">
         
 
-        <form method="post" id="form_modal_cetak" target="_blank" action="<?= base_url('admin/cetak'); ?>">
-          <input type="hidden" name="jenis_form_cetak" id="jenis_form_cetak">
+        <form method="post" id="form_modal_laporan" target="_blank" action="<?= base_url('adm/cetak'); ?>">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Jenis Laporan</label>
-            <select class="form-control" id="modal_tahun" name="modal_jenis_laporan" required="">
+            <select class="form-control" id="modal_jenis_laporan" name="modal_jenis_laporan" required="">
+              <option value=""> -- Pilih Jenis --</option>
               <option value="masuk"> Pemasukan</option>
               <option value="keluar"> Pengeluaran</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Kepala Desa</label>
-            <input type="text" class="form-control" id="modal_ketua_laporan" name="modal_ketua" placeholder="nama kepala desa ..." required="">
+            <label for="exampleFormControlSelect1">Pilih Tahun</label>
+            <select class="form-control" id="modal_tahun" name="modal_tahun" required="">
+            </select>
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Sekretaris</label>
-            <input type="text" class="form-control" id="modal_sekretaris_laporan" name="modal_sekretaris" placeholder="nama sekretaris ..." required="">
-          </div>
-        
 
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="form_tambah_laporan()">Tambah Laporan</button>
+        <button type="button" class="btn btn-primary" onclick="form_pengajuan_laporan()">Ajukan Laporan</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>

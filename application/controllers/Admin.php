@@ -315,7 +315,7 @@ public function keluar(){
 
     public function tambah_keluar(){
         $v_data['is_aktif'] = 'keluar';
-
+        $v_data['form_action'] = 'admin';
 
         $list_data_bidang = $this->M_read->get_bidang();
         $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
@@ -663,7 +663,7 @@ public function keluar(){
 
     public function tambah_masuk(){
         $v_data['is_aktif'] = 'masuk';
-
+        $v_data['form_action'] = 'admin';
         $list_data_sumber = $this->M_read->get_sumber();
         $v_data['isi_sumber'] = '<option value=""> -- Pilih sumber -- </option>';
          if($list_data_sumber->num_rows() > 0)
