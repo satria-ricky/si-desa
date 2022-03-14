@@ -1259,11 +1259,11 @@ public function filter_masuk(){
 
         if ($v_data['id'] == 1) {
             $v_data['judul'] = 'Data Laporan Masuk';
-            $list_data = $this->M_read->get_user_by_level(2);
+            $list_data = $this->M_read->get_laporan_by_jenis(1);
         }
         else if ($v_data['id'] == 2) {
              $v_data['judul'] = 'Data Laporan Keluar';
-             $list_data = $this->M_read->get_user_by_level(3);
+             $list_data = $this->M_read->get_laporan_by_jenis(2);
         }else{
             $this->load->view('blocked');
         }
@@ -1276,36 +1276,36 @@ public function filter_masuk(){
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Password</th>
+                    <th>Tahun</th>
+                    <th>Kepala Desa</th>
+                    <th>Sekretaris</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
         ';
     
-        if($list_data->num_rows() > 0)
-        {
-            $index=1;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->user_nama.'</td>
-                        <td>'.$row->user_username.'</td>
-                        <td>'.$row->user_password.'</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
-                    </tr>
+        // if($list_data->num_rows() > 0)
+        // {
+        //     $index=1;
+        //     foreach($list_data->result() as $row)
+        //     {
+        //         $v_data['isi_konten'] .= '
+        //             <tr>
+        //                 <td>'. $index.'</td>
+        //                 <td>'.$row->user_nama.'</td>
+        //                 <td>'.$row->user_username.'</td>
+        //                 <td>'.$row->user_password.'</td>
+        //                 <td>
+        //                     <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
+        //                     <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
+        //                 </td>
+        //             </tr>
 
-                '; 
-                $index++;
-            }   
-        }
+        //         '; 
+        //         $index++;
+        //     }   
+        // }
 
        $v_data['isi_konten']  .= ' 
             </tbody>
@@ -1313,7 +1313,7 @@ public function filter_masuk(){
        ';
 
         $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
+        $this->load->view('laporan/laporan',$v_data);
         $this->load->view('templates/footer_admin',$v_data);
 
     }

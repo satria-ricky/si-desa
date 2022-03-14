@@ -274,8 +274,13 @@ public function get_jumlah_masuk_charts(){
 
   //LAPORAN
     public function get_laporan(){
-      $sql='SELECT tb_laporan.laporan_created, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris, tb_laporan.laporan_user_id_kepala, tb_laporan.laporan_user_id_sekretaris FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris';
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris';
       return $query=$this->db->query($sql);
+    }
+
+    public function get_laporan_by_jenis($jenis){
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris WHERE tb_laporan.laporan_jenis = ? ORDER BY laporan_created ASC';
+      return $query=$this->db->query($sql,$jenis);
     }
 
 
