@@ -1254,21 +1254,20 @@ public function filter_masuk(){
 //LAPORAN
     public function laporan (){
 
-        // $v_data['id'] = $this->input->get('id');
+        $v_data['id'] = $this->input->get('id');
+        $v_data['is_aktif'] = 'laporan';
 
         if ($v_data['id'] == 1) {
-            $v_data['judul'] = 'Data Admin';
+            $v_data['judul'] = 'Data Laporan Masuk';
             $list_data = $this->M_read->get_user_by_level(2);
         }
-        else if ($v_data['id'] == 1) {
-             $v_data['judul'] = 'Data Kepala Desa';
+        else if ($v_data['id'] == 2) {
+             $v_data['judul'] = 'Data Laporan Keluar';
              $list_data = $this->M_read->get_user_by_level(3);
         }else{
             $this->load->view('blocked');
         }
-       
-        $v_data['is_aktif'] = 'pengguna';
-        
+               
         $v_data['isi_konten'] = '';
 
         $v_data['isi_konten'] .= '
@@ -1340,7 +1339,7 @@ public function filter_masuk(){
 
         $this->M_create->create_laporan($v_data);
         $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-        redirect(base_url()."admin/laporan"); 
+        redirect(base_url()."admin/laporan?id=".$v_jenis); 
     }
 
 

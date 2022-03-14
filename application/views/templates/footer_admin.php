@@ -663,7 +663,7 @@ function get_jabatan() {
       </div>
       <div class="modal-body">
       
-        <form method="post" id="form_modal_laporan" target="_blank" action="<?= base_url('admin/tambah_laporan'); ?>">
+        <form method="post" id="form_modal_laporan" action="<?= base_url('admin/tambah_laporan'); ?>">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Jenis Laporan</label>
             <select class="form-control" id="modal_jenis_laporan" name="modal_jenis_laporan" required="">
