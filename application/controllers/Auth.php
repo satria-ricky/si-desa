@@ -7,6 +7,162 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
+    public function cetak (){
+        $v_id = decrypt_url($id);
+        $v_data['laporan'] = $this->M_read->get_laporan_by_id($v_id); 
+        // $v_data['v_tahun'] = $this->input->post('modal_tahun');
+        // $v_data['v_ketua'] = $this->input->post('modal_ketua');
+        // $v_data['v_sekretaris'] = $this->input->post('modal_sekretaris');
+        
+
+        $v_data['title'] = 'laporan';
+
+
+        if ($v_data['v_jenis'] == 1) {
+            $v_data['v_jenis_beneran'] = "PEMASUKAN";
+            $list_data = $this->M_read->get_masuk_by_tahun($v_data['v_tahun']);
+            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
+
+            $v_data['isi_konten'] = '';
+
+            $v_data['isi_konten'] .= '
+                <table id="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Sumber Pemasukan</th>
+                        <th>Jenis Sumber Pemasukan</th>
+                        <th>Rincian</th>
+                        <th>Kode Rekening</th>
+                        <th>Jumlah (Rp.)</th>
+                        <th>Tahun Pemasukan</th>
+                    </tr>
+                </thead>
+                <tbody>
+            ';
+        
+            if($list_data->num_rows() > 0)
+            {
+                $index=1;
+                foreach($list_data->result() as $row)
+                {
+                    $v_data['isi_konten'] .= '
+                        <tr>
+                            <td>'. $index.'</td>
+                            <td>'.$row->sumber_masuk_nama.'</td>
+                            <td>'.$row->jenis_nama.'</td>
+                            <td>'.$row->rincian_masuk.'</td>
+                            <td>'.$row->rekening_masuk.'</td>
+                            <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
+                            <td>'.$row->tahun_masuk.'</td>
+                        </tr>
+
+                    '; 
+                    $index++;
+                }
+                $v_data['isi_konten'] .= '
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                            <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                            <th colspan="1"></th>
+                        </tr>
+                    </tfoot>
+                  ';
+
+            }
+
+           $v_data['isi_konten']  .= ' 
+               </table>
+           ';
+        }else {
+
+            $v_data['v_jenis_beneran'] = "PENGELUARAN";
+            $list_data = $this->M_read->get_keluar_by_tahun($v_data['v_tahun']);
+            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
+            $v_data['isi_konten'] = '';
+
+            $v_data['isi_konten'] .= '
+                
+                <table id="table">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">No</th>
+                        <th style="text-align:center">Bidang</th>
+                        <th style="text-align:center">Sub Bidang</th>
+                        <th style="text-align:center">Rincian</th>
+                        <th style="text-align:center">Kode Rekening</th>
+                        <th style="text-align:center">Jumlah (Rp.)</th>
+                        <th style="text-align:center">Tahun</th>
+                    </tr>
+                </thead>
+                <tbody>
+            ';
+        
+            if($list_data->num_rows() > 0)
+            {
+                $index=1;
+                $total_pengeluaran = 0;
+                foreach($list_data->result() as $row)
+                {
+                    $v_data['isi_konten'] .= '
+                        <tr>
+                            <td>'. $index.'</td>
+                            <td>'.$row->nama_bidang.'</td>
+                            <td>'.$row->sub_nama.'</td>
+                            <td>'.$row->rincian_keluar.'</td>
+                            <td>'.$row->rekening_keluar.'</td>
+                            <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
+                            <td>'.$row->tahun_keluar.'</td>
+                        </tr>
+
+                    '; 
+                    $index++;
+                    $total_pengeluaran = $total_pengeluaran + $row->jumlah_keluar;
+
+                }   
+
+                $total_selisih = $tot_masuk - $total_pengeluaran;
+
+                  $v_data['isi_konten'] .= '
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
+                            <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
+                            <th colspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                            <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                            <th colspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
+                            <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
+                            <th colspan="1"></th>
+                        </tr>
+                    </tfoot>
+                  ';
+
+            }
+
+           $v_data['isi_konten']  .= ' 
+               </table>
+           ';
+
+        }
+        $ini_html = $this->load->view('laporan/cetak',$v_data, true);
+    
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($ini_html);
+        $mpdf->Output();
+
+    }
+
 
     public function get_user(){
         $v_data = $this->M_read->get_user_by_id(decrypt_url($this->input->post('id')));

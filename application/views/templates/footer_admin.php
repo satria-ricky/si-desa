@@ -649,6 +649,41 @@ function get_jabatan() {
     });
 }
 
+
+function button_hapus_laporan($id) {
+    swal({
+      title: 'Yakin Hapus Data?',
+      text: 'Data yang telah terhapus tidak dapat dipulihkan!',
+      icon: 'warning',
+      buttons:{
+        confirm: {
+          text : 'Hapus',
+          className : 'btn btn-danger'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-focus'
+        }
+      }
+    }).then((Hapus) => {
+      if (Hapus) {
+        document.location.href = "<?php echo base_url('admin/hapus_laporan/')?>"+$id;
+
+      } else {
+        swal.close();
+      }
+    });
+  }
+
+
+function button_cetak_laporan(id){
+  $('#modal_tambah_laporan').modal('show');
+
+  window.open("<?php echo base_url('auth/cetak?')?>id="+id,"_blank");
+}
+
+
 </script>
 
 <!-- Modal -->

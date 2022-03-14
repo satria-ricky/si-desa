@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 14 Mar 2022 pada 11.03
+-- Waktu pembuatan: 14 Mar 2022 pada 17.48
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -107,6 +107,8 @@ INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rinci
 
 CREATE TABLE `tb_laporan` (
   `laporan_id` int(11) NOT NULL,
+  `laporan_jenis` int(11) DEFAULT NULL,
+  `laporan_tahun` int(11) DEFAULT NULL,
   `laporan_user_id_kepala` int(11) DEFAULT NULL,
   `laporan_user_id_sekretaris` int(11) DEFAULT NULL,
   `laporan_status_kepala` int(11) DEFAULT NULL,
@@ -118,9 +120,8 @@ CREATE TABLE `tb_laporan` (
 -- Dumping data untuk tabel `tb_laporan`
 --
 
-INSERT INTO `tb_laporan` (`laporan_id`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`) VALUES
-(1, 17, 15, 1, 2, 'created'),
-(2, 3, 19, 2, 1, 'created');
+INSERT INTO `tb_laporan` (`laporan_id`, `laporan_jenis`, `laporan_tahun`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`) VALUES
+(3, 1, 2001, 17, 15, 1, 1, '14-03-2022');
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,7 @@ ALTER TABLE `tb_keluar`
 -- AUTO_INCREMENT untuk tabel `tb_laporan`
 --
 ALTER TABLE `tb_laporan`
-  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_level_user`

@@ -16,5 +16,10 @@ class M_delete extends CI_model {
       $this->db->delete('tb_user');
     }
 
+    public function delete_laporan($v_id) {
+      $this->db->where('laporan_id', $v_id);
+      $this->db->delete('tb_laporan');
+    }
+
 
 }
