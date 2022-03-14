@@ -411,23 +411,6 @@ function isNumberKey(evt)
 
 //MODAL
 
-
-
-function get_tahun(jenis) {
-  var jenis = jenis;
-  // console.log(jenis);
-    $.ajax({
-        url: "<?php echo base_url(); ?>auth/get_tahun_modal",
-        type: "post",
-        data: {jenis: jenis},
-        dataType: "json",
-        success: function(data) {
-            // console.log(data);
-            $("#modal_tahun").html(data);
-        }
-    });
-}
-
 function get_jabatan() {
     $.ajax({
         url: "<?php echo base_url(); ?>auth/get_jabatan",
@@ -581,12 +564,13 @@ function button_edit_profile (){
 //LAPORAN
 function button_tambah_laporan(){
   $('#modal_tambah_laporan').modal('show');
+  get_kepala();
+  get_sekretaris();
 }
 
 
 function form_tambah_laporan(){
-  // console.log('a');
-  if (document.getElementById("modal_jenis_laporan").value == '' || document.getElementById("modal_ketua_laporan").value == '' || document.getElementById("modal_sekretaris_laporan").value == '') {
+  if (document.getElementById("modal_jenis_laporan").value == '' || document.getElementById("modal_tahun_laporan").value == '' || document.getElementById("modal_kepala_laporan").value == '' || document.getElementById("modal_sekretaris_laporan").value == '') {
     swal({
       title: 'Opppss!',
       text: 'Harap isi semua form!',
@@ -598,15 +582,73 @@ function form_tambah_laporan(){
       },
     });
   }else {
-    document.getElementById("form_modal_cetak").submit();
-    $('#modal_cetak').modal('hide');
-    document.getElementById("jenis_form_cetak").value = '';
-    document.getElementById("modal_ketua").value = '';
-    document.getElementById("modal_sekretaris").value = '';
+    document.getElementById("form_modal_laporan").submit();
+    $('#modal_tambah_laporan').modal('hide');
+    document.getElementById("modal_jenis_laporan").value = '';
+    document.getElementById("modal_tahun_laporan").value = '';
+    document.getElementById("modal_kepala_laporan").value = '';
+    document.getElementById("modal_sekretaris_laporan").value = '';
 
   }
  
 }
+
+$(document).ready(function(){
+  $('#modal_jenis_laporan').change(function(){
+    var id = $(this).val();
+    // console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "<?= base_url('auth/get_tahun_modal'); ?>",
+      data: {
+        id : id
+      },
+      dataType : "JSON",
+      success: function(response){
+        $('#modal_tahun_laporan').html(response);
+      }
+    
+    });
+  });
+});
+
+
+function get_kepala(){
+  $.ajax({
+      url: "<?= base_url('auth/get_kepala'); ?>",
+      dataType : "JSON",
+      success: function(response){
+        // console.log(response);
+        $('#modal_kepala_laporan').html(response);
+      }
+    
+    });
+}
+
+function get_sekretaris(){
+  $.ajax({
+      url: "<?php echo base_url(); ?>auth/get_sekretaris",
+      dataType : "json",
+      success: function(response){
+        // console.log(response);
+        $('#modal_sekretaris_laporan').html(response);
+      }
+    
+    });
+}
+
+
+function get_jabatan() {
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/get_jabatan",
+        dataType: "json",
+        success: function(data) {
+            // console.log(data);
+            $("#modal_jabatan").html(data);
+        }
+    });
+}
+
 </script>
 
 <!-- Modal -->
@@ -620,27 +662,37 @@ function form_tambah_laporan(){
         </button>
       </div>
       <div class="modal-body">
-        
-
-        <form method="post" id="form_modal_cetak" target="_blank" action="<?= base_url('admin/cetak'); ?>">
-          <input type="hidden" name="jenis_form_cetak" id="jenis_form_cetak">
+      
+        <form method="post" id="form_modal_laporan" target="_blank" action="<?= base_url('admin/tambah_laporan'); ?>">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Jenis Laporan</label>
-            <select class="form-control" id="modal_tahun" name="modal_jenis_laporan" required="">
-              <option value="masuk"> Pemasukan</option>
-              <option value="keluar"> Pengeluaran</option>
+            <select class="form-control" id="modal_jenis_laporan" name="modal_jenis_laporan" required="">
+              <option value=""> -- Pilih Jenis Laporan --</option>
+              <option value="1"> Pemasukan</option>
+              <option value="2"> Pengeluaran</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Kepala Desa</label>
-            <input type="text" class="form-control" id="modal_ketua_laporan" name="modal_ketua" placeholder="nama kepala desa ..." required="">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Sekretaris</label>
-            <input type="text" class="form-control" id="modal_sekretaris_laporan" name="modal_sekretaris" placeholder="nama sekretaris ..." required="">
-          </div>
-        
 
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Pilih Tahun</label>
+            <select class="form-control" id="modal_tahun_laporan" name="modal_tahun" required="">
+              <option value=""> -- Pilih Tahun --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Kepala Desa</label>
+            <select class="form-control" id="modal_kepala_laporan" name="modal_kepala" required="">
+              <option value=""> -- Pilih Kepala Desa --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Sekretaris</label>
+            <select class="form-control" id="modal_sekretaris_laporan" name="modal_sekretaris" required="">
+              <option value=""> -- Pilih Sekretaris --</option>
+            </select>
+          </div>
 
       </div>
       <div class="modal-footer">
@@ -651,6 +703,7 @@ function form_tambah_laporan(){
     </div>
   </div>
 </div>
+
 
 
 <div class="modal fade" id="modal_tambah_pengguna" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

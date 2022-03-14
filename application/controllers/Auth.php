@@ -40,13 +40,32 @@ class Auth extends CI_Controller {
         echo json_encode($output);
     }
 
+    public function get_kepala(){
+        $v_data = $this->M_read->get_user_by_level(3)->result_array();
+        $output = '<option value="">-- Pilih Kepala Desa --</option>';
+        foreach ($v_data as $row){
+            $output .= '<option value="'.$row['user_id'].'">'.$row['user_nama'].'</option>';
+        }
+        echo json_encode($output);
+    }
+
+    public function get_sekretaris(){
+        $v_data = $this->M_read->get_user_by_level(4)->result_array();
+        $output = '<option value="">-- Pilih Sekretaris --</option>';
+        foreach ($v_data as $row){
+            $output .= '<option value="'.$row['user_id'].'">'.$row['user_nama'].'</option>';
+        }
+        echo json_encode($output);
+    }
+
+
     public function get_tahun(){
         $v_data = $this->M_read->get_tahun_charts();
         echo json_encode($v_data);
     }
 
     public function get_tahun_modal(){
-        $jenis = $this->input->post('jenis');
+        $jenis = $this->input->post('id');
          $output = '<option value="">-- Pilih Tahun --</option>';
         if ($jenis == 1) {
             $v_data = $this->M_read->get_tahun_masuk()->result_array();

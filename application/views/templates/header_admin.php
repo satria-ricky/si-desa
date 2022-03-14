@@ -48,8 +48,7 @@
         <h3 class="text-muted">SISTEM INFORMASI KEUANGAN DESA DORIDUNGGA KEC.DONGGO KAB.BIMA </h3>
         <nav>
           <ul class="nav nav-justified">
-            <!-- <li class="active"><a href="#">Home</a></li> -->
-            
+        
             <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>admin/">Beranda</a></li>
              <li class="dropdown <?= ($is_aktif === 'laporan') ? 'active' : '' ?>">
 
@@ -57,8 +56,6 @@
                   <ul class="dropdown-menu">
                     <li><a href="<?= base_url(); ?>admin/laporan"> <i class="fas fa-list"></i> Data Laporan</a></li>
                     <li role="separator" class="divider"></li>
-                    <!-- <li><a href="<?= base_url(); ?>admin/tambah_masuk"> <i class="fas fa-plus"></i> Tambah Data Pemasukan</a></li> -->
-                    <!-- <li role="separator" class="divider"></li> -->
                     <li> <a href="#" onclick="button_tambah_laporan()"> <i class="fas fa-plus"></i> Tambah Data Laporan</a> </li>
                   </ul>
 
@@ -70,8 +67,6 @@
                     <li><a href="<?= base_url(); ?>admin/masuk"> <i class="fas fa-list"></i> Data Pemasukan</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/tambah_masuk"> <i class="fas fa-plus"></i> Tambah Data Pemasukan</a></li>
-                    <!-- <li role="separator" class="divider"></li>
-                    <li> <a href="#" onclick="button_cetak(1)"> <i class="fas fa-download"></i> Cetak Data Pemasukan</a> </li> -->
                   </ul>
 
             </li>
@@ -82,8 +77,6 @@
                     <li><a href="<?= base_url(); ?>admin/keluar"> <i class="fas fa-list"></i> Data Pengeluaran</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url(); ?>admin/tambah_keluar"> <i class="fas fa-plus"></i> Tambah Data Pengeluaran</a></li>
-                    <!-- <li role="separator" class="divider"></li> -->
-                    <!-- <li> <a href="#" onclick="button_cetak(2)"> <i class="fas fa-download"></i> Cetak Data Pengeluaran</a> </li> -->
                   </ul>
 
             </li>
