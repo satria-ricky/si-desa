@@ -1252,56 +1252,97 @@ public function filter_masuk(){
     
 
 //LAPORAN
-    public function tambah_laporan(){
+    public function laporan (){
 
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!'
-        ]);
+        // $v_data['id'] = $this->input->get('id');
 
-            $v_jabatan = $this->input->post('jabatan');
-            
-            $v_nama = $this->input->post('nama');
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $upload_foto = $_FILES['gambar_ttd']['name'];
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        if ($v_data['id'] == 1) {
+            $v_data['judul'] = 'Data Admin';
+            $list_data = $this->M_read->get_user_by_level(2);
         }
-        else{
-            
-
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '5000';
-                $config['upload_path'] = './assets/foto/ttd/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('gambar_ttd')){
-                    $v_nama_foto = $this->upload->data('file_name');
-                    $v_data = [
-                        'user_id_level' => $v_jabatan,
-                        'user_nama' => $v_nama,
-                        'user_username' => $v_username,
-                        'user_password' => $v_password,
-                        'user_ttd' => $v_nama_foto
-                    ];
-                }
-                else{
-                    echo $this->upload->display_errors();
-                }
-
-            }
-            $this->M_create->create_pengguna($v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect(base_url()."admin/pengguna?id=".$v_jabatan);  
+        else if ($v_data['id'] == 1) {
+             $v_data['judul'] = 'Data Kepala Desa';
+             $list_data = $this->M_read->get_user_by_level(3);
+        }else{
+            $this->load->view('blocked');
         }
-         
+       
+        $v_data['is_aktif'] = 'pengguna';
+        
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->user_nama.'</td>
+                        <td>'.$row->user_username.'</td>
+                        <td>'.$row->user_password.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit_user(\''.encrypt_url($row->user_id).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus_user(\''.encrypt_url($row->user_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+        $this->load->view('templates/header_admin',$v_data);
+        $this->load->view('kelola_pengguna/kelola_pengguna',$v_data);
+        $this->load->view('templates/footer_admin',$v_data);
 
     }
+
+
+
+    public function tambah_laporan(){
+
+        $v_jenis = $this->input->post('modal_jenis_laporan');
+        $v_tahun = $this->input->post('modal_tahun');
+        $v_kepala = $this->input->post('modal_kepala');
+        $v_sekretaris = $this->input->post('modal_sekretaris');
+
+        $v_data = [
+            'laporan_jenis' => $v_jenis,
+            'laporan_tahun' => $v_tahun,
+            'laporan_user_id_kepala' => $v_kepala,
+            'laporan_user_id_sekretaris' => $v_sekretaris,
+            'laporan_status_kepala' => 1,
+            'laporan_status_sekretaris' => 1,
+            'laporan_created' => date("d-m-Y")
+        ];
+
+        $this->M_create->create_laporan($v_data);
+        $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+        redirect(base_url()."admin/laporan"); 
+    }
+
 
     public function hapus_laporan($id){
         $v_id = decrypt_url($id);

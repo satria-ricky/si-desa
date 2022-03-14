@@ -696,7 +696,7 @@ function get_jabatan() {
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="form_tambah_laporan()">Tambah Laporan</button>
+        <button type="button" class="btn btn-primary" onclick="form_tambah_laporan()"><i class="fas fa-plus"></i> Tambah Laporan</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>

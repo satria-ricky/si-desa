@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Mar 2022 pada 15.17
+-- Waktu pembuatan: 14 Mar 2022 pada 11.03
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -96,7 +96,8 @@ INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rinci
 (11, '90.90.90', 99, 'RINCIAN BARU', 2001, 2, 9),
 (12, '3242.234', 50000, 'RINCIAN BARU', 2001, 5, 36),
 (15, '90.90.91', 1, 'RINCIAN BARU', 2022, 2, 10),
-(16, '90.90.90', 2, 'RINCIAN BARU', 2022, 2, 11);
+(16, '90.90.90', 2, 'RINCIAN BARU', 2022, 2, 11),
+(18, '90.90.91', 1, 'RINCIAN BARU', 2001, 3, 26);
 
 -- --------------------------------------------------------
 
@@ -108,9 +109,18 @@ CREATE TABLE `tb_laporan` (
   `laporan_id` int(11) NOT NULL,
   `laporan_user_id_kepala` int(11) DEFAULT NULL,
   `laporan_user_id_sekretaris` int(11) DEFAULT NULL,
-  `laporan_url` varchar(255) DEFAULT NULL,
+  `laporan_status_kepala` int(11) DEFAULT NULL,
+  `laporan_status_sekretaris` int(11) DEFAULT NULL,
   `laporan_created` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_laporan`
+--
+
+INSERT INTO `tb_laporan` (`laporan_id`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`) VALUES
+(1, 17, 15, 1, 2, 'created'),
+(2, 3, 19, 2, 1, 'created');
 
 -- --------------------------------------------------------
 
@@ -157,7 +167,8 @@ INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, 
 (3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2022),
 (6, 1, 3, 'RINCIAN BARU', '321', 1000, 5555),
 (7, 1, 2, 'RINCIAN BARU', '90.90.90', 10, 2090),
-(8, 2, 4, 'RINCIAN', '90.90.91', 9999, 2003);
+(8, 2, 4, 'RINCIAN', '90.90.91', 9999, 2003),
+(9, 1, 2, 'RINCIAN', '90.90.90', 12, 2091);
 
 -- --------------------------------------------------------
 
@@ -243,8 +254,8 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` (`user_id`, `user_id_level`, `user_id_status`, `user_nama`, `user_username`, `user_password`, `user_kontak`, `user_alamat`, `user_ttd`, `user_created`, `last_updated`) VALUES
 (3, 1, 1, 'nama BARU', 'super admin', 'super admin', '089999999999', 'alamat baru abah', 'tes1.png', '2021-07-28', '2021-07-28'),
 (15, 4, NULL, 'nama sekretaris', 'sekretaris', 'sekretaris', NULL, NULL, '15750.jpg', NULL, NULL),
-(17, 3, NULL, 'nama kepala desa', 'kepala', 'kepala', NULL, NULL, 'P_20160213_133621_1_p1.jpg', NULL, NULL),
-(19, 2, NULL, 'nama admin', 'admin', 'admin', NULL, NULL, '15179223_943850232425852_8786516406049919493_n1.jpg', NULL, NULL);
+(17, 3, NULL, 'kepala desa durdongga', 'kepala1', 'kepala1', NULL, NULL, '10155177_540626589389254_4387240563293915915_n.jpg', NULL, NULL),
+(19, 2, NULL, 'nama baru', 'admin', 'admin', NULL, NULL, '15179223_943850232425852_8786516406049919493_n.jpg', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -324,13 +335,13 @@ ALTER TABLE `tb_jenis_masuk`
 -- AUTO_INCREMENT untuk tabel `tb_keluar`
 --
 ALTER TABLE `tb_keluar`
-  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_keluar` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_laporan`
 --
 ALTER TABLE `tb_laporan`
-  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_level_user`
@@ -342,7 +353,7 @@ ALTER TABLE `tb_level_user`
 -- AUTO_INCREMENT untuk tabel `tb_masuk`
 --
 ALTER TABLE `tb_masuk`
-  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_masuk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_subbidang`

@@ -22,4 +22,11 @@ class M_create extends CI_model {
 	  return $this->db->affected_rows();
 	}
 
+
+	public function create_laporan($v_data)
+	{
+	  $this->db->insert('tb_laporan', $v_data);
+	  return $this->db->affected_rows();
+	}
+
 }
