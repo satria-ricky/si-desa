@@ -320,12 +320,13 @@ function button_edit_profile (){
 //LAPORAN
 function button_tambah_laporan(){
   $('#modal_tambah_laporan').modal('show');
+  get_kepala();
+  get_sekretaris();
 }
 
 
-function form_pengajuan_laporan(){
-  // console.log('a');
-  if (document.getElementById("modal_tahun").value == '' || document.getElementById("modal_jenis_laporan").value == '') {
+function form_tambah_laporan(){
+  if (document.getElementById("modal_jenis_laporan").value == '' || document.getElementById("modal_tahun_laporan").value == '' || document.getElementById("modal_kepala_laporan").value == '' || document.getElementById("modal_sekretaris_laporan").value == '') {
     swal({
       title: 'Opppss!',
       text: 'Harap isi semua form!',
@@ -340,11 +341,77 @@ function form_pengajuan_laporan(){
     document.getElementById("form_modal_laporan").submit();
     $('#modal_tambah_laporan').modal('hide');
     document.getElementById("modal_jenis_laporan").value = '';
-    document.getElementById("modal_tahun").value = '';
+    document.getElementById("modal_tahun_laporan").value = '';
+    document.getElementById("modal_kepala_laporan").value = '';
+    document.getElementById("modal_sekretaris_laporan").value = '';
 
   }
  
 }
+
+$(document).ready(function(){
+  $('#modal_jenis_laporan').change(function(){
+    var id = $(this).val();
+    // console.log(id);
+    $.ajax({
+      type: "POST",
+      url: "<?= base_url('auth/get_tahun_modal'); ?>",
+      data: {
+        id : id
+      },
+      dataType : "JSON",
+      success: function(response){
+        $('#modal_tahun_laporan').html(response);
+      }
+    
+    });
+  });
+});
+
+
+function get_kepala(){
+  $.ajax({
+      url: "<?= base_url('auth/get_kepala'); ?>",
+      dataType : "JSON",
+      success: function(response){
+        // console.log(response);
+        $('#modal_kepala_laporan').html(response);
+      }
+    
+    });
+}
+
+function get_sekretaris(){
+  $.ajax({
+      url: "<?php echo base_url(); ?>auth/get_sekretaris",
+      dataType : "json",
+      success: function(response){
+        // console.log(response);
+        $('#modal_sekretaris_laporan').html(response);
+      }
+    
+    });
+}
+
+
+function get_jabatan() {
+    $.ajax({
+        url: "<?php echo base_url(); ?>auth/get_jabatan",
+        dataType: "json",
+        success: function(data) {
+            // console.log(data);
+            $("#modal_jabatan").html(data);
+        }
+    });
+}
+
+
+
+function button_cetak_laporan(id){
+  window.open("<?php echo base_url('auth/cetak?')?>id="+id,"_blank");
+}
+
+
 </script>
 
 <!-- Modal -->
@@ -352,37 +419,52 @@ function form_pengajuan_laporan(){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title"> Pengajuan Laporan </h1>
+        <h1 class="modal-title"> Ajukan Laporan </h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        
-
-        <form method="post" id="form_modal_laporan" target="_blank" action="<?= base_url('adm/cetak'); ?>">
+      
+        <form method="post" id="form_modal_laporan" action="<?= base_url('adm/tambah_laporan'); ?>">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Pilih Jenis Laporan</label>
             <select class="form-control" id="modal_jenis_laporan" name="modal_jenis_laporan" required="">
-              <option value=""> -- Pilih Jenis --</option>
-              <option value="masuk"> Pemasukan</option>
-              <option value="keluar"> Pengeluaran</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Pilih Tahun</label>
-            <select class="form-control" id="modal_tahun" name="modal_tahun" required="">
+              <option value=""> -- Pilih Jenis Laporan --</option>
+              <option value="1"> Pemasukan</option>
+              <option value="2"> Pengeluaran</option>
             </select>
           </div>
 
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Pilih Tahun</label>
+            <select class="form-control" id="modal_tahun_laporan" name="modal_tahun" required="">
+              <option value=""> -- Pilih Tahun --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Kepala Desa</label>
+            <select class="form-control" id="modal_kepala_laporan" name="modal_kepala" required="">
+              <option value=""> -- Pilih Kepala Desa --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Sekretaris</label>
+            <select class="form-control" id="modal_sekretaris_laporan" name="modal_sekretaris" required="">
+              <option value=""> -- Pilih Sekretaris --</option>
+            </select>
+          </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="form_pengajuan_laporan()">Ajukan Laporan</button>
+        <button type="button" class="btn btn-primary" onclick="form_tambah_laporan()"><i class="fas fa-plus"></i> Ajukan Laporan</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
 </div>
+
 

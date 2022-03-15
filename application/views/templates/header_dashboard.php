@@ -50,7 +50,16 @@
         <nav>
           <ul class="nav nav-justified">
             <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/">Beranda</a></li>
-            <li class="<?= ($is_aktif === 'laporan') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/laporan">Laporan</a></li>
+            <li class="dropdown <?= ($is_aktif === 'laporan') ? 'active' : '' ?>">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laporan <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?= base_url(); ?>dashboard/laporan?id=1"> <i class="fas fa-list"></i> Data Laporan Masuk</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url(); ?>dashboard/laporan?id=2"> <i class="fas fa-list"></i> Data Laporan Keluar</a></li>
+                  </ul>
+
+            </li>
             <li class="<?= ($is_aktif === 'masuk') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/masuk">Pemasukan Desa</a></li>
             <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/keluar">Pengeluaran Desa</a></li>
             <!-- <li class="<?= ($is_aktif === 'login') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/login">Login</a></li> -->
@@ -59,9 +68,9 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengaturan <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>dashboard/profile">Profile</a></li>
+                    <li><a href="<?= base_url(); ?>dashboard/profile"> <i class="fas fa-user"></i> Profile</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a onclick="button_logout()" style="cursor: pointer;">Logout</a></li>
+                    <li><a onclick="button_logout()" style="cursor: pointer;"> <i class="fas fa-sign-out"></i> Logout</a></li>
                   </ul>
 
             </li>

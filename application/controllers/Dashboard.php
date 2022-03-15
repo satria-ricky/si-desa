@@ -584,12 +584,92 @@ class Dashboard extends CI_Controller {
        ';
 
 
-        $this->load->view('templates/header_adm',$v_data);
+        $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('masuk/masuk',$v_data);
-        $this->load->view('templates/footer_adm');
+        $this->load->view('templates/footer_dashboard');
         // $this->load->view('templates/charts_masuk',$v_data);  
     }
 
+
+
+    public function laporan (){
+
+        $v_data['id'] = $this->input->get('id');
+        $v_data['is_aktif'] = 'laporan';
+
+        if ($v_data['id'] == 1) {
+            $v_data['judul'] = 'Data Laporan Masuk';
+            $list_data = $this->M_read->get_laporan_by_jenis(1);
+        }
+        else if ($v_data['id'] == 2) {
+             $v_data['judul'] = 'Data Laporan Keluar';
+             $list_data = $this->M_read->get_laporan_by_jenis(2);
+        }else{
+            $this->load->view('blocked');
+        }
+               
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="vertical-align : middle;text-align:center;">No</th>
+                    <th style="vertical-align : middle;text-align:center;">Tahun</th>
+                    <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
+                    <th style="vertical-align : middle;text-align:center;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+    
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                if($row->laporan_status_kepala == 1) {
+                     $status_kepala = '<span class="btn btn-success btn-sm">Disetujui</span>';
+                }else{
+                    $status_kepala = '<span class="btn btn-warning btn-sm">Menunggu</span>';
+                }
+
+                if($row->laporan_status_sekretaris == 1) {
+                     $status_sekretaris = "<span class='btn btn-success btn-sm'>Disetujui</span>";
+                }else{
+                    $status_sekretaris = '<span class="btn btn-warning btn-sm">Menunggu</span>';
+                }
+
+                if ($row->laporan_status_kepala == 2 || $row->laporan_status_sekretaris == 2) {
+                    $button_cetak = '<button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
+                }else {
+                    $button_cetak = '<button class="btn btn-success btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fas fa-download"></i> Cetak</button> <button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
+                }
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'. $index.'</td>
+                        <td>'.$row->laporan_tahun.'</td>
+                        <td>'.$row->laporan_created.'</td>
+                        <td>'.$row->nama_kepala.'</td>
+                        <td>'.$status_kepala.'</td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+        $this->load->view('templates/header_dashboard',$v_data);
+        $this->load->view('laporan/laporan',$v_data);
+        $this->load->view('templates/footer_dashboard',$v_data);
+
+    }
 
 
 

@@ -845,8 +845,6 @@ public function filter_masuk(){
        
         $v_data['is_aktif'] = 'masuk';
 
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
