@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 14 Mar 2022 pada 17.48
+-- Waktu pembuatan: 15 Mar 2022 pada 08.19
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -121,7 +121,10 @@ CREATE TABLE `tb_laporan` (
 --
 
 INSERT INTO `tb_laporan` (`laporan_id`, `laporan_jenis`, `laporan_tahun`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`) VALUES
-(3, 1, 2001, 17, 15, 1, 1, '14-03-2022');
+(3, 1, 2001, 17, 15, 1, 1, '14-03-2022'),
+(5, 2, 2001, 17, 15, 1, 1, '15-03-2022'),
+(6, 2, 2003, 17, 15, 2, 1, '15-03-2022'),
+(7, 1, 2022, 17, 15, 2, 2, '15-03-2022');
 
 -- --------------------------------------------------------
 
@@ -255,7 +258,7 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` (`user_id`, `user_id_level`, `user_id_status`, `user_nama`, `user_username`, `user_password`, `user_kontak`, `user_alamat`, `user_ttd`, `user_created`, `last_updated`) VALUES
 (3, 1, 1, 'nama BARU', 'super admin', 'super admin', '089999999999', 'alamat baru abah', 'tes1.png', '2021-07-28', '2021-07-28'),
 (15, 4, NULL, 'nama sekretaris', 'sekretaris', 'sekretaris', NULL, NULL, '15750.jpg', NULL, NULL),
-(17, 3, NULL, 'kepala desa durdongga', 'kepala1', 'kepala1', NULL, NULL, '10155177_540626589389254_4387240563293915915_n.jpg', NULL, NULL),
+(17, 3, NULL, 'kepala desa durdongga', 'kepala', 'kepala', NULL, NULL, '10155177_540626589389254_4387240563293915915_n.jpg', NULL, NULL),
 (19, 2, NULL, 'nama baru', 'admin', 'admin', NULL, NULL, '15179223_943850232425852_8786516406049919493_n.jpg', NULL, NULL);
 
 --
@@ -342,7 +345,7 @@ ALTER TABLE `tb_keluar`
 -- AUTO_INCREMENT untuk tabel `tb_laporan`
 --
 ALTER TABLE `tb_laporan`
-  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `laporan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_level_user`

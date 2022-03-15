@@ -246,9 +246,6 @@ class Dashboard extends CI_Controller {
         $tahun = $this->input->get('tahun');
        
         $v_data['is_aktif'] = 'keluar';
-
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -599,14 +596,21 @@ class Dashboard extends CI_Controller {
 
         if ($v_data['id'] == 1) {
             $v_data['judul'] = 'Data Laporan Masuk';
-            $list_data = $this->M_read->get_laporan_by_jenis(1);
         }
         else if ($v_data['id'] == 2) {
              $v_data['judul'] = 'Data Laporan Keluar';
-             $list_data = $this->M_read->get_laporan_by_jenis(2);
         }else{
             $this->load->view('blocked');
         }
+
+        if ($this->session->userdata('level_user') == 3) {
+            $list_data = $this->M_read->get_laporan_by_jenis_kepala($v_data['id'],$this->session->userdata('id_user'));
+           
+        }elseif ($this->session->userdata('level_user') == 4) {
+            $list_data = $this->M_read->get_laporan_by_jenis_sekretaris($v_data['id'],$this->session->userdata('id_user'));
+        }
+
+        
                
         $v_data['isi_konten'] = '';
 
@@ -618,7 +622,7 @@ class Dashboard extends CI_Controller {
                     <th style="vertical-align : middle;text-align:center;">No</th>
                     <th style="vertical-align : middle;text-align:center;">Tahun</th>
                     <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
-                    <th style="vertical-align : middle;text-align:center;">Status</th>
+                    <th style="vertical-align : middle;text-align:center;">Status Laporan</th>
                 </tr>
             </thead>
             <tbody>
@@ -629,30 +633,27 @@ class Dashboard extends CI_Controller {
             $index=1;
             foreach($list_data->result() as $row)
             {
-                if($row->laporan_status_kepala == 1) {
-                     $status_kepala = '<span class="btn btn-success btn-sm">Disetujui</span>';
-                }else{
-                    $status_kepala = '<span class="btn btn-warning btn-sm">Menunggu</span>';
+
+                if ($this->session->userdata('level_user') == 3) {
+                    if($row->laporan_status_kepala == 1) {
+                        $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
+                    }else{
+                        $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
+                    }
+                }elseif ($this->session->userdata('level_user') == 4) {
+                    if($row->laporan_status_sekretaris == 1) {
+                        $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
+                    }else{
+                        $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
+                    }
                 }
 
-                if($row->laporan_status_sekretaris == 1) {
-                     $status_sekretaris = "<span class='btn btn-success btn-sm'>Disetujui</span>";
-                }else{
-                    $status_sekretaris = '<span class="btn btn-warning btn-sm">Menunggu</span>';
-                }
-
-                if ($row->laporan_status_kepala == 2 || $row->laporan_status_sekretaris == 2) {
-                    $button_cetak = '<button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
-                }else {
-                    $button_cetak = '<button class="btn btn-success btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fas fa-download"></i> Cetak</button> <button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
-                }
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
                         <td>'.$row->laporan_tahun.'</td>
                         <td>'.$row->laporan_created.'</td>
-                        <td>'.$row->nama_kepala.'</td>
-                        <td>'.$status_kepala.'</td>
+                        <td>'.$button_acc.'</td>
                     </tr>
 
                 '; 
@@ -673,5 +674,25 @@ class Dashboard extends CI_Controller {
 
 
 
+    public function acc_laporan(){
+
+        $laporan = decrypt_url($this->input->get('laporan'));
+        $v_jenis = $this->M_read->get_laporan_by_id($laporan);
+        if ($this->session->userdata('level_user') == 3) {
+            $v_data = [
+                'laporan_status_kepala' => 1
+            ];
+           
+        }elseif ($this->session->userdata('level_user') == 4) {
+            $v_data = [
+                'laporan_status_sekretaris' => 1
+            ];
+        }
+
+        $this->M_update->edit_laporan($v_data,$laporan);
+        $this->session->set_flashdata('pesan', 'Laporan berhasil disetujui!');
+        redirect(base_url()."dashboard/laporan?id=".$v_jenis['laporan_jenis']);       
+    }             
+    
 
 }

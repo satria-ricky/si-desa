@@ -16,4 +16,8 @@ class M_update extends CI_model {
       $this->db->update('tb_user', $data, array('user_id' => $id));
     }
 
+
+    public function edit_laporan($data,$id){     
+      $this->db->update('tb_laporan', $data, array('laporan_id' => $id));
+    }
 }

@@ -208,12 +208,28 @@ function button_refresh(is) {
 
 
 
-  // charts
-
-
-
-
-
+function button_setujui_laporan(laporan) {
+    swal({
+      title: 'Setujui Laporan?',
+      icon : "warning",
+      buttons:{
+        confirm: {
+          text : 'Iya',
+          className : 'btn btn-success'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-focus'
+        }
+      }
+    }).then((Acc) => {
+      if (Acc) {
+        document.location.href = "<?php echo base_url('dashboard/acc_laporan?')?>laporan="+laporan;
+      };
+    });
+  }
+  
 
 
 </script>
