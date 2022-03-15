@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require FCPATH . 'vendor/autoload.php';
 
 class Auth extends CI_Controller {
     
@@ -8,20 +9,19 @@ class Auth extends CI_Controller {
     }
 
     public function cetak (){
-        $v_id = decrypt_url($id);
-        $v_data['laporan'] = $this->M_read->get_laporan_by_id($v_id); 
-        // $v_data['v_tahun'] = $this->input->post('modal_tahun');
-        // $v_data['v_ketua'] = $this->input->post('modal_ketua');
-        // $v_data['v_sekretaris'] = $this->input->post('modal_sekretaris');
-        
+        $v_id = decrypt_url($this->input->get('id'));
+
+        $v_data['laporan'] = $this->M_read->get_laporan_by_id($v_id);
+        $v_data['kepala'] = $this->M_read->get_user_by_id($v_data['laporan']['laporan_user_id_kepala']);
+        $v_data['sekretaris'] = $this->M_read->get_user_by_id($v_data['laporan']['laporan_user_id_sekretaris']);
 
         $v_data['title'] = 'laporan';
 
 
-        if ($v_data['v_jenis'] == 1) {
+        if ($v_data['laporan']['laporan_jenis'] == 1) {
             $v_data['v_jenis_beneran'] = "PEMASUKAN";
-            $list_data = $this->M_read->get_masuk_by_tahun($v_data['v_tahun']);
-            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
+            $list_data = $this->M_read->get_masuk_by_tahun($v_data['laporan']['laporan_tahun']);
+            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['laporan']['laporan_tahun']);
 
             $v_data['isi_konten'] = '';
 
@@ -80,8 +80,8 @@ class Auth extends CI_Controller {
         }else {
 
             $v_data['v_jenis_beneran'] = "PENGELUARAN";
-            $list_data = $this->M_read->get_keluar_by_tahun($v_data['v_tahun']);
-            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
+            $list_data = $this->M_read->get_keluar_by_tahun($v_data['laporan']['laporan_tahun']);
+            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['laporan']['laporan_tahun']);
             $v_data['isi_konten'] = '';
 
             $v_data['isi_konten'] .= '
@@ -136,12 +136,12 @@ class Auth extends CI_Controller {
                             <th colspan="2"></th>
                         </tr>
                         <tr>
-                            <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                            <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$v_data['laporan']['laporan_tahun'].'</th>
                             <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                             <th colspan="2"></th>
                         </tr>
                         <tr>
-                            <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
+                            <th colspan="5" style="text-align: center;">Sisa Pemasukan '.$v_data['laporan']['laporan_tahun'].'</th>
                             <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
                             <th colspan="1"></th>
                         </tr>

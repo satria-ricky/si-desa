@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require FCPATH . 'vendor/autoload.php';
+
 
 class Admin extends CI_Controller {
 
@@ -1277,6 +1277,7 @@ public function filter_masuk(){
                 <tr>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Tahun</th>
+                    <th rowspan="2" style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Kepala Desa</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Sekretaris</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Aksi</th>
@@ -1308,18 +1309,21 @@ public function filter_masuk(){
                     $status_sekretaris = '<span class="btn btn-warning btn-sm">Menunggu</span>';
                 }
 
+                if ($row->laporan_status_kepala == 2 || $row->laporan_status_sekretaris == 2) {
+                    $button_cetak = '<button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
+                }else {
+                    $button_cetak = '<button class="btn btn-success btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fas fa-download"></i> Cetak</button> <button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >';
+                }
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
                         <td>'.$row->laporan_tahun.'</td>
+                        <td>'.$row->laporan_created.'</td>
                         <td>'.$row->nama_kepala.'</td>
                         <td>'.$status_kepala.'</td>
                         <td>'.$row->nama_sekretaris.'</td>
                         <td>'.$status_sekretaris.'</td>
-                        <td>
-                            <button class="btn btn-success btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fas fa-download"></i> Cetak</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus_laporan(\''.encrypt_url($row->laporan_id).'\')"><i class="fa fa-trash"></i> Hapus</button >
-                        </td>
+                        <td>'.$button_cetak.'</td>
                     </tr>
 
                 '; 

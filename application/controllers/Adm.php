@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require FCPATH . 'vendor/autoload.php';
 
 class Adm extends CI_Controller {
 
@@ -1227,283 +1226,28 @@ public function filter_masuk(){
 //LAPORAN
     public function tambah_laporan(){
 
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!'
-        ]);
+        $v_jenis = $this->input->post('modal_jenis_laporan');
+        $v_tahun = $this->input->post('modal_tahun');
+        $v_kepala = $this->input->post('modal_kepala');
+        $v_sekretaris = $this->input->post('modal_sekretaris');
 
-            $v_jabatan = $this->input->post('jabatan');
-            
-            $v_nama = $this->input->post('nama');
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $upload_foto = $_FILES['gambar_ttd']['name'];
+        $v_data = [
+            'laporan_jenis' => $v_jenis,
+            'laporan_tahun' => $v_tahun,
+            'laporan_user_id_kepala' => $v_kepala,
+            'laporan_user_id_sekretaris' => $v_sekretaris,
+            'laporan_status_kepala' => 1,
+            'laporan_status_sekretaris' => 1,
+            'laporan_created' => date("d-m-Y")
+        ];
 
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect(base_url()."adm/pengguna?id=".$v_jabatan);  
-        }
-        else{
-            
-
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '5000';
-                $config['upload_path'] = './assets/foto/ttd/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('gambar_ttd')){
-                    $v_nama_foto = $this->upload->data('file_name');
-                    $v_data = [
-                        'user_id_level' => $v_jabatan,
-                        'user_nama' => $v_nama,
-                        'user_username' => $v_username,
-                        'user_password' => $v_password,
-                        'user_ttd' => $v_nama_foto
-                    ];
-                }
-                else{
-                    echo $this->upload->display_errors();
-                }
-
-            }
-            $this->M_create->create_pengguna($v_data);
-            $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-            redirect(base_url()."adm/pengguna?id=".$v_jabatan);  
-        }
-         
-
-    }
-
-    public function hapus_laporan($id){
-        $v_id = decrypt_url($id);
-        $data = $this->M_read->get_user_by_id($v_id); 
-        $this->M_delete->delete_pengguna($v_id);
-        unlink(FCPATH . 'assets/foto/ttd/' . $data['user_ttd']);
-        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
-        redirect(base_url()."adm/pengguna?id=".$data['user_id_level']);
-    }   
-
-
-    public function edit_laporan(){
-
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-        
-            $v_id = $this->input->post('user_id');
-            $v_jabatan = $this->input->post('jabatan');
-
-            $v_nama = $this->input->post('nama');
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $upload_foto = $_FILES['gambar_ttd']['name'];
-            
-            $v_data['data'] = $this->M_read->get_user_by_id($v_id); 
-
-        if($this->form_validation->run() == false){
-            $this->session->set_flashdata('error', 'Username yg dimasukkan telah tersedia!');
-            redirect(base_url()."adm/pengguna?id=".$v_jabatan);          
-        }
-        else{
-            
-
-            if($upload_foto){
-                
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']     = '5000';
-                $config['upload_path'] = './assets/foto/ttd/';
-                    
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('gambar_ttd')){
-                    $v_nama_foto = $this->upload->data('file_name');
-                    $v_foto_lama = $v_data['data']['user_ttd'];
-                    unlink(FCPATH . 'assets/foto/ttd/' . $v_foto_lama);
-                    $v_data = [
-                        'user_id_level' => $v_jabatan,
-                        'user_nama' => $v_nama,
-                        'user_username' => $v_username,
-                        'user_password' => $v_password,
-                        'user_ttd' => $v_nama_foto
-                    ];
-                }
-                else
-                {
-                    echo $this->upload->display_errors();
-                }
-
-            }else{
-                $v_data = [
-                    'user_id_level' => $v_jabatan,
-                    'user_nama' => $v_nama,
-                    'user_username' => $v_username,
-                    'user_password' => $v_password
-                ];
-            }
-            $this->M_update->edit_profile($v_data,$v_id);
-            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect(base_url()."adm/pengguna?id=".$v_jabatan);       
-        }
+        $this->M_create->create_laporan($v_data);
+        $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+        redirect(base_url()."admin/laporan?id=".$v_jenis); 
     }
 
 
-    public function cetak (){
 
-        $v_data['v_jenis'] = $this->input->post('jenis_form_cetak');
-        $v_data['v_tahun'] = $this->input->post('modal_tahun');
-        $v_data['v_ketua'] = $this->input->post('modal_ketua');
-        $v_data['v_sekretaris'] = $this->input->post('modal_sekretaris');
-        
-
-        $v_data['title'] = 'laporan';
-
-
-        if ($v_data['v_jenis'] == 1) {
-            $v_data['v_jenis_beneran'] = "PEMASUKAN";
-            $list_data = $this->M_read->get_masuk_by_tahun($v_data['v_tahun']);
-            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
-
-            $v_data['isi_konten'] = '';
-
-            $v_data['isi_konten'] .= '
-                <table id="table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Sumber Pemasukan</th>
-                        <th>Jenis Sumber Pemasukan</th>
-                        <th>Rincian</th>
-                        <th>Kode Rekening</th>
-                        <th>Jumlah (Rp.)</th>
-                        <th>Tahun Pemasukan</th>
-                    </tr>
-                </thead>
-                <tbody>
-            ';
-        
-            if($list_data->num_rows() > 0)
-            {
-                $index=1;
-                foreach($list_data->result() as $row)
-                {
-                    $v_data['isi_konten'] .= '
-                        <tr>
-                            <td>'. $index.'</td>
-                            <td>'.$row->sumber_masuk_nama.'</td>
-                            <td>'.$row->jenis_nama.'</td>
-                            <td>'.$row->rincian_masuk.'</td>
-                            <td>'.$row->rekening_masuk.'</td>
-                            <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
-                            <td>'.$row->tahun_masuk.'</td>
-                        </tr>
-
-                    '; 
-                    $index++;
-                }
-                $v_data['isi_konten'] .= '
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <th colspan="5" style="text-align: center;">Total Pemasukan</th>
-                            <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                            <th colspan="1"></th>
-                        </tr>
-                    </tfoot>
-                  ';
-
-            }
-
-           $v_data['isi_konten']  .= ' 
-               </table>
-           ';
-        }else {
-
-            $v_data['v_jenis_beneran'] = "PENGELUARAN";
-            $list_data = $this->M_read->get_keluar_by_tahun($v_data['v_tahun']);
-            $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($v_data['v_tahun']);
-            $v_data['isi_konten'] = '';
-
-            $v_data['isi_konten'] .= '
-                
-                <table id="table">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">No</th>
-                        <th style="text-align:center">Bidang</th>
-                        <th style="text-align:center">Sub Bidang</th>
-                        <th style="text-align:center">Rincian</th>
-                        <th style="text-align:center">Kode Rekening</th>
-                        <th style="text-align:center">Jumlah (Rp.)</th>
-                        <th style="text-align:center">Tahun</th>
-                    </tr>
-                </thead>
-                <tbody>
-            ';
-        
-            if($list_data->num_rows() > 0)
-            {
-                $index=1;
-                $total_pengeluaran = 0;
-                foreach($list_data->result() as $row)
-                {
-                    $v_data['isi_konten'] .= '
-                        <tr>
-                            <td>'. $index.'</td>
-                            <td>'.$row->nama_bidang.'</td>
-                            <td>'.$row->sub_nama.'</td>
-                            <td>'.$row->rincian_keluar.'</td>
-                            <td>'.$row->rekening_keluar.'</td>
-                            <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
-                            <td>'.$row->tahun_keluar.'</td>
-                        </tr>
-
-                    '; 
-                    $index++;
-                    $total_pengeluaran = $total_pengeluaran + $row->jumlah_keluar;
-
-                }   
-
-                $total_selisih = $tot_masuk - $total_pengeluaran;
-
-                  $v_data['isi_konten'] .= '
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
-                            <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                            <th colspan="2"></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5" style="text-align: center;">Total Pemasukan</th>
-                            <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                            <th colspan="2"></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
-                            <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                            <th colspan="1"></th>
-                        </tr>
-                    </tfoot>
-                  ';
-
-            }
-
-           $v_data['isi_konten']  .= ' 
-               </table>
-           ';
-
-        }
-        $ini_html = $this->load->view('laporan/cetak',$v_data, true);
-    
-        $mpdf = new \Mpdf\Mpdf();
-        $mpdf->WriteHTML($ini_html);
-        $mpdf->Output();
-
-    }
 
 
 }   
