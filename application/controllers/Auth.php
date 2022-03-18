@@ -255,14 +255,19 @@ class Auth extends CI_Controller {
             if ($this->session->userdata('level_user') == 1) {
                redirect('admin');
             }elseif ($this->session->userdata('level_user') == 2){
-                redirect('Adm');
-            }else{
+                redirect('adm');
+            }elseif ($this->session->userdata('level_user') == 3 || $this->session->userdata('level_user') == 4){
                 redirect('dashboard');
             }
+            else{
+                redirect('masyarakat');
+            }
+        }else{
+            redirect('masyarakat');
         }
         
-
-        $this->load->view('signin/index');
+        // $this->load->view('masyarakat');
+        // $this->load->view('signin/index');
     }
 
 
@@ -307,7 +312,7 @@ class Auth extends CI_Controller {
 
         }else {
             $this->session->set_flashdata('error', 'username dan password salah !');
-            redirect('auth');
+            redirect('masyarakat');
         }
 
     }
@@ -318,7 +323,7 @@ class Auth extends CI_Controller {
         $this->session->unset_userdata($array_items);
         // session_destroy();
         $this->session->set_flashdata('pesan', 'Berhasil logout !');
-        redirect('auth');
+        redirect('masyarakat');
     }
 
 
