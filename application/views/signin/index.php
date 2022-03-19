@@ -65,7 +65,7 @@
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Masuk </button>
       </form>
-
+        <a href="<?= base_url(); ?>masyarakat" class="btn btn-focus btn-block">Kembali ke Halaman Utama</a>
     </div> <!-- /container -->
 
 

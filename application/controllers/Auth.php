@@ -262,12 +262,13 @@ class Auth extends CI_Controller {
             else{
                 redirect('masyarakat');
             }
-        }else{
-            redirect('masyarakat');
         }
+        // else{
+        //     redirect('masyarakat');
+        // }
         
         // $this->load->view('masyarakat');
-        // $this->load->view('signin/index');
+        $this->load->view('signin/index');
     }
 
 
@@ -312,7 +313,7 @@ class Auth extends CI_Controller {
 
         }else {
             $this->session->set_flashdata('error', 'username dan password salah !');
-            redirect('masyarakat');
+            redirect('auth');
         }
 
     }

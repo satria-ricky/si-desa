@@ -52,7 +52,7 @@
             <li class="<?= ($is_aktif === 'beranda') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/">Beranda</a></li>
             <li class="<?= ($is_aktif === 'masuk') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/masuk">Pemasukan Desa</a></li>
             <li class="<?= ($is_aktif === 'keluar') ? 'active' : '' ?>"><a href="<?= base_url(); ?>dashboard/keluar">Pengeluaran Desa</a></li>
-            <li class="<?= ($is_aktif === 'pengaturan') ? 'active' : '' ?>"><a onclick="button_login()" style="cursor: pointer;"> Login</a></li>
+            <li class="<?= ($is_aktif === 'pengaturan') ? 'active' : '' ?>"><a href="<?= base_url(); ?>auth"> Login</a></li>
 <!-- 
             <li class=" dropdown <?= ($is_aktif === 'pengaturan') ? 'active' : '' ?>">
 
