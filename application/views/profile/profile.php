@@ -27,15 +27,16 @@
                  <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
               </div>
 
-                <img style="width: 200px; height: 130px; margin-top: 15px;" src="<?= base_url('assets/foto/ttd/').$data['user_ttd']; ?>" alt="..." class="img-thumbnail">
-              
+              <div class="<?= ($invisible_ttd === 'yes') ? 'invisible' : '' ?>">
+                  <img style="width: 200px; height: 130px; margin-top: 15px;" src="<?= base_url('assets/foto/ttd/').$data['user_ttd']; ?>" alt="..." class="img-thumbnail">
+                
 
-              <div class="mb-3"  style="">
-                <label for="exampleFormControlInput1" class="form-label">Ubah TTD</label>
-                <input type="file" class="form-control" name="gambar_ttd" accept="image/*">
+                <div class="mb-3"  style="">
+                  <label for="exampleFormControlInput1" class="form-label">Ubah TTD</label>
+                  <input type="file" class="form-control" name="gambar_ttd" accept="image/*">
+                </div>
               </div>
-
-                <button type="button" onclick="button_edit_profile()"  style="margin-top: 25px;" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Profile</button>
+                <button type="button" onclick="button_edit_profile()"  style="<?= ($invisible_ttd === 'yes') ? 'margin-top: -350px' : 'margin-top: 15px' ?>" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Profile</button>
             </form>
     
             </div>

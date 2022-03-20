@@ -160,11 +160,11 @@ function button_refresh(is) {
 
     if(is == 1){
         // filter_masuk(is,tahun);
-        if(sumber.length == 0 || tahun.length == 0){
+        if(sumber.length == 0 && tahun.length == 0){
       
           swal({
             title: 'Opppss!',
-            text: 'Harap pilih tahun!',
+            text: 'Harap isi form!',
             icon: 'warning',
             buttons: {                  
                 confirm: {
@@ -185,7 +185,7 @@ function button_refresh(is) {
           
           swal({
             title: 'Opppss!',
-            text: 'Harap pilih tahun!',
+            text: 'Harap isi form!',
             icon: 'warning',
             buttons: {                  
                 confirm: {

@@ -165,7 +165,7 @@ function button_refresh(is) {
 
     if(is == 1){
         // filter_masuk(is,tahun);
-        if(sumber.length == 0 || tahun.length == 0){
+        if(sumber.length == 0 && tahun.length == 0){
       
           swal({
             title: 'Opppss!',

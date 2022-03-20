@@ -102,9 +102,9 @@ function button_refresh(is) {
       }).then((Refresh) => {
         if (Refresh) {
            if (is  == 1) {
-              document.location.href = "<?php echo base_url('dashboard/masuk')?>";
+              document.location.href = "<?php echo base_url('masyarakat/masuk')?>";
            }else{
-              document.location.href = "<?php echo base_url('dashboard/keluar')?>";
+              document.location.href = "<?php echo base_url('masyarakat/keluar')?>";
            }
         } else {
           swal.close();
@@ -123,11 +123,11 @@ function button_refresh(is) {
 
     if(is == 1){
         // filter_masuk(is,tahun);
-        if(sumber.length == 0 || tahun.length == 0){
+        if(sumber.length == 0 && tahun.length == 0){
       
           swal({
             title: 'Opppss!',
-            text: 'Harap pilih tahun!',
+            text: 'Harap isi form!',
             icon: 'warning',
             buttons: {                  
                 confirm: {
@@ -138,7 +138,7 @@ function button_refresh(is) {
           
         }
         else{
-          document.location.href = "<?php echo base_url('dashboard/filter_masuk?')?>sumber="+sumber+"&tahun="+tahun;    
+          document.location.href = "<?php echo base_url('masyarakat/filter_masuk?')?>sumber="+sumber+"&tahun="+tahun;    
         }
 
       }
@@ -148,7 +148,7 @@ function button_refresh(is) {
           
           swal({
             title: 'Opppss!',
-            text: 'Harap pilih tahun!',
+            text: 'Harap isi form!',
             icon: 'warning',
             buttons: {                  
                 confirm: {
@@ -159,7 +159,7 @@ function button_refresh(is) {
           
         }
         else{
-            document.location.href = "<?php echo base_url('dashboard/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
+            document.location.href = "<?php echo base_url('masyarakat/filter_keluar?')?>bidang="+bidang+"&tahun="+tahun;
         }
       }   
   }

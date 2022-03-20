@@ -44,6 +44,11 @@ class M_read extends CI_model {
       return $query=$this->db->query($sql,$tahun);  
     }
 
+    public function get_masuk_by_sumber($sumber){
+      $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE id_sumber_masuk = ? ORDER BY id_sumber_masuk ASC';
+      return $query=$this->db->query($sql,$sumber);  
+    }
+
     public function get_masuk_by_sumber_tahun($sumber,$tahun){
       $sql='SELECT * FROM tb_masuk LEFT JOIN tb_sumber_masuk ON tb_sumber_masuk.sumber_masuk_id = tb_masuk.id_sumber_masuk LEFT JOIN tb_jenis_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE id_sumber_masuk=? AND tahun_masuk = ? ORDER BY id_sumber_masuk ASC';
       return $query=$this->db->query($sql,array($sumber,$tahun));  

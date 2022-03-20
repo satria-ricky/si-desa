@@ -92,6 +92,7 @@ function validasi_rekening_masuk()
     public function profile(){
 
         $v_data['is_aktif'] = 'pengaturan';
+        $v_data['invisible_ttd'] = 'yes';
         $v_id = $this->session->userdata('id_user');
 
         $v_data['data'] = $this->M_read->get_profile($v_id);
@@ -741,8 +742,15 @@ public function filter_masuk(){
         ';
 
 
-        $list_data = $this->M_read->get_masuk_by_sumber_tahun($sumber,$tahun);
-        $tot_masuk = $this->M_read->get_tot_masuk_by_tahun($tahun);
+        if(strlen($sumber) != 0 && strlen($tahun) == 0  ){
+            $list_data = $this->M_read->get_masuk_by_sumber($sumber);  
+        }elseif(strlen($sumber) == 0 && strlen($tahun) != 0  ){
+            $list_data = $this->M_read->get_masuk_by_tahun($tahun);  
+        }
+        else{  
+            $list_data = $this->M_read->get_masuk_by_sumber_tahun($sumber,$tahun);
+        }
+
 
         $v_data['isi_konten'] = '';
 
@@ -765,6 +773,7 @@ public function filter_masuk(){
         if($list_data->num_rows() > 0)
         {
             $index=1;
+            $tot_masuk=0;
             foreach($list_data->result() as $row)
             {
                 $v_data['isi_konten'] .= '
@@ -780,13 +789,14 @@ public function filter_masuk(){
 
                 '; 
                 $index++;
+                $tot_masuk=$tot_masuk+$row->jumlah_masuk;
             }
             $v_data['isi_konten'] .= '
                 </tbody>
 
                 <tfoot>
                     <tr>
-                        <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
+                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
                         <th colspan="1"></th>
                     </tr>
