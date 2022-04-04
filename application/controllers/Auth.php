@@ -263,11 +263,7 @@ class Auth extends CI_Controller {
                 redirect('masyarakat');
             }
         }
-        // else{
-        //     redirect('masyarakat');
-        // }
-        
-        // $this->load->view('masyarakat');
+    
         $this->load->view('signin/index');
     }
 

@@ -126,7 +126,6 @@
     }else {
         document.location.href = "<?php echo base_url('admin/edit_keluar/')?>"+$id;
     }
-
   }
 
   function button_hapus($is,$id) {

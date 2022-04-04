@@ -185,8 +185,6 @@ public function index(){
 public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
@@ -310,7 +308,7 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
-        // $this->load->view('templates/charts_keluar',$v_data);         
+      
     }
 
 
@@ -525,11 +523,7 @@ public function keluar(){
         $bidang = $this->input->get('bidang');
         $tahun = $this->input->get('tahun');
        
-        $v_data['is_aktif'] = 'keluar';
-
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
-        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['is_aktif'] = 'keluar';        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
@@ -653,7 +647,7 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
-        // $this->load->view('templates/charts_keluar',$v_data);         
+                 
     }
 
 
@@ -727,8 +721,6 @@ public function keluar(){
     public function masuk(){
         $v_data['is_aktif'] = 'masuk';
 
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -836,7 +828,7 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_admin');
-        // $this->load->view('templates/charts_masuk',$v_data);         
+        
     }
 
 

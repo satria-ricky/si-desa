@@ -181,120 +181,125 @@ public function index(){
 
 public function keluar(){
 
-        $v_data['is_aktif'] = 'keluar';
-        $list_tahun = $this->M_read->get_tahun_masuk();
-        $data_tahun = '';
-        if($list_tahun->num_rows() > 0)
+    $v_data['is_aktif'] = 'keluar';
+    $list_tahun = $this->M_read->get_tahun_masuk();
+    $data_tahun = '';
+    if($list_tahun->num_rows() > 0)
+    {
+        foreach($list_tahun->result() as $row)
         {
-            foreach($list_tahun->result() as $row)
-            {
-                $data_tahun .= '
-                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
-                '; 
-            }  
-        }
+            $data_tahun .= '
+                <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+            '; 
+        }  
+    }
 
-        $list_bidang = $this->M_read->get_bidang();
-        $data_bidang = '';
-        if($list_bidang->num_rows() > 0)
+    $list_bidang = $this->M_read->get_bidang();
+    $data_bidang = '';
+    if($list_bidang->num_rows() > 0)
+    {
+        foreach($list_bidang->result() as $row)
         {
-            foreach($list_bidang->result() as $row)
-            {
-                $data_bidang .= '
-                    <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
-                '; 
-            }  
-        }
-        $v_data['isi_card_header'] = '
-          <div class="form-group">
-          <select class="form-control" id="bidang_filter">
-              <option value=""> -- Pilih Bidang -- </option>
-              '.$data_bidang.'
-            </select>
+            $data_bidang .= '
+                <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+            '; 
+        }  
+    }
+    $v_data['isi_card_header'] = '
+      <div class="form-group">
+      <select class="form-control" id="bidang_filter">
+          <option value=""> -- Pilih Bidang -- </option>
+          '.$data_bidang.'
+        </select>
 
-            <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih Tahun -- </option>
-              '.$data_tahun.'
-            </select>
-          </div>
-          <button class="btn btn-primary" onclick="button_filter(\''."2".'\')">Filter Data</button>
-        ';
+        <select class="form-control" id="tahun_filter">
+          <option value=""> -- Pilih Tahun -- </option>
+          '.$data_tahun.'
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="button_filter(\''."2".'\')">Filter Data</button>
+    ';
 
 
 
-        $list_data = $this->M_read->get_keluar();
-        $tot_masuk = $this->M_read->get_tot_masuk();
-        $v_data['isi_konten'] = '';
+    $list_data = $this->M_read->get_keluar();
+    $tot_masuk = $this->M_read->get_tot_masuk();
+    $v_data['isi_konten'] = '';
 
-        $v_data['isi_konten'] .= '
-            
-            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
+    $v_data['isi_konten'] .= '
+        
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Bidang</th>
+                <th>Sub Bidang</th>
+                <th>Rincian</th>
+                <th>Kode Rekening</th>
+                <th>Jumlah (Rp.)</th>
+                <th>Tahun</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+    ';
+
+    if($list_data->num_rows() > 0)
+    {
+        $index=1;
+        $total_pengeluaran = 0;
+        foreach($list_data->result() as $row)
+        {
+            $v_data['isi_konten'] .= '
                 <tr>
-                    <th>No</th>
-                    <th>Bidang</th>
-                    <th>Sub Bidang</th>
-                    <th>Rincian</th>
-                    <th>Kode Rekening</th>
-                    <th>Jumlah (Rp.)</th>
-                    <th>Tahun</th>
+                    <td>'. $index.'</td>
+                    <td>'.$row->nama_bidang.'</td>
+                    <td>'.$row->sub_nama.'</td>
+                    <td>'.$row->rincian_keluar.'</td>
+                    <td>'.$row->rekening_keluar.'</td>
+                    <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
+                    <td>'.$row->tahun_keluar.'</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-        ';
-    
-        if($list_data->num_rows() > 0)
-        {
-            $index=1;
-            $total_pengeluaran = 0;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->nama_bidang.'</td>
-                        <td>'.$row->sub_nama.'</td>
-                        <td>'.$row->rincian_keluar.'</td>
-                        <td>'.$row->rekening_keluar.'</td>
-                        <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
-                        <td>'.$row->tahun_keluar.'</td>
-                    </tr>
 
-                '; 
-                $index++;
-                $total_pengeluaran = $total_pengeluaran + $row->jumlah_keluar;
+            '; 
+            $index++;
+            $total_pengeluaran = $total_pengeluaran + $row->jumlah_keluar;
 
-            }   
+        }   
 
-            $total_selisih = $tot_masuk - $total_pengeluaran;
+        $total_selisih = $tot_masuk - $total_pengeluaran;
 
-              $v_data['isi_konten'] .= '
-                </tbody>
+          $v_data['isi_konten'] .= '
+            </tbody>
 
-                <tfoot>
-                    <tr>
-                        <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
-                        <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                        <th colspan="1"></th>
-                    </tr>
-                    <tr>
-                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
-                        <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="1"></th>
-                    </tr>
-                    <tr>
-                        <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
-                        <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                        <th colspan="1"></th>
-                    </tr>
-                </tfoot>
-              ';
+            <tfoot>
+                <tr>
+                    <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
+                    <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
+                    <th colspan="2"></th>
+                </tr>
+                <tr>
+                    <th colspan="5" style="text-align: center;">Total Pemasukan</th>
+                    <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                    <th colspan="2"></th>
+                </tr>
+                <tr>
+                    <th colspan="5" style="text-align: center;">Sisa Pemasukan</th>
+                    <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
+                    <th colspan="2"></th>
+                </tr>
+            </tfoot>
+          ';
 
-        }
+    }
 
-       $v_data['isi_konten']  .= ' 
-           </table>
-       ';
+   $v_data['isi_konten']  .= ' 
+       </table>
+   ';
 
 
         $this->load->view('templates/header_adm',$v_data);
@@ -385,6 +390,128 @@ public function keluar(){
     }
 
 
+    public function edit_keluar($id){
+
+        $v_id = decrypt_url($id);
+
+        $v_data['is_aktif'] = 'keluar';
+
+        $v_data['data_edit'] = $this->M_read->get_keluar_by_id($v_id);
+
+        $list_data_bidang = $this->M_read->get_bidang();
+        $v_data['isi_bidang'] = '<option value=""> -- Pilih bidang -- </option>';
+         if($list_data_bidang->num_rows() > 0)
+        {
+            foreach($list_data_bidang->result() as $row)
+            {
+                if ($row->id_bidang == $v_data['data_edit']['id_bidang_keluar']) {
+                     $v_data['isi_bidang'] .= '
+                        <option value="'.$row->id_bidang.'" selected>'.$row->nama_bidang.'</option>
+                    '; 
+                }else{
+                    $v_data['isi_bidang'] .= '
+                        <option value="'.$row->id_bidang.'">'.$row->nama_bidang.'</option>
+                    '; 
+                }
+            }  
+        }
+
+        $list_data_subbidang = $this->M_read->get_subbidang_by_bidang($v_data['data_edit']['id_bidang_keluar']);
+        $v_data['isi_subbidang'] = '';
+
+        foreach ($list_data_subbidang as $row){
+            if ($row['sub_id'] == $v_data['data_edit']['id_subbidang_keluar']) {
+                 $v_data['isi_subbidang'] .='<option selected value="'.$row['sub_id'].'">'.$row['sub_nama'].'</option>';
+            }else{
+                $v_data['isi_subbidang'] .= '<option value="'.$row['sub_id'].'">'.$row['sub_nama'].'</option>';
+            }
+        }
+
+
+        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['isi_tahun'] = '<option value=""> -- Pilih tahun -- </option>';
+         if($list_tahun->num_rows() > 0)
+        {
+            foreach($list_tahun->result() as $row)
+            {
+                if ($row->tahun_masuk == $v_data['data_edit']['tahun_keluar']) {
+                    $v_data['isi_tahun'] .= '
+                        <option selected value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                    '; 
+                }else{
+                    $v_data['isi_tahun'] .= '
+                        <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+                    ';
+                }
+                
+            }  
+        }
+
+
+        $this->form_validation->set_rules('bidang','Bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('sub_bidang','Sub_bidang','required|callback_validasi_option');
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_keluar');
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('keluar/edit_keluar',$v_data);
+            $this->load->view('templates/footer_admin');    
+        }
+        else{
+            $name_id = $this->input->post('id');
+            $v_bidang = $this->input->post('bidang');
+            $v_sub_bidang = $this->input->post('sub_bidang');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
+            $v_tahun     = $this->input->post('tahun');
+
+            $v_jumlah = $this->input->post('jumlah');
+            $selisih = $this->M_read->get_selisih_by_tahun($v_tahun);
+            $get_selisih = $selisih + $v_data['data_edit']['jumlah_keluar'];
+            
+            if (($get_selisih - $v_jumlah) < 0) {
+                $this->session->set_flashdata('error', 'Nominal jumlah pengeluaran melebihi pemasukan!');
+                redirect('admin/edit_keluar/'.$id);
+            }else {
+                $v_data = [
+                    'rekening_keluar' => $v_kode_rekening,
+                    'jumlah_keluar' => $v_jumlah,
+                    'rincian_keluar' => $v_rincian,
+                    'tahun_keluar' => $v_tahun,
+                    'id_bidang_keluar' => $v_bidang,
+                    'id_subbidang_keluar' => $v_sub_bidang
+                ];
+
+                $this->M_update->edit_keluar($v_data,$v_id);
+                $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+                redirect('adm/keluar');
+            }
+        }
+
+
+    }
+
+    public function hapus_keluar($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_keluar($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('adm/keluar');
+    }  
+
+
 
 
     public function filter_keluar(){
@@ -392,11 +519,7 @@ public function keluar(){
         $bidang = $this->input->get('bidang');
         $tahun = $this->input->get('tahun');
        
-        $v_data['is_aktif'] = 'keluar';
-
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
-        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['is_aktif'] = 'keluar';        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
@@ -453,6 +576,7 @@ public function keluar(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -473,6 +597,10 @@ public function keluar(){
                         <td>'.$row->rekening_keluar.'</td>
                         <td>'.number_format($row->jumlah_keluar,2,',','.').'</td>
                         <td>'.$row->tahun_keluar.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."2".'\', \''.encrypt_url($row->id_keluar).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
                     </tr>
 
                 '; 
@@ -490,20 +618,21 @@ public function keluar(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pengeluaran</th>
                         <th style="text-align: center;">Rp. '.number_format($total_pengeluaran,2,',','.').'</th>
-                        <th colspan="1"></th>
+                        <th colspan="2"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="1"></th>
+                        <th colspan="2"></th>
                     </tr>
                     <tr>
                         <th colspan="5" style="text-align: center;">Sisa Pemasukan Tahun '.$tahun.'</th>
                         <th style="text-align: center;">Rp. '.number_format($total_selisih,2,',','.').'</th>
-                        <th colspan="1"></th>
+                        <th colspan="2"></th>
                     </tr>
                 </tfoot>
               ';
+
         }
 
        $v_data['isi_konten']  .= ' 
@@ -514,7 +643,7 @@ public function keluar(){
         $this->load->view('templates/header_adm',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_adm');
-        // $this->load->view('templates/charts_keluar',$v_data);         
+              
     }
 
 
@@ -588,8 +717,6 @@ public function keluar(){
     public function masuk(){
         $v_data['is_aktif'] = 'masuk';
 
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_masuk_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_masuk_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -646,6 +773,7 @@ public function keluar(){
                     <th>Kode Rekening</th>
                     <th>Jumlah (Rp.)</th>
                     <th>Tahun Pemasukan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -665,6 +793,10 @@ public function keluar(){
                         <td>'.$row->rekening_masuk.'</td>
                         <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
                         <td>'.$row->tahun_masuk.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i>Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i>Hapus</button >
+                        </td>
                     </tr>
 
                 '; 
@@ -677,7 +809,7 @@ public function keluar(){
                     <tr>
                         <th colspan="5" style="text-align: center;">Total Pemasukan</th>
                         <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="1"></th>
+                        <th colspan="2"></th>
                     </tr>
                 </tfoot>
               ';
@@ -697,117 +829,121 @@ public function keluar(){
 
 
 public function filter_masuk(){
-        $sumber = $this->input->get('sumber');
-        $tahun = $this->input->get('tahun');
-       
-        $v_data['is_aktif'] = 'masuk';
+    $sumber = $this->input->get('sumber');
+    $tahun = $this->input->get('tahun');
+   
+    $v_data['is_aktif'] = 'masuk';
 
-        $list_tahun = $this->M_read->get_tahun_masuk();
-        $data_tahun = '';
-         if($list_tahun->num_rows() > 0)
+    $list_tahun = $this->M_read->get_tahun_masuk();
+    $data_tahun = '';
+     if($list_tahun->num_rows() > 0)
+    {
+        foreach($list_tahun->result() as $row)
         {
-            foreach($list_tahun->result() as $row)
-            {
-                $data_tahun .= '
-                    <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
-                '; 
-            }  
-        }
+            $data_tahun .= '
+                <option value="'.$row->tahun_masuk.'">'.$row->tahun_masuk.'</option>
+            '; 
+        }  
+    }
 
-        $list_sumber = $this->M_read->get_sumber();
-        $data_sumber = '';
-        if($list_sumber->num_rows() > 0)
+    $list_sumber = $this->M_read->get_sumber();
+    $data_sumber = '';
+    if($list_sumber->num_rows() > 0)
+    {
+        foreach($list_sumber->result() as $row)
         {
-            foreach($list_sumber->result() as $row)
-            {
-                $data_sumber .= '
-                    <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
-                '; 
-            }  
-        }
-        $v_data['isi_card_header'] = '
-        <div class="form-group">
-          <select class="form-control" id="sumber_filter">
-              <option value=""> -- Pilih Sumber -- </option>
-              '.$data_sumber.'
-            </select>
+            $data_sumber .= '
+                <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+            '; 
+        }  
+    }
+    $v_data['isi_card_header'] = '
+    <div class="form-group">
+      <select class="form-control" id="sumber_filter">
+          <option value=""> -- Pilih Sumber -- </option>
+          '.$data_sumber.'
+        </select>
 
-            <select class="form-control" id="tahun_filter">
-              <option value=""> -- Pilih Tahun -- </option>
-              '.$data_tahun.'
-            </select>
-          </div>
-          <button class="btn btn-primary" onclick="button_filter(\''."1".'\')">Filter Data</button>
-          <button class="btn btn-success" onclick="button_refresh(\''."1".'\')">Refresh Data</button>
-        ';
+        <select class="form-control" id="tahun_filter">
+          <option value=""> -- Pilih Tahun -- </option>
+          '.$data_tahun.'
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="button_filter(\''."1".'\')">Filter Data</button>
+      <button class="btn btn-success" onclick="button_refresh(\''."1".'\')">Refresh Data</button>
+    ';
 
 
-        if(strlen($sumber) != 0 && strlen($tahun) == 0  ){
-            $list_data = $this->M_read->get_masuk_by_sumber($sumber);  
-        }elseif(strlen($sumber) == 0 && strlen($tahun) != 0  ){
-            $list_data = $this->M_read->get_masuk_by_tahun($tahun);  
-        }
-        else{  
-            $list_data = $this->M_read->get_masuk_by_sumber_tahun($sumber,$tahun);
-        }
+    if(strlen($sumber) != 0 && strlen($tahun) == 0  ){
+        $list_data = $this->M_read->get_masuk_by_sumber($sumber);  
+    }elseif(strlen($sumber) == 0 && strlen($tahun) != 0  ){
+        $list_data = $this->M_read->get_masuk_by_tahun($tahun);  
+    }
+    else{  
+        $list_data = $this->M_read->get_masuk_by_sumber_tahun($sumber,$tahun);
+    }
 
+    $v_data['isi_konten'] = '';
 
-        $v_data['isi_konten'] = '';
+    $v_data['isi_konten'] .= '
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Sumber Pemasukan</th>
+                <th>Jenis Sumber Pemasukan</th>
+                <th>Rincian</th>
+                <th>Kode Rekening</th>
+                <th>Jumlah (Rp.)</th>
+                <th>Tahun Pemasukan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+    ';
 
-        $v_data['isi_konten'] .= '
-            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Sumber Pemasukan</th>
-                    <th>Jenis Sumber Pemasukan</th>
-                    <th>Rincian</th>
-                    <th>Kode Rekening</th>
-                    <th>Jumlah (Rp.)</th>
-                    <th>Tahun Pemasukan</th>
-                </tr>
-            </thead>
-            <tbody>
-        ';
-    
-        if($list_data->num_rows() > 0)
+    if($list_data->num_rows() > 0)
+    {
+        $index=1;
+        $tot_masuk=0;
+        foreach($list_data->result() as $row)
         {
-            $index=1;
-            $tot_masuk=0;
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'. $index.'</td>
-                        <td>'.$row->sumber_masuk_nama.'</td>
-                        <td>'.$row->jenis_nama.'</td>
-                        <td>'.$row->rincian_masuk.'</td>
-                        <td>'.$row->rekening_masuk.'</td>
-                        <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
-                        <td>'.$row->tahun_masuk.'</td>
-                    </tr>
-
-                '; 
-                $index++;
-                $tot_masuk=$tot_masuk+$row->jumlah_masuk;
-            }
             $v_data['isi_konten'] .= '
-                </tbody>
+                <tr>
+                    <td>'. $index.'</td>
+                    <td>'.$row->sumber_masuk_nama.'</td>
+                    <td>'.$row->jenis_nama.'</td>
+                    <td>'.$row->rincian_masuk.'</td>
+                    <td>'.$row->rekening_masuk.'</td>
+                    <td>'.number_format($row->jumlah_masuk,2,',','.').'</td>
+                    <td>'.$row->tahun_masuk.'</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="button_edit(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fas fa-edit"></i>Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."1".'\', \''.encrypt_url($row->id_masuk).'\')"><i class="fa fa-trash"></i>Hapus</button >
+                    </td>
+                </tr>
 
-                <tfoot>
-                    <tr>
-                        <th colspan="5" style="text-align: center;">Total Pemasukan</th>
-                        <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
-                        <th colspan="1"></th>
-                    </tr>
-                </tfoot>
-              ';
-
+            '; 
+            $index++;
+            $tot_masuk=$tot_masuk+$row->jumlah_masuk;
         }
+        $v_data['isi_konten'] .= '
+            </tbody>
 
-       $v_data['isi_konten']  .= ' 
-           </table>
-       ';
+            <tfoot>
+                <tr>
+                    <th colspan="5" style="text-align: center;">Total Pemasukan </th>
+                    <th style="text-align: center;">Rp. '.number_format($tot_masuk,2,',','.').'</th>
+                    <th colspan="2"></th>
+                </tr>
+            </tfoot>
+          ';
+
+    }
+
+   $v_data['isi_konten']  .= ' 
+       </table>
+   ';
 
 
         $this->load->view('templates/header_adm',$v_data);
@@ -816,6 +952,97 @@ public function filter_masuk(){
         // $this->load->view('templates/charts_masuk',$v_data);         
     }
 
+    public function edit_masuk($id){
+
+        $v_id = decrypt_url($id);
+
+        $v_data['is_aktif'] = 'masuk';
+
+        $v_data['data_edit'] = $this->M_read->get_masuk_by_id($v_id);
+        $list_data_sumber = $this->M_read->get_sumber();
+        $v_data['isi_sumber'] = '<option value=""> -- Pilih sumber -- </option>';
+         if($list_data_sumber->num_rows() > 0)
+        {
+            foreach($list_data_sumber->result() as $row)
+            {
+                if ($row->sumber_masuk_id == $v_data['data_edit']['id_sumber_masuk']) {
+                     $v_data['isi_sumber'] .= '
+                        <option selected value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                    ';  
+                }else{
+                    $v_data['isi_sumber'] .= '
+                        <option value="'.$row->sumber_masuk_id.'">'.$row->sumber_masuk_nama.'</option>
+                    '; 
+                }
+            }  
+        }
+
+
+        $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+        $v_data['isi_jenis'] = '';
+
+        foreach ($list_data_jenis as $row){
+            if ($row['jenis_masuk_id'] == $v_data['data_edit']['id_jenis_sumber_masuk']) {
+                 $v_data['isi_jenis'] .='<option selected value="'.$row['jenis_masuk_id'].'">'.$row['jenis_nama'].'</option>';
+            }else{
+                $v_data['isi_jenis'] .= '<option value="'.$row['jenis_masuk_id'].'">'.$row['jenis_nama'].'</option>';
+            }
+        }
+
+
+        $this->form_validation->set_rules('sumber','Sumber','required|callback_validasi_option');
+        $this->form_validation->set_rules('jenis','Jenis','required|callback_validasi_option');
+        $this->form_validation->set_rules('kode_rekening','Kode_rekening','required|callback_validasi_rekening_masuk');
+        $this->form_validation->set_rules('rincian', 'Rincian', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+  
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('masuk/edit_masuk',$v_data);
+            $this->load->view('templates/footer_admin');    
+        }
+        else{
+
+            $v_sumber = $this->input->post('sumber');
+            $v_jenis = $this->input->post('jenis');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
+            
+            $v_data = [
+                'rekening_masuk' => $v_kode_rekening,
+                'jumlah_masuk' => $v_jumlah,
+                'rincian_masuk' => $v_rincian,
+                'tahun_masuk' => $v_tahun,
+                'id_sumber_masuk' => $v_sumber,
+                'id_jenis_sumber_masuk' => $v_jenis
+            ];
+
+            $this->M_update->edit_masuk($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect('adm/masuk');
+
+        }
+
+
+    }
+
+    public function hapus_masuk($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_masuk($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('adm/masuk');
+    }  
 
 
 //LAPORAN

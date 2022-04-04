@@ -316,6 +316,48 @@ function button_edit_profile (){
 }
 
 
+function button_edit($is,$id) {
+    // console.log($is+"++++"+$id);
+    if ($is == 1) {
+        document.location.href = "<?php echo base_url('adm/edit_masuk/')?>"+$id;
+    }else {
+        document.location.href = "<?php echo base_url('adm/edit_keluar/')?>"+$id;
+    }
+  }
+
+  function button_hapus($is,$id) {
+
+swal({
+  title: 'Yakin Hapus Data?',
+  text: 'Data yang telah terhapus tidak dapat dipulihkan!',
+  icon: 'warning',
+  buttons:{
+    confirm: {
+      text : 'Hapus',
+      className : 'btn btn-danger'
+    },
+    cancel: {
+      text : 'Tidak',
+      visible: true,
+      className: 'btn btn-focus'
+    }
+  }
+}).then((Hapus) => {
+  if (Hapus) {
+    
+    if ($is == 1) {
+        document.location.href = "<?php echo base_url('adm/hapus_masuk/')?>"+$id;
+    }else {
+        document.location.href = "<?php echo base_url('adm/hapus_keluar/')?>"+$id;
+    }
+
+  } else {
+    swal.close();
+  }
+});
+}
+
+
 
 //LAPORAN
 function button_tambah_laporan(){
