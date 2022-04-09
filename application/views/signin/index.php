@@ -36,7 +36,7 @@
 
     <div class="container">
       <div class="mb-4"  style="display: flex;flex-direction: column; justify-content: center;align-items: center; text-align: center; margin-bottom: 20px;">
-         <img class="mb-4" src="<?= base_url(); ?>assets/foto/logo.PNG" width="150" height="150">
+         <img class="mb-4" src="<?= base_url(); ?>assets/foto/logo.png" width="150" height="150">
         </div>
 
         <form class="form-signin" method="post" action="<?= base_url('auth/login'); ?>">
