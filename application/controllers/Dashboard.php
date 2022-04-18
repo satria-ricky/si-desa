@@ -598,25 +598,100 @@ class Dashboard extends CI_Controller {
 
 
 
-    public function laporan (){
+    // public function laporan (){
 
-        $v_data['id'] = $this->input->get('id');
+    //     $v_data['id'] = $this->input->get('id');
+    //     $v_data['is_aktif'] = 'laporan';
+
+    //     if ($v_data['id'] == 1) {
+    //         $v_data['judul'] = 'Data Laporan Masuk';
+    //     }
+    //     else if ($v_data['id'] == 2) {
+    //          $v_data['judul'] = 'Data Laporan Keluar';
+    //     }else{
+    //         $this->load->view('blocked');
+    //     }
+
+    //     if ($this->session->userdata('level_user') == 3) {
+    //         $list_data = $this->M_read->get_laporan_by_jenis_kepala($v_data['id'],$this->session->userdata('id_user'));
+           
+    //     }elseif ($this->session->userdata('level_user') == 4) {
+    //         $list_data = $this->M_read->get_laporan_by_jenis_sekretaris($v_data['id'],$this->session->userdata('id_user'));
+    //     }
+
+        
+               
+    //     $v_data['isi_konten'] = '';
+
+    //     $v_data['isi_konten'] .= '
+            
+    //         <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+    //         <thead>
+    //             <tr>
+    //                 <th style="vertical-align : middle;text-align:center;">No</th>
+    //                 <th style="vertical-align : middle;text-align:center;">Tahun</th>
+    //                 <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
+    //                 <th style="vertical-align : middle;text-align:center;">Status Laporan</th>
+    //             </tr>
+    //         </thead>
+    //         <tbody>
+    //     ';
+    
+    //     if($list_data->num_rows() > 0)
+    //     {
+    //         $index=1;
+    //         foreach($list_data->result() as $row)
+    //         {
+
+    //             if ($this->session->userdata('level_user') == 3) {
+    //                 if($row->laporan_status_kepala == 1) {
+    //                     $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
+    //                 }else{
+    //                     $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
+    //                 }
+    //             }elseif ($this->session->userdata('level_user') == 4) {
+    //                 if($row->laporan_status_sekretaris == 1) {
+    //                     $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
+    //                 }else{
+    //                     $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
+    //                 }
+    //             }
+
+    //             $v_data['isi_konten'] .= '
+    //                 <tr>
+    //                     <td>'. $index.'</td>
+    //                     <td>'.$row->laporan_tahun.'</td>
+    //                     <td>'.$row->laporan_created.'</td>
+    //                     <td>'.$button_acc.'</td>
+    //                 </tr>
+
+    //             '; 
+    //             $index++;
+    //         }   
+    //     }
+
+    //    $v_data['isi_konten']  .= ' 
+    //         </tbody>
+    //        </table>
+    //    ';
+
+    //     $this->load->view('templates/header_dashboard',$v_data);
+    //     $this->load->view('laporan/laporan',$v_data);
+    //     $this->load->view('templates/footer_dashboard',$v_data);
+
+    // }
+
+
+    public function laporan_masuk (){
+
         $v_data['is_aktif'] = 'laporan';
-
-        if ($v_data['id'] == 1) {
-            $v_data['judul'] = 'Data Laporan Masuk';
-        }
-        else if ($v_data['id'] == 2) {
-             $v_data['judul'] = 'Data Laporan Keluar';
-        }else{
-            $this->load->view('blocked');
-        }
+        $v_data['judul'] = 'Data Laporan Masuk';
 
         if ($this->session->userdata('level_user') == 3) {
-            $list_data = $this->M_read->get_laporan_by_jenis_kepala($v_data['id'],$this->session->userdata('id_user'));
+            $list_data = $this->M_read->get_laporan_by_jenis_kepala_masuk($this->session->userdata('id_user'));
            
         }elseif ($this->session->userdata('level_user') == 4) {
-            $list_data = $this->M_read->get_laporan_by_jenis_sekretaris($v_data['id'],$this->session->userdata('id_user'));
+            $list_data = $this->M_read->get_laporan_by_jenis_sekretaris_masuk($this->session->userdata('id_user'));
         }
 
         
@@ -630,6 +705,7 @@ class Dashboard extends CI_Controller {
                 <tr>
                     <th style="vertical-align : middle;text-align:center;">No</th>
                     <th style="vertical-align : middle;text-align:center;">Tahun</th>
+                    <th style="vertical-align : middle;text-align:center;">Jenis Pemasukan</th>
                     <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
                     <th style="vertical-align : middle;text-align:center;">Status Laporan</th>
                 </tr>
@@ -641,26 +717,27 @@ class Dashboard extends CI_Controller {
         {
             $index=1;
             foreach($list_data->result() as $row)
-            {
-
-                if ($this->session->userdata('level_user') == 3) {
-                    if($row->laporan_status_kepala == 1) {
-                        $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
-                    }else{
-                        $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
-                    }
-                }elseif ($this->session->userdata('level_user') == 4) {
+            {   
+                $button_acc ='';
+                $button_acc .= '
+                    <button class="btn btn-info btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')">Lihat laporan</button >
+                ';
+                               
                     if($row->laporan_status_sekretaris == 1) {
-                        $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
+                        $button_acc .= '
+                            <span class="btn btn-success btn-sm">Disetujui</span>
+                        ';
                     }else{
-                        $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
+                        $button_acc .= '
+                            <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                            ';
                     }
-                }
 
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
                         <td>'.$row->laporan_tahun.'</td>
+                        <td>'.$row->sumber_masuk_nama.'</td>
                         <td>'.$row->laporan_created.'</td>
                         <td>'.$button_acc.'</td>
                     </tr>
@@ -683,6 +760,7 @@ class Dashboard extends CI_Controller {
 
 
 
+
     public function acc_laporan(){
 
         $laporan = decrypt_url($this->input->get('laporan'));
@@ -698,9 +776,17 @@ class Dashboard extends CI_Controller {
             ];
         }
 
+
         $this->M_update->edit_laporan($v_data,$laporan);
+        
         $this->session->set_flashdata('pesan', 'Laporan berhasil disetujui!');
-        redirect(base_url()."dashboard/laporan?id=".$v_jenis['laporan_jenis']);       
+        if ($v_jenis['laporan_jenis'] == 1) {
+            redirect(base_url()."dashboard/laporan_masuk");
+        }elseif($v_jenis['laporan_jenis'] == 2){
+            redirect(base_url()."dashboard/laporan_keluar");
+        }
+
+               
     }             
     
 

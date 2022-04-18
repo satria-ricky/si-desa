@@ -60,8 +60,8 @@
                     <th >Sekretaris</th>
                 </tr>
                 <tr>
-                    <th > <img style="width: 200px; height: 130px; margin-top: 15px;" src="<?php echo base_url('assets/foto/ttd/').$kepala['user_ttd'];?>"></th>
-                    <th ><img style="width: 200px; height: 130px; margin-top: 15px;" src="<?php echo base_url('assets/foto/ttd/').$sekretaris['user_ttd'];?>"></th>
+                    <th style="width: 200px; height: 130px; margin-top: 15px;" > <?= $ttd_kepala;  ?></th>
+                    <th style="width: 200px; height: 130px; margin-top: 15px;"> <?= $ttd_sekretaris;  ?></th>
                 </tr>
                 <tr>
                     <th style="text-align:center"><?php echo $kepala['user_nama']; ?></th>

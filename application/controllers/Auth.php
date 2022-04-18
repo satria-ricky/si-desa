@@ -15,6 +15,23 @@ class Auth extends CI_Controller {
         $v_data['kepala'] = $this->M_read->get_user_by_id($v_data['laporan']['laporan_user_id_kepala']);
         $v_data['sekretaris'] = $this->M_read->get_user_by_id($v_data['laporan']['laporan_user_id_sekretaris']);
 
+        if ($v_data['laporan']['laporan_status_kepala'] == 1) {
+            $v_data['ttd_kepala'] = '
+                <img style="width: 200px; height: 130px; margin-top: 15px;" src="'.base_url('assets/foto/ttd/').$v_data['kepala']['user_ttd'].'">
+            ';
+        }else{
+            $v_data['ttd_kepala'] = '';
+        }
+        
+
+        if ($v_data['laporan']['laporan_status_sekretaris'] == 1) {
+            $v_data['ttd_sekretaris'] = '
+                <img style="width: 200px; height: 130px; margin-top: 15px;" src="'.base_url('assets/foto/ttd/').$v_data['sekretaris']['user_ttd'].'">
+            ';
+        }else{
+            $v_data['ttd_sekretaris'] = '';
+        }
+
         $v_data['title'] = 'laporan';
 
 

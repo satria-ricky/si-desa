@@ -230,6 +230,10 @@ function button_setujui_laporan(laporan) {
     });
   }
   
+function button_cetak_laporan(id){
+  window.open("<?php echo base_url('auth/cetak?')?>id="+id,"_blank");
+}
+
 
 
 </script>

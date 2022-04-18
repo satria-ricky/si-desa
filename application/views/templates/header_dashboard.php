@@ -54,9 +54,9 @@
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laporan <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?= base_url(); ?>dashboard/laporan?id=1"> <i class="fas fa-list"></i> Data Laporan Masuk</a></li>
+                    <li><a href="<?= base_url(); ?>dashboard/laporan_masuk"> <i class="fas fa-list"></i> Data Laporan Masuk</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="<?= base_url(); ?>dashboard/laporan?id=2"> <i class="fas fa-list"></i> Data Laporan Keluar</a></li>
+                    <li><a href="<?= base_url(); ?>dashboard/laporan_keluar"> <i class="fas fa-list"></i> Data Laporan Keluar</a></li>
                   </ul>
 
             </li>

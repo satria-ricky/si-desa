@@ -294,14 +294,27 @@ public function get_jumlah_masuk_charts(){
     }
 
 
-    public function get_laporan_by_jenis_kepala($jenis,$id){
-      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris WHERE tb_laporan.laporan_jenis = ? AND tb_laporan.laporan_user_id_kepala = ? ORDER BY laporan_created ASC';
-      return $query=$this->db->query($sql,array($jenis,$id));
+
+//KEPALA
+    public function get_laporan_by_jenis_kepala_masuk($id){
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris, ln.sumber_masuk_nama FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris INNER JOIN tb_sumber_masuk ln on ln.sumber_masuk_id = tb_laporan.laporan_sub_jenis WHERE tb_laporan.laporan_jenis = 1 AND tb_laporan.laporan_user_id_kepala = ? ORDER BY laporan_created ASC';
+      return $query=$this->db->query($sql,$id);
     }
 
-    public function get_laporan_by_jenis_sekretaris($jenis,$id){
-      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris WHERE tb_laporan.laporan_jenis = ? AND tb_laporan.laporan_user_id_sekretaris = ? ORDER BY laporan_created ASC';
-      return $query=$this->db->query($sql,array($jenis,$id));
+    public function get_laporan_by_jenis_kepala_keluar($id){
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris, ln.nama_bidang FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris INNER JOIN tb_bidang ln on ln.id_bidang = tb_laporan.laporan_sub_jenis WHERE tb_laporan.laporan_jenis = 2 AND tb_laporan.laporan_user_id_kepala = ? ORDER BY laporan_created ASC';
+      return $query=$this->db->query($sql,$id);
+    }
+
+//SEKRETARIS
+    public function get_laporan_by_jenis_sekretaris_masuk($id){
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris, ln.sumber_masuk_nama FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris INNER JOIN tb_sumber_masuk ln on ln.sumber_masuk_id = tb_laporan.laporan_sub_jenis WHERE tb_laporan.laporan_jenis = 1 AND tb_laporan.laporan_user_id_sekretaris = ? ORDER BY laporan_created ASC';
+      return $query=$this->db->query($sql,$id);
+    }
+
+    public function get_laporan_by_jenis_sekretaris_keluar($id){
+      $sql='SELECT tb_laporan.*, tk.user_nama as nama_kepala, ts.user_nama as nama_sekretaris, ln.nama_bidang FROM tb_laporan INNER JOIN tb_user tk on tk.user_id = tb_laporan.laporan_user_id_kepala INNER JOIN tb_user ts on ts.user_id = tb_laporan.laporan_user_id_sekretaris INNER JOIN tb_bidang ln on ln.id_bidang = tb_laporan.laporan_sub_jenis WHERE tb_laporan.laporan_jenis = 2 AND tb_laporan.laporan_user_id_sekretaris = ? ORDER BY laporan_created ASC';
+      return $query=$this->db->query($sql,$id);
     }
 
 
