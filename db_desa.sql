@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Apr 2022 pada 07.01
+-- Waktu pembuatan: 19 Apr 2022 pada 17.12
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -38,7 +38,7 @@ CREATE TABLE `tb_bidang` (
 
 INSERT INTO `tb_bidang` (`id_bidang`, `nama_bidang`) VALUES
 (1, 'Penyelenggaran pemerintah desa'),
-(2, 'Pelaksanaan pembangunan desa\r\n'),
+(2, 'Pelaksanaan pembangunan desa'),
 (3, 'Pembinaan desa'),
 (4, 'Pemberdayaan masyarakat'),
 (5, 'Penanggulangan bencana darurat dan mendesak desa'),
@@ -63,7 +63,7 @@ CREATE TABLE `tb_jenis_masuk` (
 INSERT INTO `tb_jenis_masuk` (`jenis_masuk_id`, `jenis_sumber_id`, `jenis_nama`) VALUES
 (1, 1, 'Hasil usaha desa'),
 (2, 1, 'Hasil aset desa'),
-(3, 1, 'Swadaya, partisipasi dan gotong royong'),
+(3, 1, 'Swadaya partisipasi dan gotong royong'),
 (4, 2, 'Dana desa'),
 (5, 2, 'Bagi hasil pajak dan retribusi'),
 (6, 2, 'Alokasi dana desa');
@@ -191,8 +191,8 @@ CREATE TABLE `tb_subbidang` (
 --
 
 INSERT INTO `tb_subbidang` (`sub_id`, `sub_id_bidang`, `sub_nama`) VALUES
-(1, 1, 'Penyelenggaran belanja siltap, tunjangan dan operasional pemerintah desa'),
-(2, 1, 'Administrasi kependudukan, pencatatan sipil stastistik dan kearsipan'),
+(1, 1, 'Penyelenggaran belanja siltap tunjangan dan operasional pemerintah desa'),
+(2, 1, 'Administrasi kependudukan pencatatan sipil stastistik dan kearsipan'),
 (3, 1, 'Tata praja pemerintahan perencanaan keuangan dan pelaporan'),
 (4, 1, 'Pertanahan'),
 (9, 2, 'Pendidikan'),
@@ -200,15 +200,15 @@ INSERT INTO `tb_subbidang` (`sub_id`, `sub_id_bidang`, `sub_nama`) VALUES
 (11, 2, 'Pekerjaan umum'),
 (12, 2, 'Kawasan pemukiman'),
 (13, 2, 'Kehutanan dan lingkungan hidup'),
-(14, 2, 'Perhubungan, komunikasi dan informatika'),
-(25, 3, 'Ketentraman, ketertiban umum dan perlindungan masyarakat'),
+(14, 2, 'Perhubungan komunikasi dan informatika'),
+(25, 3, 'Ketentraman ketertiban umum dan perlindungan masyarakat'),
 (26, 3, 'Kebudayaan dan keagamaan'),
 (27, 3, 'Kepemudaan dan olahraga'),
 (28, 3, 'Kelembagaan masyarakat'),
-(29, 4, 'Peningkatan kapasitas aparatur desa\r\n'),
-(30, 4, 'Pemberdayaan perempuan, perlindungan anak dan keluarga'),
+(29, 4, 'Peningkatan kapasitas aparatur desa'),
+(30, 4, 'Pemberdayaan perempuan perlindungan anak dan keluarga'),
 (31, 4, 'Perdagangan dan perindustrian'),
-(35, 5, 'Penanggulangan bencana\r\n'),
+(35, 5, 'Penanggulangan bencana'),
 (36, 5, 'Keadaan mendesak'),
 (39, 6, 'Pembiayaan');
 

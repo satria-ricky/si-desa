@@ -26,7 +26,19 @@ class Masyarakat extends CI_Controller {
     public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
+
+        $v_data['sumber_masuk'] = $this->M_read->get_bidang_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1900px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
         $list_tahun = $this->M_read->get_tahun_masuk();
+
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
         {
@@ -143,7 +155,7 @@ class Masyarakat extends CI_Controller {
         $this->load->view('templates/header_masyarakat',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_masyarakat'); 
-        // $this->load->view('templates/charts_keluar',$v_data);   		 
+        $this->load->view('templates/charts_laporan_keluar',$v_data);          		 
 	}
 
 
@@ -151,7 +163,18 @@ class Masyarakat extends CI_Controller {
 
         $bidang = $this->input->get('bidang');
         $tahun = $this->input->get('tahun');
-       
+        
+        $v_data['sumber_masuk'] = $this->M_read->get_subbidang_chart($bidang);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang_by($bidang);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 2000px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
+
         $v_data['is_aktif'] = 'keluar';
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
@@ -270,7 +293,7 @@ class Masyarakat extends CI_Controller {
         $this->load->view('templates/header_masyarakat',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_masyarakat');
-        // $this->load->view('templates/charts_keluar',$v_data);             
+        $this->load->view('templates/charts_laporan_keluar',$v_data);            
     }
 
 

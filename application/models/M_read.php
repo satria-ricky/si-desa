@@ -174,9 +174,19 @@ public function get_tahun_keluar(){
       return $query=$this->db->query($sql);
     }
 
+    public function get_bidang_chart(){
+      $sql='SELECT nama_bidang as nama_judul FROM tb_bidang';
+      return $query=$this->db->query($sql)->result();
+    }
+
     public function get_subbidang_by_bidang($id){
-    $sql='SELECT * FROM tb_subbidang  WHERE sub_id_bidang = ?';
-   return $this->db->query($sql,$id)->result_array(); 
+      $sql='SELECT * FROM tb_subbidang  WHERE sub_id_bidang = ?';
+     return $this->db->query($sql,$id)->result_array(); 
+    }
+
+    public function get_subbidang_chart($id){
+    $sql='SELECT sub_nama as nama_judul FROM tb_subbidang WHERE sub_id_bidang = ? ORDER BY sub_id ASC';
+    return $query=$this->db->query($sql,$id)->result();
   }
 
 
@@ -214,6 +224,18 @@ public function get_jumlah_keluar_charts(){
  $sql='SELECT tahun_keluar, SUM(jumlah_keluar) as jumlah_keluar FROM tb_keluar GROUP BY tahun_keluar ORDER BY tahun_keluar ASC';
   return $query=$this->db->query($sql)->result();    
 }
+
+public function get_jumlah_keluar_charts_subbidang(){
+ $sql='SELECT tb_subbidang.*,SUM(tb_keluar.jumlah_keluar) as jumlah_masuk FROM tb_subbidang LEFT JOIN tb_keluar ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar GROUP BY sub_id_bidang ORDER BY sub_id_bidang ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
+
+public function get_jumlah_keluar_charts_subbidang_by($id){
+ $sql='SELECT tb_subbidang.*,SUM(tb_keluar.jumlah_keluar) as jumlah_masuk FROM tb_subbidang LEFT JOIN tb_keluar ON tb_subbidang.sub_id = tb_keluar.id_subbidang_keluar WHERE sub_id_bidang = ? GROUP BY sub_id ORDER BY sub_id';
+  return $query=$this->db->query($sql,$id)->result();    
+}
+
 
   //chart masuk
 public function get_tahun_masuk_charts(){
