@@ -282,6 +282,13 @@ class Masyarakat extends CI_Controller {
 
         $v_data['sumber_masuk'] = $this->M_read->get_sumber_chart();
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 500px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
 
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
@@ -382,7 +389,7 @@ class Masyarakat extends CI_Controller {
         $this->load->view('templates/header_masyarakat',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_masyarakat');
-        $this->load->view('templates/charts_masuk_filter',$v_data);         
+        $this->load->view('templates/charts_laporan_masuk',$v_data);         
     }
 
 
@@ -392,6 +399,21 @@ class Masyarakat extends CI_Controller {
         $tahun = $this->input->get('tahun');
        
         $v_data['is_aktif'] = 'masuk';
+
+
+        $v_data['sumber_masuk'] = $this->M_read->get_jenis_chart($sumber);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk_by($sumber);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1000px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
+
+
+
 
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
@@ -504,7 +526,7 @@ class Masyarakat extends CI_Controller {
         $this->load->view('templates/header_masyarakat',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_masyarakat');
-        // $this->load->view('templates/charts_masuk',$v_data);  
+        $this->load->view('templates/charts_laporan_masuk',$v_data);   
     }
 
 

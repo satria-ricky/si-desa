@@ -1,5 +1,19 @@
 <script type="text/javascript">
-       
+  
+  Chart.scaleService.updateScaleDefaults('linear', {
+  ticks: {/*ww w  .dem  o  2  s. c o m*/
+    callback: function(tick) {
+      return 'Rp.' + tick.toLocaleString();
+    }
+  }
+});
+// Global method for setting tooltip number format.
+Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+  var dataset = data.datasets[tooltipItem.datasetIndex];
+  var datasetLabel = dataset.label || '';
+  return datasetLabel + " " + dataset.data[tooltipItem.index].toLocaleString();
+};
+
        $(document).ready(function() {
         var barChart = document.getElementById('bar_diagram_masuk').getContext('2d');
         var myBarChart = new Chart(barChart, {
@@ -9,7 +23,7 @@
                <?php
                   if (count($sumber_masuk)>0) {
                     foreach ($sumber_masuk as $data) {
-                      echo "'" .$data->sumber_masuk_nama."',";
+                      echo "'" .$data->nama_judul."',";
                     }
                   }
                 ?>
@@ -43,6 +57,7 @@
           });
         
       } );
+
 
 
      </script>

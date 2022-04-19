@@ -187,13 +187,13 @@ public function get_tahun_keluar(){
   }
 
   public function get_sumber_chart(){
-    $sql='SELECT sumber_masuk_nama FROM tb_sumber_masuk';
+    $sql='SELECT sumber_masuk_nama as nama_judul FROM tb_sumber_masuk';
     return $query=$this->db->query($sql)->result();
   }
 
-  public function get_jenis_chart(){
-    $sql='SELECT jenis_nama FROM tb_jenis_masuk';
-    return $query=$this->db->query($sql)->result();
+  public function get_jenis_chart($id){
+    $sql='SELECT jenis_nama as nama_judul FROM tb_jenis_masuk WHERE jenis_sumber_id = ? ORDER BY jenis_masuk_id ASC';
+    return $query=$this->db->query($sql,$id)->result();
   }
 
   public function get_jenis_by_sumber($id){
