@@ -705,7 +705,7 @@ class Dashboard extends CI_Controller {
                 <tr>
                     <th style="vertical-align : middle;text-align:center;">No</th>
                     <th style="vertical-align : middle;text-align:center;">Tahun</th>
-                    <th style="vertical-align : middle;text-align:center;">Jenis Pemasukan</th>
+                    <th style="vertical-align : middle;text-align:center;">Nama Laporan</th>
                     <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
                     <th style="vertical-align : middle;text-align:center;">Status Laporan</th>
                 </tr>
@@ -722,22 +722,42 @@ class Dashboard extends CI_Controller {
                 $button_acc .= '
                     <button class="btn btn-info btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')">Lihat laporan</button >
                 ';
-                               
-                    if($row->laporan_status_sekretaris == 1) {
-                        $button_acc .= '
-                            <span class="btn btn-success btn-sm">Disetujui</span>
-                        ';
-                    }else{
-                        $button_acc .= '
-                            <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                    
+
+                    if ($this->session->userdata('level_user') == 3) {
+                        if($row->laporan_status_kepala == 1) {
+                            $button_acc .= '
+                                <span class="btn btn-success btn-sm">Disetujui</span>
                             ';
+                        }else{
+                            $button_acc .= '
+                                <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                                ';
+                        }
+                    }elseif ($this->session->userdata('level_user') == 4) {
+                        if($row->laporan_status_sekretaris == 1) {
+                            $button_acc .= '
+                                <span class="btn btn-success btn-sm">Disetujui</span>
+                            ';
+                        }else{
+                            $button_acc .= '
+                                <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                                ';
+                        }
                     }
 
+                   
+
+                    if ($row->laporan_jenis == 1) {
+                        $nama_laporan = 'Laporan Pemasukan';
+                    }else {
+                        $nama_laporan = 'Laporan Pengeluaran';
+                    }
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
                         <td>'.$row->laporan_tahun.'</td>
-                        <td>'.$row->sumber_masuk_nama.'</td>
+                        <td> Laporan Pemasukan</td>
                         <td>'.$row->laporan_created.'</td>
                         <td>'.$button_acc.'</td>
                     </tr>
@@ -799,21 +819,34 @@ class Dashboard extends CI_Controller {
                     <button class="btn btn-info btn-sm" onclick="button_cetak_laporan(\''.encrypt_url($row->laporan_id).'\')">Lihat laporan</button >
                 ';
                                
-                    if($row->laporan_status_sekretaris == 1) {
-                        $button_acc .= '
-                            <span class="btn btn-success btn-sm">Disetujui</span>
-                        ';
-                    }else{
-                        $button_acc .= '
-                            <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                    if ($this->session->userdata('level_user') == 3) {
+                        if($row->laporan_status_kepala == 1) {
+                            $button_acc .= '
+                                <span class="btn btn-success btn-sm">Disetujui</span>
                             ';
+                        }else{
+                            $button_acc .= '
+                                <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                                ';
+                        }
+                    }elseif ($this->session->userdata('level_user') == 4) {
+                        if($row->laporan_status_sekretaris == 1) {
+                            $button_acc .= '
+                                <span class="btn btn-success btn-sm">Disetujui</span>
+                            ';
+                        }else{
+                            $button_acc .= '
+                                <button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >
+                                ';
+                        }
                     }
+
 
                 $v_data['isi_konten'] .= '
                     <tr>
                         <td>'. $index.'</td>
                         <td>'.$row->laporan_tahun.'</td>
-                        <td>'.$row->nama_bidang.'</td>
+                        <td> Laporan Pengeluaran </td>
                         <td>'.$row->laporan_created.'</td>
                         <td>'.$button_acc.'</td>
                     </tr>
@@ -842,7 +875,8 @@ class Dashboard extends CI_Controller {
         $v_jenis = $this->M_read->get_laporan_by_id($laporan);
         if ($this->session->userdata('level_user') == 3) {
             $v_data = [
-                'laporan_status_kepala' => 1
+                'laporan_status_kepala' => 1,
+                'laporan_acc' => date("d-m-Y")
             ];
            
         }elseif ($this->session->userdata('level_user') == 4) {

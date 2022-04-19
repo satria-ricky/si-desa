@@ -53,7 +53,7 @@
             <thead >
                 <tr>
                     <th style="text-align:center; width: 50%;">Disetujui</th>
-                    <th style="text-align:right;padding-right: 40px;">Desa Doridungga, <?php echo $laporan['laporan_created']; ?></th>
+                    <th style="text-align:right;padding-right: 40px;">Desa Doridungga, <?php echo $laporan['laporan_acc']; ?></th>
                 </tr>
                 <tr>
                     <th >Kepala Desa</th>

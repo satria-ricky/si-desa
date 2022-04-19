@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Mar 2022 pada 08.19
+-- Waktu pembuatan: 19 Apr 2022 pada 07.01
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -89,15 +89,14 @@ CREATE TABLE `tb_keluar` (
 --
 
 INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rincian_keluar`, `tahun_keluar`, `id_bidang_keluar`, `id_subbidang_keluar`) VALUES
-(1, '098098.09', 300, 'rincian keluar 1', 2003, 3, 28),
 (8, '1213.23', 10000, 'asdasd', 2001, 4, 29),
 (9, '1213.23', 200, 's', 2003, 3, 27),
-(10, '90.90.90', 500, 'RINCIAN', 5555, 2, 10),
+(10, '90.90.90', 500, 'RINCIAN baru', 2091, 6, 39),
 (11, '90.90.90', 99, 'RINCIAN BARU', 2001, 2, 9),
 (12, '3242.234', 50000, 'RINCIAN BARU', 2001, 5, 36),
 (15, '90.90.91', 1, 'RINCIAN BARU', 2022, 2, 10),
 (16, '90.90.90', 2, 'RINCIAN BARU', 2022, 2, 11),
-(18, '90.90.91', 1, 'RINCIAN BARU', 2001, 3, 26);
+(18, '90.90.91', 1, 'RINCIAN BARU', 2090, 3, 26);
 
 -- --------------------------------------------------------
 
@@ -108,23 +107,25 @@ INSERT INTO `tb_keluar` (`id_keluar`, `rekening_keluar`, `jumlah_keluar`, `rinci
 CREATE TABLE `tb_laporan` (
   `laporan_id` int(11) NOT NULL,
   `laporan_jenis` int(11) DEFAULT NULL,
+  `laporan_sub_jenis` int(11) DEFAULT NULL,
   `laporan_tahun` int(11) DEFAULT NULL,
   `laporan_user_id_kepala` int(11) DEFAULT NULL,
   `laporan_user_id_sekretaris` int(11) DEFAULT NULL,
   `laporan_status_kepala` int(11) DEFAULT NULL,
   `laporan_status_sekretaris` int(11) DEFAULT NULL,
-  `laporan_created` varchar(255) DEFAULT NULL
+  `laporan_created` varchar(255) DEFAULT NULL,
+  `laporan_acc` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_laporan`
 --
 
-INSERT INTO `tb_laporan` (`laporan_id`, `laporan_jenis`, `laporan_tahun`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`) VALUES
-(3, 1, 2001, 17, 15, 1, 1, '14-03-2022'),
-(5, 2, 2001, 17, 15, 1, 1, '15-03-2022'),
-(6, 2, 2003, 17, 15, 2, 1, '15-03-2022'),
-(7, 1, 2022, 17, 15, 2, 2, '15-03-2022');
+INSERT INTO `tb_laporan` (`laporan_id`, `laporan_jenis`, `laporan_sub_jenis`, `laporan_tahun`, `laporan_user_id_kepala`, `laporan_user_id_sekretaris`, `laporan_status_kepala`, `laporan_status_sekretaris`, `laporan_created`, `laporan_acc`) VALUES
+(3, 1, 1, 2001, 17, 15, 2, 1, '14-03-2022', NULL),
+(5, 2, 4, 2001, 17, 15, 1, 1, '15-03-2022', '19-04-2022'),
+(6, 2, 5, 2003, 17, 15, 2, 1, '15-03-2022', NULL),
+(7, 1, 2, 2022, 17, 15, 2, 1, '15-03-2022', NULL);
 
 -- --------------------------------------------------------
 
@@ -167,11 +168,10 @@ CREATE TABLE `tb_masuk` (
 --
 
 INSERT INTO `tb_masuk` (`id_masuk`, `id_sumber_masuk`, `id_jenis_sumber_masuk`, `rincian_masuk`, `rekening_masuk`, `jumlah_masuk`, `tahun_masuk`) VALUES
-(1, 1, 2, 'rincian masuk 1', '9800.987', 110000, 2001),
 (3, 2, 4, 'rincian masuk 3', '98.45.3', 3000, 2022),
 (6, 1, 3, 'RINCIAN BARU', '321', 1000, 5555),
 (7, 1, 2, 'RINCIAN BARU', '90.90.90', 10, 2090),
-(8, 2, 4, 'RINCIAN', '90.90.91', 9999, 2003),
+(8, 2, 4, 'RINCIAN BRU', '90.90.91', 9999, 2003),
 (9, 1, 2, 'RINCIAN', '90.90.90', 12, 2091);
 
 -- --------------------------------------------------------
