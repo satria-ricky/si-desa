@@ -191,6 +191,11 @@ public function get_tahun_keluar(){
     return $query=$this->db->query($sql)->result();
   }
 
+  public function get_jenis_chart(){
+    $sql='SELECT jenis_nama FROM tb_jenis_masuk';
+    return $query=$this->db->query($sql)->result();
+  }
+
   public function get_jenis_by_sumber($id){
     $sql='SELECT * FROM tb_jenis_masuk  WHERE jenis_sumber_id = ?';
    return $this->db->query($sql,$id)->result_array(); 
@@ -226,6 +231,10 @@ public function get_jumlah_masuk_charts_sumber_masuk(){
   return $query=$this->db->query($sql)->result();    
 }
 
+public function get_jumlah_masuk_charts_sumber_masuk_by($id){
+ $sql='SELECT tb_jenis_masuk.*,SUM(tb_masuk.jumlah_masuk) as jumlah_masuk FROM tb_jenis_masuk LEFT JOIN tb_masuk ON tb_jenis_masuk.jenis_masuk_id = tb_masuk.id_jenis_sumber_masuk WHERE jenis_sumber_id = ? GROUP BY jenis_masuk_id ORDER BY jenis_masuk_id';
+  return $query=$this->db->query($sql,$id)->result();    
+}
 
 //CEK KODE REKENING
   public function cek_kode_rekenening_keluar($rekening,$tahun){
