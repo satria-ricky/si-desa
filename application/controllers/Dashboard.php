@@ -645,6 +645,7 @@ class Dashboard extends CI_Controller {
         $v_data['is_aktif'] = 'laporan';
         $v_data['judul'] = 'Data Laporan Masuk';
 
+        
         if ($this->session->userdata('level_user') == 3) {
             $list_data = $this->M_read->get_laporan_by_jenis_kepala_masuk($this->session->userdata('id_user'));
            
