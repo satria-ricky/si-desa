@@ -186,6 +186,11 @@ public function get_tahun_keluar(){
     return $query=$this->db->query($sql);
   }
 
+  public function get_sumber_chart(){
+    $sql='SELECT sumber_masuk_nama FROM tb_sumber_masuk';
+    return $query=$this->db->query($sql)->result();
+  }
+
   public function get_jenis_by_sumber($id){
     $sql='SELECT * FROM tb_jenis_masuk  WHERE jenis_sumber_id = ?';
    return $this->db->query($sql,$id)->result_array(); 
@@ -194,7 +199,7 @@ public function get_tahun_keluar(){
 
 
 //CHARTS
-
+  //chart keluar
 public function get_tahun_keluar_charts(){
  $sql='SELECT DISTINCT tahun_keluar FROM tb_keluar ORDER BY tahun_keluar ASC';
   return $query=$this->db->query($sql)->result();    
@@ -205,7 +210,7 @@ public function get_jumlah_keluar_charts(){
   return $query=$this->db->query($sql)->result();    
 }
 
-
+  //chart masuk
 public function get_tahun_masuk_charts(){
  $sql='SELECT DISTINCT tahun_masuk FROM tb_masuk ORDER BY tahun_masuk ASC';
   return $query=$this->db->query($sql)->result();    
@@ -213,6 +218,11 @@ public function get_tahun_masuk_charts(){
 
 public function get_jumlah_masuk_charts(){
  $sql='SELECT tahun_masuk, SUM(jumlah_masuk) as jumlah_masuk FROM tb_masuk GROUP BY tahun_masuk  ORDER BY tahun_masuk ASC';
+  return $query=$this->db->query($sql)->result();    
+}
+
+public function get_jumlah_masuk_charts_sumber_masuk(){
+ $sql='SELECT tahun_masuk, SUM(jumlah_masuk) as jumlah_masuk FROM tb_masuk GROUP BY id_sumber_masuk  ORDER BY id_sumber_masuk ASC';
   return $query=$this->db->query($sql)->result();    
 }
 

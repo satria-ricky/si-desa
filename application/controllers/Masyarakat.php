@@ -279,6 +279,10 @@ class Masyarakat extends CI_Controller {
         
         $v_data['is_aktif'] = 'masuk';
         $list_tahun = $this->M_read->get_tahun_masuk();
+
+        $v_data['sumber_masuk'] = $this->M_read->get_sumber_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk();
+
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
@@ -378,7 +382,7 @@ class Masyarakat extends CI_Controller {
         $this->load->view('templates/header_masyarakat',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_masyarakat');
-        // $this->load->view('templates/charts_masuk',$v_data);         
+        $this->load->view('templates/charts_masuk_filter',$v_data);         
     }
 
 
