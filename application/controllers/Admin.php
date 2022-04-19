@@ -185,6 +185,16 @@ public function index(){
 public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
+        $v_data['sumber_masuk'] = $this->M_read->get_bidang_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1900px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
@@ -308,6 +318,7 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_laporan_keluar',$v_data);
       
     }
 
@@ -522,8 +533,18 @@ public function keluar(){
 
         $bidang = $this->input->get('bidang');
         $tahun = $this->input->get('tahun');
-       
-        $v_data['is_aktif'] = 'keluar';        $list_tahun = $this->M_read->get_tahun_masuk();
+        $v_data['sumber_masuk'] = $this->M_read->get_subbidang_chart($bidang);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang_by($bidang);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 2000px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
+        $v_data['is_aktif'] = 'keluar';        
+        $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
@@ -647,6 +668,7 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_admin');
+        $this->load->view('templates/charts_laporan_keluar',$v_data); 
                  
     }
 
@@ -720,6 +742,16 @@ public function keluar(){
 
     public function masuk(){
         $v_data['is_aktif'] = 'masuk';
+
+        $v_data['sumber_masuk'] = $this->M_read->get_sumber_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 500px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
 
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
@@ -828,14 +860,24 @@ public function keluar(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_admin');
-        
+        $this->load->view('templates/charts_laporan_masuk',$v_data); 
     }
 
 
 public function filter_masuk(){
         $sumber = $this->input->get('sumber');
         $tahun = $this->input->get('tahun');
-       
+        
+        $v_data['sumber_masuk'] = $this->M_read->get_jenis_chart($sumber);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk_by($sumber);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1000px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
         $v_data['is_aktif'] = 'masuk';
 
         $list_tahun = $this->M_read->get_tahun_masuk();
@@ -953,7 +995,7 @@ public function filter_masuk(){
         $this->load->view('templates/header_admin',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_admin');
-        // $this->load->view('templates/charts_masuk',$v_data);         
+        $this->load->view('templates/charts_laporan_masuk',$v_data);         
     }
 
 

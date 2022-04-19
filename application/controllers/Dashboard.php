@@ -120,6 +120,17 @@ class Dashboard extends CI_Controller {
     public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
+        $v_data['sumber_masuk'] = $this->M_read->get_bidang_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1900px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
+
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
@@ -237,7 +248,7 @@ class Dashboard extends CI_Controller {
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_dashboard'); 
-        // $this->load->view('templates/charts_keluar',$v_data);   		 
+        $this->load->view('templates/charts_laporan_keluar',$v_data);    		 
 	}
 
 
@@ -245,7 +256,15 @@ class Dashboard extends CI_Controller {
 
         $bidang = $this->input->get('bidang');
         $tahun = $this->input->get('tahun');
-       
+        $v_data['sumber_masuk'] = $this->M_read->get_subbidang_chart($bidang);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang_by($bidang);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 2000px; height: 300px">
+                  <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
         $v_data['is_aktif'] = 'keluar';
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
@@ -364,7 +383,7 @@ class Dashboard extends CI_Controller {
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('keluar/keluar',$v_data);
         $this->load->view('templates/footer_dashboard');
-        // $this->load->view('templates/charts_keluar',$v_data);             
+        $this->load->view('templates/charts_laporan_keluar',$v_data);             
     }
 
 
@@ -373,6 +392,19 @@ class Dashboard extends CI_Controller {
         
         $v_data['is_aktif'] = 'masuk';
         $list_tahun = $this->M_read->get_tahun_masuk();
+
+        $v_data['sumber_masuk'] = $this->M_read->get_sumber_chart();
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk();
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 500px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
+
+
         $data_tahun = '';
          if($list_tahun->num_rows() > 0)
         {
@@ -472,7 +504,7 @@ class Dashboard extends CI_Controller {
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_dashboard');
-        // $this->load->view('templates/charts_masuk',$v_data);         
+        $this->load->view('templates/charts_laporan_masuk',$v_data);             
     }
 
 
@@ -482,6 +514,17 @@ class Dashboard extends CI_Controller {
         $tahun = $this->input->get('tahun');
        
         $v_data['is_aktif'] = 'masuk';
+
+        $v_data['sumber_masuk'] = $this->M_read->get_jenis_chart($sumber);
+        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk_by($sumber);
+        $v_data['isi_diagram'] = '
+            <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
+                <div style="width: 1000px; height: 300px">
+                  <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
+                </div>
+            </div>
+        ';
+
 
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
@@ -593,93 +636,8 @@ class Dashboard extends CI_Controller {
         $this->load->view('templates/header_dashboard',$v_data);
         $this->load->view('masuk/masuk',$v_data);
         $this->load->view('templates/footer_dashboard');
-        // $this->load->view('templates/charts_masuk',$v_data);  
+        $this->load->view('templates/charts_laporan_masuk',$v_data);   
     }
-
-
-
-    // public function laporan (){
-
-    //     $v_data['id'] = $this->input->get('id');
-    //     $v_data['is_aktif'] = 'laporan';
-
-    //     if ($v_data['id'] == 1) {
-    //         $v_data['judul'] = 'Data Laporan Masuk';
-    //     }
-    //     else if ($v_data['id'] == 2) {
-    //          $v_data['judul'] = 'Data Laporan Keluar';
-    //     }else{
-    //         $this->load->view('blocked');
-    //     }
-
-    //     if ($this->session->userdata('level_user') == 3) {
-    //         $list_data = $this->M_read->get_laporan_by_jenis_kepala($v_data['id'],$this->session->userdata('id_user'));
-           
-    //     }elseif ($this->session->userdata('level_user') == 4) {
-    //         $list_data = $this->M_read->get_laporan_by_jenis_sekretaris($v_data['id'],$this->session->userdata('id_user'));
-    //     }
-
-        
-               
-    //     $v_data['isi_konten'] = '';
-
-    //     $v_data['isi_konten'] .= '
-            
-    //         <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-    //         <thead>
-    //             <tr>
-    //                 <th style="vertical-align : middle;text-align:center;">No</th>
-    //                 <th style="vertical-align : middle;text-align:center;">Tahun</th>
-    //                 <th style="vertical-align : middle;text-align:center;">Tanggal Pengajuan</th>
-    //                 <th style="vertical-align : middle;text-align:center;">Status Laporan</th>
-    //             </tr>
-    //         </thead>
-    //         <tbody>
-    //     ';
-    
-    //     if($list_data->num_rows() > 0)
-    //     {
-    //         $index=1;
-    //         foreach($list_data->result() as $row)
-    //         {
-
-    //             if ($this->session->userdata('level_user') == 3) {
-    //                 if($row->laporan_status_kepala == 1) {
-    //                     $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
-    //                 }else{
-    //                     $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
-    //                 }
-    //             }elseif ($this->session->userdata('level_user') == 4) {
-    //                 if($row->laporan_status_sekretaris == 1) {
-    //                     $button_acc = '<span class="btn btn-success btn-sm">Disetujui</span>';
-    //                 }else{
-    //                     $button_acc = '<button class="btn btn-warning btn-sm" onclick="button_setujui_laporan(\''.encrypt_url($row->laporan_id).'\')">Menunggu</button >';
-    //                 }
-    //             }
-
-    //             $v_data['isi_konten'] .= '
-    //                 <tr>
-    //                     <td>'. $index.'</td>
-    //                     <td>'.$row->laporan_tahun.'</td>
-    //                     <td>'.$row->laporan_created.'</td>
-    //                     <td>'.$button_acc.'</td>
-    //                 </tr>
-
-    //             '; 
-    //             $index++;
-    //         }   
-    //     }
-
-    //    $v_data['isi_konten']  .= ' 
-    //         </tbody>
-    //        </table>
-    //    ';
-
-    //     $this->load->view('templates/header_dashboard',$v_data);
-    //     $this->load->view('laporan/laporan',$v_data);
-    //     $this->load->view('templates/footer_dashboard',$v_data);
-
-    // }
 
 
     public function laporan_masuk (){
