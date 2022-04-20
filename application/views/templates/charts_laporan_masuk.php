@@ -17,7 +17,7 @@ Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
        $(document).ready(function() {
         var barChart = document.getElementById('bar_diagram_masuk').getContext('2d');
         var myBarChart = new Chart(barChart, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
               labels: [
                <?php
