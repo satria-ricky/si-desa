@@ -189,7 +189,7 @@ public function keluar(){
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang();
         $v_data['isi_diagram'] = '
             <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
-                <div style="width: 1900px; height: 300px">
+                <div style="width: 1000px; height: 300px">
                   <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
                 </div>
             </div>
@@ -537,7 +537,7 @@ public function keluar(){
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_keluar_charts_subbidang_by($bidang);
         $v_data['isi_diagram'] = '
             <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
-                <div style="width: 2000px; height: 300px">
+                <div style="width: 1000px; height: 300px">
                   <canvas id="bar_diagram_keluar" height="300" width="0"></canvas>
                 </div>
             </div>
@@ -747,7 +747,7 @@ public function keluar(){
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk();
         $v_data['isi_diagram'] = '
             <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
-                <div style="width: 500px; height: 300px">
+                <div style="width: 1000px; height: 150px">
                   <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
                 </div>
             </div>
@@ -872,7 +872,7 @@ public function filter_masuk(){
         $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts_sumber_masuk_by($sumber);
         $v_data['isi_diagram'] = '
             <div style="width: 100%; overflow-x: auto; overflow-y: hidden">
-                <div style="width: 1000px; height: 300px">
+                <div style="width: 1000px; height: 150px">
                   <canvas id="bar_diagram_masuk" height="300" width="0"></canvas>
                 </div>
             </div>
